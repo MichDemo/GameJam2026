@@ -1,5 +1,6 @@
 from ursina import *
 from Enemy import Enemy
+from EemyEye import Eye
 from Player import *
 from Block import *
 
@@ -20,7 +21,7 @@ player = Player(
     camera_z=-20
 )
 
-test_enemy = Enemy(
+test_enemy = Eye(
         player=player, 
         position=(2, -2), 
         size=(1, 1),

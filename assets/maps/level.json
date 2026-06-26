@@ -1,0 +1,190 @@
+{
+    "cell_size": 1,
+    "grid_width": 256,
+    "grid_height": 256,
+    "origin": {
+        "x": 0,
+        "y": 0
+    },
+    "blocks": [
+        {
+            "grid_x": 126,
+            "grid_y": 127,
+            "x": 126.5,
+            "y": 127.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        }
+    ],
+    "furs": [
+        {
+            "grid_x": 128,
+            "grid_y": 128,
+            "x": 128.5,
+            "y": 128.5,
+            "rarity": "Common",
+            "hex_color": "#8b5a2b"
+        }
+    ],
+    "enemies": [
+        {
+            "grid_x": 131,
+            "grid_y": 128,
+            "x": 131.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ff0000",
+            "speed": 5,
+            "zone1": 1.0,
+            "zone2": 3.0,
+            "zone3": 6.0
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 128,
+            "x": 132.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ff0000",
+            "speed": 5,
+            "zone1": 1.0,
+            "zone2": 3.0,
+            "zone3": 6.0
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 128,
+            "x": 133.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ff0000",
+            "speed": 5,
+            "zone1": 1.0,
+            "zone2": 3.0,
+            "zone3": 6.0
+        }
+    ],
+    "eyes": [
+        {
+            "grid_x": 136,
+            "grid_y": 130,
+            "x": 136.5,
+            "y": 130.5,
+            "rotation_time": 4.0
+        }
+    ],
+    "vents": [
+        {
+            "vent_id": 1,
+            "target_vent_id": 2,
+            "pair_id": 1,
+            "grid_x": 137,
+            "grid_y": 128,
+            "x": 137.5,
+            "y": 128.5
+        },
+        {
+            "vent_id": 2,
+            "target_vent_id": 1,
+            "pair_id": 1,
+            "grid_x": 137,
+            "grid_y": 132,
+            "x": 137.5,
+            "y": 132.5
+        },
+        {
+            "vent_id": 3,
+            "target_vent_id": 4,
+            "pair_id": 2,
+            "grid_x": 135,
+            "grid_y": 122,
+            "x": 135.5,
+            "y": 122.5
+        },
+        {
+            "vent_id": 4,
+            "target_vent_id": 3,
+            "pair_id": 2,
+            "grid_x": 135,
+            "grid_y": 123,
+            "x": 135.5,
+            "y": 123.5
+        },
+        {
+            "vent_id": 5,
+            "target_vent_id": 6,
+            "pair_id": 3,
+            "grid_x": 136,
+            "grid_y": 123,
+            "x": 136.5,
+            "y": 123.5
+        },
+        {
+            "vent_id": 6,
+            "target_vent_id": 5,
+            "pair_id": 3,
+            "grid_x": 136,
+            "grid_y": 122,
+            "x": 136.5,
+            "y": 122.5
+        },
+        {
+            "vent_id": 7,
+            "target_vent_id": 8,
+            "pair_id": 4,
+            "grid_x": 137,
+            "grid_y": 122,
+            "x": 137.5,
+            "y": 122.5
+        },
+        {
+            "vent_id": 8,
+            "target_vent_id": 7,
+            "pair_id": 4,
+            "grid_x": 137,
+            "grid_y": 123,
+            "x": 137.5,
+            "y": 123.5
+        },
+        {
+            "vent_id": 9,
+            "target_vent_id": 10,
+            "pair_id": 5,
+            "grid_x": 138,
+            "grid_y": 123,
+            "x": 138.5,
+            "y": 123.5
+        },
+        {
+            "vent_id": 10,
+            "target_vent_id": 9,
+            "pair_id": 5,
+            "grid_x": 138,
+            "grid_y": 122,
+            "x": 138.5,
+            "y": 122.5
+        },
+        {
+            "vent_id": 11,
+            "target_vent_id": 12,
+            "pair_id": 6,
+            "grid_x": 139,
+            "grid_y": 122,
+            "x": 139.5,
+            "y": 122.5
+        },
+        {
+            "vent_id": 12,
+            "target_vent_id": 11,
+            "pair_id": 6,
+            "grid_x": 139,
+            "grid_y": 123,
+            "x": 139.5,
+            "y": 123.5
+        }
+    ]
+}

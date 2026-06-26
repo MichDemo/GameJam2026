@@ -1,5 +1,6 @@
 from ursina import *
 from Enemy import Enemy
+from Eye import Eye
 from Player import *
 from Block import *
 from Fur import Fur
@@ -51,6 +52,17 @@ camera.fov = 10
 
 
 
+test_enemy = Eye(
+        player=player,
+        position=(2, -2),
+        size=(1, 1),
+        zone_radii=(2.0, 4.0, 6.0),
+        fov_degrees=110,
+        color=color.red,
+        use_gravity=True,
+        solid_objects=[floor],
+        show_zones=True  # <-- Set to True to visualize zones
+    )
 # --------------------------------------------------
 # Camera settings
 # --------------------------------------------------

@@ -91,7 +91,6 @@ class Eye(Rat):
             if dot_product >= cos_half_fov:
                 is_in_vision_cone = True
 
-        # --- ZMIANA: Filtrowanie oparte o jeden promień ---
         raw_zone = None
         if is_in_vision_cone and distance <= self.zone_radius:
             raw_zone = 1
@@ -104,6 +103,12 @@ class Eye(Rat):
                     print(f"[SKANOWANIE] Gracz namierzony. Rozpoczęto odliczanie {self.detection_delay} sekund...")
                 
                 self.detection_timer += time.dt
+                
+                # --- NOWOŚĆ: Podczas skanowania blokujemy wzrok na graczu ---
+                if to_player.x > 0.002:
+                    self.target_direction = 1
+                elif to_player.x < -0.002:
+                    self.target_direction = -1
                 
                 if self.detection_timer >= self.detection_delay:
                     self.current_zone = self.potential_zone
@@ -125,7 +130,7 @@ class Eye(Rat):
         """Przetwarza stan wykrywania i ustawia docelowy kierunek spojrzenia."""
         target_pos = None
 
-        # Stan A: Gracz wykryty (Usunięto warunek zone != 3)
+        # Stan A: Gracz w pełni wykryty
         if self.current_zone is not None:
             self.idle_turn_timer = 0.0
             self.loss_timer = 0.0  
@@ -133,9 +138,15 @@ class Eye(Rat):
             self.fov = 360  
             self.last_seen_position = Vec3(self.player.x, self.player.y, self.player.z)
 
-        # Stan B: Gracz zgubiony
-        elif self.last_seen_position is not None:
+        # NOWOŚĆ -> Stan A.5: Gracz jest dopiero skanowany (timer odlicza, ale jeszcze nie wykryty)
+        elif self.detection_timer > 0.0:
             self.idle_turn_timer = 0.0
+            self.loss_timer = 0.0
+            # Wzrok jest blokowany bezpośrednio w check_player_detection, więc tutaj nic nie nadpisujemy
+
+        # Stan B: Gracz zgubiony -> Patrz w tamtą stronę przez określony czas
+        elif self.last_seen_position is not None:
+            self.idle_turn_timer = 0.0  # Blokujemy timer obrotów w tle!
             self.fov = self.fov_default  
             target_pos = self.last_seen_position
             
@@ -151,15 +162,19 @@ class Eye(Rat):
                     self.loss_timer = 0.0
                     target_pos = None
 
-        # Stan C: Tryb Idle
+        # Stan C: Prawdziwy, czysty Tryb Idle (Włączany tylko, gdy powyższe są nieaktywne)
         else:
+            self.loss_timer = 0.0  # Czyszczenie na wszelki wypadek
             self.fov = self.fov_default
+            
             self.idle_turn_timer += time.dt
             if self.idle_turn_timer >= self.idle_turn_cooldown:
                 self.target_direction = -1 if self.target_direction == 1 else 1
                 self.idle_turn_timer = 0.0
 
-        if target_pos is not None:
+        # Wyznaczenie docelowego kierunku na podstawie aktywnego celu (Gracz / Ostatnia pozycja)
+        # Ignorujemy to, jeśli trwa skanowanie (pomiędzy Stanem A a B)
+        if target_pos is not None and self.detection_timer == 0.0:
             move_dir = target_pos - self.position
             if move_dir.x > 0.002:
                 self.target_direction = 1

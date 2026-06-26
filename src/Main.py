@@ -3,6 +3,9 @@ from Enemy import Enemy
 from Player import *
 from Block import *
 from Fur import Fur
+from Vent import Vent
+
+
 
 app = Ursina()
 
@@ -40,12 +43,40 @@ player = Player(
 # --------------------------------------------------
 
 # Ustawiamy je w zasięgu gracza (np. na podłodze obok niego)
-testowe_futro = Fur(
+# testowe_futro = Fur(
+#     player=player,
+#     position=(-3, -2),
+#     hold_time=6.0  # Wymagane x sekund trzymania "E"
+# )
+#
+# camera.orthographic = True
+# camera.fov = 10
+
+
+
+# --------------------------------------------------
+# --- TESTOWE VENTY ---
+# --------------------------------------------------
+
+# 1. pierwszy wentyl (np. po lewej stronie)
+vent_start = Vent(
     player=player,
-    position=(-3, -2),
-    hold_time=6.0  # Wymagane x sekund trzymania "E"
+    position=(-5, -2),
+    color=color.cyan
 )
 
+# 2. drugi wentyl
+vent_end = Vent(
+    player=player,
+    position=(5, -2),
+    color=color.cyan
+)
+
+# 3. Łączymy je (ustawiamy cele podróży)
+vent_start.target_vent = vent_end
+vent_end.target_vent = vent_start # Dzięki temu można wracać
+
+# Ustawienia kamery zgodne ze źródłami [2]
 camera.orthographic = True
 camera.fov = 10
 

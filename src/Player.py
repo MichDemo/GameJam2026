@@ -1,13 +1,12 @@
-from panda3d.core import Vec2
-from ursina import held_keys
+from ursina import *
+from Rat import Rat
 
-from Rat import *
 class Player(Rat):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def update(self):
-        # horizontal movement
+        # Movement lewo / prawo
         direction_x = 0
 
         if held_keys['a'] or held_keys['left arrow']:
@@ -18,9 +17,9 @@ class Player(Rat):
 
         self.move_x(direction_x)
 
-        # jump
+        # Skok
         if held_keys['space']:
             self.jump()
 
-        # gravity + safety
+        # Grawitacja + zabezpieczenie przed shadowrealmem
         super().update()

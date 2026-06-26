@@ -4,10 +4,17 @@ from Block import *
 
 app = Ursina()
 
-player = Player(position=(-2,0), size=(1,1), color=color.orange, use_gravity=True, jump_force=15)
-
 floor = Block(position=(0, -3), size=(10, 1))
 przeskoda = Block(position=(0, -1.5), size=(1, 3))
+player = Player(
+    position=(0, 2),
+    size=(1, 1),
+    color=color.orange,
+    speed=5,
+    jump_force=15,
+    use_gravity=True,
+    solid_objects=[floor, przeskoda]
+)
 
 
 # --------------------------------------------------

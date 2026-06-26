@@ -1,6 +1,5 @@
 from ursina import *
 
-
 class Rat(Entity):
     def __init__(
         self,

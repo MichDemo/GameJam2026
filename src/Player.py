@@ -1,7 +1,7 @@
 from panda3d.core import Vec2
 from ursina import held_keys
 
-from src.Rat import Rat
+from Rat import *
 class Player(Rat):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

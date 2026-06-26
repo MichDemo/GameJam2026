@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c350e5d-cc7c-4dd0-8df2-935818366698" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/PythonProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/game.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+    <list default="true" id="6c350e5d-cc7c-4dd0-8df2-935818366698" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/src/Player.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Rat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,63 +25,75 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "MichDemo"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MichDemo/GameJam2026.git",
+    "accountId": "3f499177-5253-4233-938c-a4f0d00c8477"
+  }
+}]]></component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.000002021699493" />
-      <entry key="S2" value="1.0379459060485556" />
-      <entry key="S5" value="1.3404799881100589" />
-      <entry key="S10" value="2.1060165195718157" />
-      <entry key="S30" value="5.492655509353493" />
-      <entry key="S60" value="9.786406926419277" />
-      <entry key="M2" value="17.14928999131133" />
-      <entry key="M5" value="31.08707906840533" />
-      <entry key="M10" value="40.55768084285761" />
-      <entry key="M15" value="44.69630329889851" />
-      <entry key="M30" value="49.47247430112263" />
-      <entry key="H1" value="52.13438532504431" />
-      <entry key="H2" value="53.54065866207768" />
-      <entry key="H4" value="54.263556618644266" />
-      <entry key="D1" value="54.87630670882128" />
-      <entry key="W1" value="54.982306038530126" />
+      <entry key="MS100" value="1.0000041471526793" />
+      <entry key="MS500" value="1.1039667093284755" />
+      <entry key="S2" value="2.5037754843977194" />
+      <entry key="S5" value="5.502590500263661" />
+      <entry key="S10" value="10.181998526496328" />
+      <entry key="S30" value="21.405067034771143" />
+      <entry key="S60" value="27.756440908034982" />
+      <entry key="M2" value="32.529305140168816" />
+      <entry key="M5" value="37.97596620975416" />
+      <entry key="M10" value="41.784888555423684" />
+      <entry key="M15" value="44.2607631453781" />
+      <entry key="M30" value="52.42838493443199" />
+      <entry key="H1" value="67.0799947925241" />
+      <entry key="H2" value="82.52998578006911" />
+      <entry key="H4" value="93.9783110361986" />
+      <entry key="D1" value="106.20327610539196" />
+      <entry key="W1" value="108.59261829530487" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="4.751114987175002E-191" />
-      <entry key="MS500" value="8.617059828609E-39" />
-      <entry key="S2" value="3.046770746482499E-10" />
-      <entry key="S5" value="1.56148921233961E-4" />
-      <entry key="S10" value="0.012529184871027551" />
-      <entry key="S30" value="0.2663278633988222" />
-      <entry key="S60" value="0.7070233481526379" />
-      <entry key="M2" value="1.3319442500155476" />
-      <entry key="M5" value="2.113355911665015" />
-      <entry key="M10" value="2.506601483438366" />
-      <entry key="M15" value="2.6586140460162158" />
-      <entry key="M30" value="2.8227084840092753" />
-      <entry key="H1" value="2.90963070285338" />
-      <entry key="H2" value="2.954374840501904" />
-      <entry key="H4" value="2.977076064093802" />
-      <entry key="D1" value="2.9961637724261063" />
-      <entry key="W1" value="2.9994515847611454" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="1.9161884306627398E-247" />
+      <entry key="S2" value="2.0922306184487685E-62" />
+      <entry key="S5" value="2.1293341606369512E-25" />
+      <entry key="S10" value="4.614544780263395E-13" />
+      <entry key="S30" value="7.933317064401902E-5" />
+      <entry key="S60" value="0.010655662576310322" />
+      <entry key="M2" value="0.161756680363597" />
+      <entry key="M5" value="1.0327793600234465" />
+      <entry key="M10" value="2.0303949307441713" />
+      <entry key="M15" value="2.624995703631336" />
+      <entry key="M30" value="3.759324262519861" />
+      <entry key="H1" value="5.060419970508149" />
+      <entry key="H2" value="6.210344949686272" />
+      <entry key="H4" value="7.003241181705422" />
+      <entry key="D1" value="7.817329927752669" />
+      <entry key="W1" value="7.973463684935251" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.008608633717786017" />
-      <entry key="MS500" value="0.3863563492518169" />
-      <entry key="S2" value="0.8208304781275009" />
-      <entry key="S5" value="1.2330288070598177" />
-      <entry key="S10" value="2.051996723543956" />
-      <entry key="S30" value="5.711252380077825" />
-      <entry key="S60" value="10.446352735734251" />
-      <entry key="M2" value="18.432693217611604" />
-      <entry key="M5" value="33.15925168524409" />
-      <entry key="M10" value="43.03590207988117" />
-      <entry key="M15" value="47.333694825247576" />
-      <entry key="M30" value="52.28323418495165" />
-      <entry key="H1" value="55.0376673740485" />
-      <entry key="H2" value="56.49176008085734" />
-      <entry key="H4" value="57.23897047570259" />
-      <entry key="D1" value="57.87218984262635" />
-      <entry key="W1" value="57.981717442963" />
+      <entry key="MS100" value="0.80664522244097" />
+      <entry key="MS500" value="1.0581732456551667" />
+      <entry key="S2" value="2.479247579146303" />
+      <entry key="S5" value="5.479415958320889" />
+      <entry key="S10" value="10.158202843897053" />
+      <entry key="S30" value="21.387111886702357" />
+      <entry key="S60" value="27.75406413230213" />
+      <entry key="M2" value="32.67860806268031" />
+      <entry key="M5" value="38.994970280896666" />
+      <entry key="M10" value="43.80404325012344" />
+      <entry key="M15" value="46.876483537937446" />
+      <entry key="M30" value="56.18073050972588" />
+      <entry key="H1" value="72.1350404995426" />
+      <entry key="H2" value="88.73667369363733" />
+      <entry key="H4" value="100.97936671509488" />
+      <entry key="D1" value="114.02017841635377" />
+      <entry key="W1" value="116.56601912469247" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -99,6 +111,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Main.executor": "Run",
     "Python.game.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -107,8 +120,14 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ml.llm.AcpAgentsConfigurable",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
@@ -134,16 +153,29 @@
       <option name="presentableId" value="Default" />
       <updated>1782469153371</updated>
       <workItem from="1782469154066" duration="99000" />
-      <workItem from="1782469496694" duration="582000" />
+      <workItem from="1782469496694" duration="5624000" />
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1782470536113</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1782470536114</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PythonProject$game.coverage" NAME="game Coverage Results" MODIFIED="1782470022532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
-    <SUITE FILE_PATH="coverage/PythonProject$Main.coverage" NAME="Main Coverage Results" MODIFIED="1782470237912" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$Main.coverage" NAME="Main Coverage Results" MODIFIED="1782475717887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1782470185212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

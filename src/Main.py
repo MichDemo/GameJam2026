@@ -1,19 +1,8 @@
 from ursina import *
-from ursina.prefabs.platformer_controller_2d import PlatformerController2d
-
-player = PlatformerController2d(
-    y=1, 
-    scale_y=1, 
-    max_jumps=1, 
-    color=color.red, 
-    jump_height=3, 
-    jump_duration=.2, 
-    gravity=.8, 
-    speed=8
-    )
+from src.Player import Player
 
 app = Ursina()
-
+player = Player(position=(-2,0), size=(1,1), color=color.orange, use_gravity=True)
 floor = Entity(model='quad', y=-3, scale_x=10, scale_y=1, texture_scale=(10,1),texture='white_cube', collider='box')
 przeskoda = Entity(model='quad', y=-1.5, scale_x=1, scale_y=3, texture_scale=(10,1),texture='white_cube', collider='box')
 

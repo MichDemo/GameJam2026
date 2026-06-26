@@ -44,7 +44,7 @@ player = Player(
 testowe_futro = Fur(
     player=player,
     position=(-3, -2),
-    hold_time=6.0  # Wymagane x sekund trzymania "E"
+    hold_time=2.0  # Wymagane x sekund trzymania "E"
 )
 
 camera.orthographic = True

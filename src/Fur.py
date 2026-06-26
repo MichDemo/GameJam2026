@@ -31,7 +31,7 @@ class Fur(Entity):
             if held_keys['e']:
                 self.timer += time.dt
                 # Opcjonalnie: wizualizacja postępu (np. zmiana koloru promptu)
-                self.prompt.color = color.lerp(color.white, color.green, self.timer / self.hold_time)
+                # self.prompt.color = color.lerp(color.white, color.green, self.timer / self.hold_time)
 
                 if self.timer >= self.hold_time:
                     self.collect()

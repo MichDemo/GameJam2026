@@ -2,6 +2,7 @@ from ursina import *
 from Enemy import Enemy
 from Player import *
 from Block import *
+from Fur import Fur
 
 app = Ursina()
 
@@ -20,17 +21,36 @@ player = Player(
     camera_z=-20
 )
 
-test_enemy = Enemy(
-        player=player, 
-        position=(2, -2), 
-        size=(1, 1),
-        zone_radii=(2.0, 4.0, 6.0),
-        fov_degrees=110,
-        color=color.red,
-        use_gravity=True,
-        solid_objects=[floor],
-        show_zones=True  # <-- Set to True to visualize zones
-    )
+# test_enemy = Enemy(
+#         player=player,
+#         position=(2, -2),
+#         size=(1, 1),
+#         zone_radii=(2.0, 4.0, 6.0),
+#         fov_degrees=110,
+#         color=color.red,
+#         use_gravity=True,
+#         solid_objects=[floor],
+#         show_zones=True  # <-- Set to True to visualize zones
+#     )
+
+
+
+# --------------------------------------------------
+# --- TESTOWE FUTRO ---
+# --------------------------------------------------
+
+# Ustawiamy je w zasięgu gracza (np. na podłodze obok niego)
+testowe_futro = Fur(
+    player=player,
+    position=(-3, -2),
+    hold_time=6.0  # Wymagane x sekund trzymania "E"
+)
+
+camera.orthographic = True
+camera.fov = 10
+
+
+
 # --------------------------------------------------
 # Camera settings
 # --------------------------------------------------

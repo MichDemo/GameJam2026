@@ -62,7 +62,7 @@ player = Player(
 vent_start = Vent(
     player=player,
     position=(-5, -2),
-    color=color.cyan
+    color=color.magenta
 )
 
 # 2. drugi wentyl

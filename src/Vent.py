@@ -2,41 +2,57 @@ from ursina import *
 
 class Vent(Entity):
     def __init__(self, player, target_vent=None, **kwargs):
-        # Inicjalizacja jako podstawowy obiekt (podobnie jak Block czy Rat)
+        # Wyciągamy 'color' z kwargs. Jeśli go tam nie ma,
+        # przypisujemy domyślny color.dark_gray
+        wybrany_kolor = kwargs.pop('color', color.dark_gray)
+
         super().__init__(
             model='quad',
+            color=wybrany_kolor,
             collider='box',
-            color=kwargs.pop('color', color.dark_gray), # Wyciąga kolor z kwargs, a jak go nie ma, daje dark_gray
             **kwargs
-)
-
+        )
         self.player = player
-        self.target_vent = target_vent  # Referencja do innego obiektu klasy Vent
+        self.target_vent = target_vent
+        self.hold_time = 3.0  # Czas w sekundach wymagany do przejścia
+        self.timer = 0
 
-        # Placeholder symbolu interakcji "E"
+        # Symbol interakcji dostosowany do skali kamery (fov=10) z Main.txt [3]
         self.prompt = Text(
-            text='E',
+            text='Przytrzymaj E',
             parent=self,
             y=1.2,
             scale=10,
             enabled=False,
-            origin=(0, 0),
-            color=color.yellow
+            origin=(0, 0)
         )
 
     def update(self):
-        # Sprawdzanie dystansu między szczurem (graczem) a ventem
-        if distance(self.position, self.player.position) < 1.5:
+        # Sprawdzanie dystansu do gracza (Player) [4, 5]
+        dist = distance(self.position, self.player.position)
+
+        if dist < 1.5:
             self.prompt.enabled = True
+
+            # Mechanika przytrzymywania (jak w przypadku futra)
+            if held_keys['e']:
+                self.timer += time.dt
+
+                if self.timer >= self.hold_time:
+                    self.teleport()
+            else:
+                # Reset, jeśli gracz puści klawisz przed czasem
+                self.timer = 0
+                self.prompt.color = color.white
         else:
             self.prompt.enabled = False
+            self.timer = 0
 
-    def input(self, key):
-        # Reakcja na naciśnięcie "E", gdy gracz jest blisko
-        if key == 'e' and self.prompt.enabled:
-            if self.target_vent:
-                # Przeniesienie gracza do pozycji docelowego venta
-                self.player.position = self.target_vent.position
-                print("Teleportacja przez wentylację!")
-            else:
-                print("Ten wentyl prowadzi donikąd.")
+    def teleport(self):
+        if self.target_vent:
+            # Zmiana pozycji gracza na pozycję docelowego venta [2, 4]
+            self.player.position = self.target_vent.position
+            self.timer = 0  # Reset timera po teleportacji
+            print("Teleportacja zakończona sukcesem!")
+        else:
+            print("Ten wentyl nie ma ustawionego celu.")

@@ -26,7 +26,8 @@ class Rat(Entity):
             **kwargs
         )
 
-        self.start_position = Vec3(position[0], position[1], 0)
+        self.start_position = Vec2(position[0], position[1])
+        self.original_size = Vec2(size[0], size[1])
 
         self.speed = speed
 
@@ -42,12 +43,7 @@ class Rat(Entity):
         self.auto_find_solids = auto_find_solids
 
         self.fall_limit = fall_limit
-
-        # Tiny distance used only for checking if feet are touching ground.
-        # Keep this small. Big values cause levitation.
         self.ground_check_distance = ground_check_distance
-
-        # Prevents being grounded by barely touching a platform corner.
         self.foot_inset = foot_inset
 
         self.EPSILON = 0.0001
@@ -142,14 +138,9 @@ class Rat(Entity):
         return self.horizontal_overlap(entity) and self.vertical_overlap(entity)
 
     def feet_overlap(self, entity):
-        """
-        Uses narrower feet bounds than the full body.
-        This prevents weird grounding on edges/corners.
-        """
         feet_left = self.left + self.foot_inset
         feet_right = self.right - self.foot_inset
 
-        # fallback if object is very small
         if feet_left >= feet_right:
             feet_left = self.left
             feet_right = self.right
@@ -160,10 +151,6 @@ class Rat(Entity):
         )
 
     def is_standing_on(self, entity):
-        """
-        True only when the Rat is actually on top of this entity.
-        Used to avoid treating floor as a wall during horizontal movement.
-        """
         if not self.feet_overlap(entity):
             return False
 
@@ -186,8 +173,7 @@ class Rat(Entity):
             if not entity.enabled:
                 continue
 
-            # Important fix:
-            # If we are standing on this object, it is floor, not wall.
+            # Floor should not act like a wall.
             if self.is_standing_on(entity):
                 continue
 
@@ -197,10 +183,6 @@ class Rat(Entity):
         return None
 
     def get_ground_below(self):
-        """
-        Detects actual ground directly below the Rat.
-        This replaces loose snapping that caused levitation.
-        """
         for entity in self.get_solids():
             if not entity.enabled:
                 continue
@@ -208,13 +190,39 @@ class Rat(Entity):
             if not self.feet_overlap(entity):
                 continue
 
-            entity_top = self.entity_top(entity)
-            distance_to_ground = self.bottom - entity_top
+            distance_to_ground = self.bottom - self.entity_top(entity)
 
             if -self.EPSILON <= distance_to_ground <= self.ground_check_distance:
                 return entity
 
         return None
+
+    # --------------------------------------------------
+    # Resizing
+    # --------------------------------------------------
+
+    def resize_keep_feet(self, new_size, allow_if_blocked=False):
+        """
+        Resizes Rat while keeping bottom/feet in the same world position.
+
+        new_size must be Vec2(width, height).
+        """
+
+        old_position = Vec2(self.x, self.y)
+        old_scale = Vec2(self.scale_x, self.scale_y)
+        old_bottom = self.bottom
+
+        self.scale = (new_size.x, new_size.y, 1)
+        self.y = old_bottom + self.half_height
+
+        hit = self.get_vertical_collision() or self.get_horizontal_collision()
+
+        if hit and not allow_if_blocked:
+            self.scale = (old_scale.x, old_scale.y, 1)
+            self.position = (old_position.x, old_position.y, 0)
+            return False
+
+        return True
 
     # --------------------------------------------------
     # Movement
@@ -255,12 +263,10 @@ class Rat(Entity):
 
             if hit:
                 if step_y < 0:
-                    # Falling down. Snap exactly onto the object.
                     self.y = self.entity_top(hit) + self.half_height
                     self.grounded = True
 
                 elif step_y > 0:
-                    # Jumping up. Hit ceiling / underside.
                     self.y = self.entity_bottom(hit) - self.half_height
                     self.grounded = False
 
@@ -268,10 +274,6 @@ class Rat(Entity):
                 break
 
     def move(self, direction):
-        """
-        Free 2D movement.
-        Use this mainly when gravity is disabled.
-        """
         if direction.length() == 0:
             return
 
@@ -290,8 +292,6 @@ class Rat(Entity):
         if not self.use_gravity:
             return
 
-        # If moving upward, do not ground-snap.
-        # This prevents jump from being cancelled.
         if self.velocity_y <= 0:
             ground = self.get_ground_below()
 
@@ -321,7 +321,7 @@ class Rat(Entity):
     # --------------------------------------------------
 
     def reset_position(self):
-        self.position = self.start_position
+        self.position = (self.start_position.x, self.start_position.y, 0)
         self.velocity_y = 0
         self.grounded = False
 

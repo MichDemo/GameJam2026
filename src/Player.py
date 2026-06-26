@@ -1,12 +1,112 @@
 from ursina import *
 from Rat import Rat
 
+
 class Player(Rat):
-    def __init__(self, **kwargs):
+    def __init__(
+        self,
+        camera_follow=True,
+        camera_offset=(0, 0),
+        camera_z=-20,
+        **kwargs
+    ):
         super().__init__(**kwargs)
 
+        self.normal_size = Vec2(self.scale_x, self.scale_y)
+
+        # Shrink height only.
+        # Width remains exactly the same.
+        self.shrink_size = Vec2(
+            self.normal_size.x,
+            self.normal_size.y * 0.5
+        )
+
+        self.is_shrunk = False
+
+        # Camera settings.
+        # Camera follows a stable anchor, not current scaled player center.
+        self.camera_follow = camera_follow
+        self.camera_offset = Vec2(camera_offset[0], camera_offset[1])
+        self.camera_z = camera_z
+
+    # --------------------------------------------------
+    # Camera
+    # --------------------------------------------------
+
+    def detach_camera_if_needed(self):
+        """
+        Prevents player scale from affecting camera/world transform.
+        If camera.parent = player exists in Main.py, this safely detaches it.
+        """
+        if camera.parent == self:
+            camera.parent = scene
+
+    def get_camera_anchor(self):
+        """
+        Returns a stable 2D camera anchor.
+
+        Important:
+        Camera follows the player's NORMAL standing center,
+        not the current crouched center.
+
+        This prevents camera misalignment while crouching.
+        """
+        anchor_x = self.x
+
+        # Stable vertical anchor:
+        # bottom + original standing half-height
+        anchor_y = self.bottom + (self.normal_size.y / 2)
+
+        return Vec2(anchor_x, anchor_y)
+
+    def update_camera_follow(self):
+        if not self.camera_follow:
+            return
+
+        self.detach_camera_if_needed()
+
+        anchor = self.get_camera_anchor()
+
+        camera.x = anchor.x + self.camera_offset.x
+        camera.y = anchor.y + self.camera_offset.y
+        camera.z = self.camera_z
+
+    # --------------------------------------------------
+    # Shrink / restore
+    # --------------------------------------------------
+
+    def shrink(self):
+        if self.is_shrunk:
+            return
+
+        self.resize_keep_feet(
+            self.shrink_size,
+            allow_if_blocked=True
+        )
+
+        self.is_shrunk = True
+
+    def unshrink(self):
+        if not self.is_shrunk:
+            return
+
+        restored = self.resize_keep_feet(
+            self.normal_size,
+            allow_if_blocked=False
+        )
+
+        if restored:
+            self.is_shrunk = False
+
+    # --------------------------------------------------
+    # Update
+    # --------------------------------------------------
+
     def update(self):
-        # Movement lewo / prawo
+        # Ensure camera is not parented to player before scale changes.
+        self.detach_camera_if_needed()
+
+        # Movement left / right
         direction_x = 0
 
         if held_keys['a'] or held_keys['left arrow']:
@@ -17,9 +117,18 @@ class Player(Rat):
 
         self.move_x(direction_x)
 
-        # Skok
-        if held_keys['space']:
+        # W = jump
+        if held_keys['w'] or held_keys['up arrow']:
             self.jump()
 
-        # Grawitacja + zabezpieczenie przed shadowrealmem
+        # S = shrink height only
+        if held_keys['s'] or held_keys['down arrow']:
+            self.shrink()
+        else:
+            self.unshrink()
+
+        # Gravity + fall protection
         super().update()
+
+        # Camera follows stable standing-height anchor
+        self.update_camera_follow()

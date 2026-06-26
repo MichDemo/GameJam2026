@@ -11,17 +11,20 @@ player = Player(
     position=(0, 2),
     size=(1, 1),
     color=color.orange,
-    speed=15,
+    speed=10,
     jump_force=15,
     use_gravity=True,
-    solid_objects=[floor]
+    solid_objects=[floor],
+    camera_follow=True,
+    camera_offset=(0, 0),
+    camera_z=-20
 )
 
 test_enemy = Enemy(
         player=player, 
         position=(2, -2), 
         size=(1, 1),
-        zone_radii=(1.0, 6.0, 3.0),
+        zone_radii=(2.0, 4.0, 6.0),
         fov_degrees=110,
         color=color.red,
         use_gravity=True,
@@ -35,7 +38,7 @@ camera.orthographic = True
 camera.fov = 10
 camera.position = (0, 0, -20)
 camera.rotation = (0, 0, 0)
-camera.parent = player  # Attach the camera to the player
+camera.parent = scene
 
 Sky()
 

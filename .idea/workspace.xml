@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6c350e5d-cc7c-4dd0-8df2-935818366698" name="Changes" comment="init">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Rat.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rat.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,61 +40,61 @@
 }</component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0021977920963843" />
-      <entry key="MS500" value="1.3468710805771011" />
-      <entry key="S2" value="2.2184009659726422" />
-      <entry key="S5" value="2.7292222074359893" />
-      <entry key="S10" value="3.2259939432304043" />
-      <entry key="S30" value="4.3822605240761785" />
-      <entry key="S60" value="5.053949254607622" />
-      <entry key="M2" value="6.368694805850777" />
-      <entry key="M5" value="14.82158099939875" />
-      <entry key="M10" value="26.28015473784619" />
-      <entry key="M15" value="33.361219836693124" />
-      <entry key="M30" value="47.240911114396816" />
-      <entry key="H1" value="65.50266066236165" />
-      <entry key="H2" value="83.73204660662797" />
-      <entry key="H4" value="97.20650763657969" />
-      <entry key="D1" value="111.6748101430784" />
-      <entry key="W1" value="114.51526267978248" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0" />
+      <entry key="S60" value="1.0" />
+      <entry key="M2" value="1.0000000000010252" />
+      <entry key="M5" value="1.0001131332619673" />
+      <entry key="M10" value="1.0726065509444265" />
+      <entry key="M15" value="1.6568615607196717" />
+      <entry key="M30" value="7.628789499353785" />
+      <entry key="H1" value="25.536743473938422" />
+      <entry key="H2" value="52.24726554587965" />
+      <entry key="H4" value="77.04748147754505" />
+      <entry key="D1" value="108.19803026036884" />
+      <entry key="W1" value="114.8479010755429" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
-      <entry key="S2" value="7.512446451793431E-156" />
-      <entry key="S5" value="8.91892590259985E-63" />
-      <entry key="S10" value="9.44415773514774E-32" />
-      <entry key="S30" value="4.6751936113428046E-11" />
-      <entry key="S60" value="8.179991533150077E-6" />
-      <entry key="M2" value="0.004481758211134429" />
-      <entry key="M5" value="0.24606057181854102" />
-      <entry key="M10" value="0.9910550067724814" />
-      <entry key="M15" value="1.6273217281902388" />
-      <entry key="M30" value="2.9599351819782984" />
-      <entry key="H1" value="4.490273221962654" />
-      <entry key="H2" value="5.850039880653324" />
-      <entry key="H4" value="6.797052661798779" />
-      <entry key="D1" value="7.778491238495093" />
-      <entry key="W1" value="7.967792397016577" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="2.8578311013323413E-185" />
+      <entry key="S30" value="3.1387547012982353E-62" />
+      <entry key="S60" value="2.119491805730086E-31" />
+      <entry key="M2" value="7.21419482647569E-16" />
+      <entry key="M5" value="1.878182572594001E-6" />
+      <entry key="M10" value="0.0027380769464926047" />
+      <entry key="M15" value="0.03204094740553795" />
+      <entry key="M30" value="0.4153346493583203" />
+      <entry key="H1" value="1.6820184258332118" />
+      <entry key="H2" value="3.5804516832877207" />
+      <entry key="H4" value="5.317532220502563" />
+      <entry key="D1" value="7.466669861322277" />
+      <entry key="W1" value="7.921358423134947" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.1276269866352774" />
-      <entry key="MS500" value="0.731300548677508" />
-      <entry key="S2" value="1.7343660734410558" />
-      <entry key="S5" value="2.455171250634112" />
-      <entry key="S10" value="3.0510019139189115" />
-      <entry key="S30" value="4.282215764172564" />
-      <entry key="S60" value="4.990193086253152" />
-      <entry key="M2" value="6.336151277685895" />
-      <entry key="M5" value="15.048302858306029" />
-      <entry key="M10" value="27.257441868636608" />
-      <entry key="M15" value="34.977212554458944" />
-      <entry key="M30" value="50.19253264749114" />
-      <entry key="H1" value="69.98674821758907" />
-      <entry key="H2" value="89.57793129288626" />
-      <entry key="H4" value="104.00108350707467" />
-      <entry key="D1" value="119.45281655165772" />
-      <entry key="W1" value="122.4829837875504" />
+      <entry key="MS100" value="0.037681494615336264" />
+      <entry key="MS500" value="0.5190696352715286" />
+      <entry key="S2" value="0.8488020231001812" />
+      <entry key="S5" value="0.9365318732120225" />
+      <entry key="S10" value="0.967745768893888" />
+      <entry key="S30" value="0.9891308798769254" />
+      <entry key="S60" value="0.99455059191422" />
+      <entry key="M2" value="0.997271573803372" />
+      <entry key="M5" value="0.9990225987335382" />
+      <entry key="M10" value="1.0747603083785662" />
+      <entry key="M15" value="1.6883152259860164" />
+      <entry key="M30" value="8.042775460117287" />
+      <entry key="H1" value="27.21635373356339" />
+      <entry key="H2" value="55.82512855388449" />
+      <entry key="H4" value="82.36305326438875" />
+      <entry key="D1" value="115.66423093281104" />
+      <entry key="W1" value="122.76918808278805" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -105,30 +109,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.AcpAgentsConfigurable&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Enemy.executor": "Run",
+    "Python.Main.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "PlayerUpdated",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ml.llm.AcpAgentsConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\micha\PycharmProjects\PythonProject\src\core" />
@@ -171,8 +176,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PythonProject$Enemy.coverage" NAME="Enemy Coverage Results" MODIFIED="1782482374971" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/PythonProject$game.coverage" NAME="game Coverage Results" MODIFIED="1782470022532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
-    <SUITE FILE_PATH="coverage/PythonProject$Main.coverage" NAME="Main Coverage Results" MODIFIED="1782481015002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$Main.coverage" NAME="Main Coverage Results" MODIFIED="1782483230808" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1782470185212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

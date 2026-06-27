@@ -10,7 +10,23 @@ class Player(Rat):
         camera_z=-20,
         **kwargs
     ):
+        # Wstrzykujemy ścieżkę do tekstury szczura
+        kwargs['texture'] = '../assets/textures/RAT_MAIN_HERO.png'
+
         super().__init__(**kwargs)
+
+        # --- PRECYZYJNE KADROWANIE TWOJEGO SPRITESHEETU (3x5) ---
+        self.RAT_GRID_WIDTH = 3   # 3 kolumny w obraz.png
+        self.RAT_GRID_HEIGHT = 4  # 5 wierszy w obraz.png
+
+        # Wybieramy domyślną stojącą klatkę (lewy górny róg)
+        # W Ursinie dolny wiersz to 0, najwyższy to 4
+        frame_x = 0  # Pierwsza kolumna
+        frame_y = 4  # Najwyższy wiersz (stojący szczurek)
+
+        self.texture_scale = (1 / self.RAT_GRID_WIDTH, 1 / self.RAT_GRID_HEIGHT)
+        self.texture_offset = (frame_x / self.RAT_GRID_WIDTH, frame_y / self.RAT_GRID_HEIGHT)
+        # --------------------------------------------------
 
         self.normal_size = Vec2(self.scale_x, self.scale_y)
 
@@ -18,7 +34,7 @@ class Player(Rat):
         # Width remains exactly the same.
         self.shrink_size = Vec2(
             self.normal_size.x,
-            self.normal_size.y * 0.5
+            self.normal_size.y
         )
 
         self.is_shrunk = False
@@ -85,6 +101,9 @@ class Player(Rat):
         )
 
         self.is_shrunk = True
+        
+        # Zmiana sprajtu na kucającego szczurka (kolumna 0, wiersz 1 od dołu)
+        self.texture_offset = (0 / self.RAT_GRID_WIDTH, 1 / self.RAT_GRID_HEIGHT)
 
     def unshrink(self):
         if not self.is_shrunk:
@@ -97,6 +116,8 @@ class Player(Rat):
 
         if restored:
             self.is_shrunk = False
+            # Powrót do stojącego szczurka (kolumna 0, wiersz 4 od dołu)
+            self.texture_offset = (0 / self.RAT_GRID_WIDTH, 4 / self.RAT_GRID_HEIGHT)
 
     # --------------------------------------------------
     # Akcje
@@ -114,13 +135,6 @@ class Player(Rat):
     # --------------------------------------------------
 
     def update(self):
-        # ... reszta Twojego kodu update bez zmian ...
-        
-        # W = jump (teraz bezpiecznie odwołuje się do nowej metody wyżej)
-        if held_keys['w'] or held_keys['up arrow']:
-            self.jump()
-
-        # ... reszta Twojego kodu update ...
         # Ensure camera is not parented to player before scale changes.
         self.detach_camera_if_needed()
 

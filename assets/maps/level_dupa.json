@@ -1,11 +1,18 @@
 {
     "cell_size": 1,
+    "grid_width": 256,
+    "grid_height": 256,
+    "origin": {
+        "x": 0,
+        "y": 0
+    },
+    "player": null,
     "blocks": [
         {
-            "grid_x": 127,
-            "grid_y": 127,
-            "x": 127.5,
-            "y": 127.5,
+            "grid_x": 128,
+            "grid_y": 128,
+            "x": 128.5,
+            "y": 128.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -16,22 +23,9 @@
         },
         {
             "grid_x": 129,
-            "grid_y": 127,
+            "grid_y": 128,
             "x": 129.5,
-            "y": 127.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 128,
-            "grid_y": 127,
-            "x": 128.5,
-            "y": 127.5,
+            "y": 128.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -42,9 +36,9 @@
         },
         {
             "grid_x": 130,
-            "grid_y": 127,
+            "grid_y": 128,
             "x": 130.5,
-            "y": 127.5,
+            "y": 128.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -55,9 +49,9 @@
         },
         {
             "grid_x": 131,
-            "grid_y": 127,
+            "grid_y": 128,
             "x": 131.5,
-            "y": 127.5,
+            "y": 128.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -68,9 +62,9 @@
         },
         {
             "grid_x": 132,
-            "grid_y": 127,
+            "grid_y": 128,
             "x": 132.5,
-            "y": 127.5,
+            "y": 128.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -81,9 +75,9 @@
         },
         {
             "grid_x": 133,
-            "grid_y": 127,
+            "grid_y": 128,
             "x": 133.5,
-            "y": 127.5,
+            "y": 128.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -94,40 +88,53 @@
         },
         {
             "grid_x": 134,
-            "grid_y": 127,
+            "grid_y": 128,
             "x": 134.5,
-            "y": 127.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 135,
-            "grid_y": 127,
-            "x": 135.5,
-            "y": 127.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 131,
-            "grid_y": 128,
-            "x": 131.5,
             "y": 128.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
             "tile_indices": [
-                2
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 129,
+            "x": 128.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 129,
+            "x": 129.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 129,
+            "x": 130.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
             ],
             "has_collision": false
         },
@@ -140,35 +147,143 @@
             "scale_y": 1,
             "hex_color": "#ffffff",
             "tile_indices": [
-                2
+                1
             ],
             "has_collision": false
         },
         {
-            "grid_x": 135,
-            "grid_y": 128,
-            "x": 135.5,
-            "y": 128.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 135,
+            "grid_x": 132,
             "grid_y": 129,
-            "x": 135.5,
+            "x": 132.5,
             "y": 129.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
             "tile_indices": [
-                0
+                1
             ],
-            "has_collision": true
+            "has_collision": false
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 129,
+            "x": 133.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 129,
+            "x": 134.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 130,
+            "x": 134.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 130,
+            "x": 133.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 130,
+            "x": 132.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 130,
+            "x": 131.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 130,
+            "x": 130.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 130,
+            "x": 129.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 130,
+            "x": 128.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
         }
-    ]
+    ],
+    "furs": [],
+    "enemies": [],
+    "eyes": [],
+    "vents": []
 }

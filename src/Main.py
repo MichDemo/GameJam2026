@@ -66,23 +66,25 @@ player = Player(
 # --- GENEROWANIE BLOKÓW ---
 # --------------------------------------------------
 for b in map_data.get("blocks", []):
+    # Wyciągamy dane z JSON-a
     pos = (b["x"], b["y"])  
     size = (b["scale_x"], b["scale_y"])
     
-    # NOWOŚĆ: Pobieramy unikalny kod/indeks tekstury przypisany do bloku (domyślnie 0)
-    t_index = b.get("tile_index", 0)
+    # Pobieramy unikalny kod/indeks tekstury przypisany do bloku (domyślnie 0)
+    t_index = b.get("tile_indices", 0)
     
-    # Tworzymy blok przekazując jego unikalny kod tekstury
-    block_obj = Block(position=pos, size=size, tile_index=t_index, has_collision=b["has_collision"])
-    print(b["has_collision"])
+    # Tworzymy blok
+    block_obj = Block(position=pos, size=size, tile_indices=t_index, has_collision=b["has_collision"])
+    print(f"Collision for block at {pos}: {b['has_collision']}")
     
     if "hex_color" in b:
         block_obj.color = color.hex(b["hex_color"]) 
         
     all_blocks.append(block_obj)
 
-# Przekazujemy listę do gracza, aby działały kolizje
-player.solid_objects = all_blocks
+# Filtrujemy bloki! Przekazujemy graczowi TYLKO te, które mają włączoną kolizję.
+solid_blocks = [block for block in all_blocks if block.has_collision]
+player.solid_objects = solid_blocks
 
 # --------------------------------------------------
 # --- GENEROWANIE FUTER ---

@@ -4,7 +4,7 @@ from ursina import *
 Texture.default_filtering = 'nearest'
 
 class Block(Entity):
-    GRID_WIDTH = 4
+    GRID_WIDTH = 9
     GRID_HEIGHT = 3
 
     def __init__(self, position=(0, 0), size=(1, 1), hex_color="#ffffff", tile_indices=None, has_collision=True, **kwargs):
@@ -36,6 +36,7 @@ class Block(Entity):
         else:
             self.collider = None
             self.alpha = 0.6 # Półprzezroczystość dla dekoracji (duchów)
+            self.z = 1
 
     def toggle_collision(self):
         """Przełącznik stanu kolizji."""
@@ -56,7 +57,8 @@ class Block(Entity):
             tile = Entity(
                 parent=self,
                 model='quad',
-                texture='../assets/textures/SEWER_SPRITESHEET.png',
+                # ZMIANA: Nowa ścieżka do Twojego arkusza 32x32
+                texture='../assets/textures/LEVEL_BLOCK_SHEET.png',
                 position=(x, y, 0),
                 scale=(1, 1, 1),
                 tileset_size=[self.GRID_WIDTH, self.GRID_HEIGHT],

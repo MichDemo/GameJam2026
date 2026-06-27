@@ -175,7 +175,6 @@ class GridLevelEditor:
 
         self.current_mode = self.MODE_BLOCK_PLACE
         
-        # ZMIANA: Pędzel używa teraz jednego indeksu (0 - 11 dla siatki 4x3)
         self.active_tile_index = 0 
 
         self.min_camera_fov = min_camera_fov
@@ -230,6 +229,13 @@ class GridLevelEditor:
             self.MODE_TILE_PAINT: f"Mode T: Tile Painting (Active Index: {self.active_tile_index})"
         }
         return names.get(self.current_mode, "Unknown mode")
+
+    def __setattr__(self, name, value):
+        # Bezpieczne przypisanie dla uniknięcia pętli rekurencyjnej przy inicjalizacji domyślnej
+        try:
+            super().__setattr__(name, value)
+        except AttributeError:
+            pass
 
     def set_mode(self, mode):
         self.current_mode = mode
@@ -329,11 +335,24 @@ class GridLevelEditor:
         objs.extend(self.blocks); objs.extend(self.furs); objs.extend(self.enemies); objs.extend(self.eyes); objs.extend(self.vents)
         return objs
 
+    # NAPRAWIONE: Precyzyjne sprawdzanie pozycji uwzględniające lewy-dolny róg klasy Block
     def get_object_under_mouse(self):
         m = self.get_mouse_world_2d()
         if m is None: return None
         for obj in reversed(self.get_all_editor_objects()):
-            if (obj.x - obj.scale_x / 2) <= m.x <= (obj.x + obj.scale_x / 2) and (obj.y - obj.scale_y / 2) <= m.y <= (obj.y + obj.scale_y / 2): return obj
+            if getattr(obj, "editor_type", None) == "block":
+                min_x = obj.x - 0.5
+                max_x = obj.x + obj.size_x - 0.5
+                min_y = obj.y - 0.5
+                max_y = obj.y + obj.size_y - 0.5
+            else:
+                min_x = obj.x - obj.scale_x / 2
+                max_x = obj.x + obj.scale_x / 2
+                min_y = obj.y - obj.scale_y / 2
+                max_y = obj.y + obj.scale_y / 2
+            
+            if min_x <= m.x <= max_x and min_y <= m.y <= max_y: 
+                return obj
         return None
 
     def remove_object(self, obj):
@@ -356,7 +375,6 @@ class GridLevelEditor:
         self.player_spawn = EditorObject(editor_type="player", position=(snapped.x, snapped.y), size=(1, 1), hex_color="#ffa500", z=0.2)
         return self.player_spawn
 
-    # ZMIANA: create_block przyjmuje teraz liniowy tile_index
     def create_block(self, position, size=(1, 1), hex_color="#ffffff", tile_index=0):
         if not isinstance(position, Vec2): position = Vec2(position[0], position[1])
         if not isinstance(size, Vec2): size = Vec2(size[0], size[1])
@@ -365,12 +383,11 @@ class GridLevelEditor:
         snapped_position = self.snap_world_position_to_grid(position)
         clamped_position = self.clamp_center_to_sheet(snapped_position, snapped_size)
 
-        # Używamy zaktualizowanej klasy Block, podając tile_index
         block = Block(
             position=(clamped_position.x, clamped_position.y),
             size=(snapped_size.x, snapped_size.y),
             hex_color=hex_color,
-            tile_index=tile_index
+            tile_indices=[tile_index] * int(snapped_size.x * snapped_size.y)  # <--- TUTAJ dodane int()
         )
         block.z = 0
         self.blocks.append(block)
@@ -410,27 +427,31 @@ class GridLevelEditor:
         for vent in self.vents:
             if vent.target_vent_id == deleted_vent.vent_id: vent.target_vent_id = None; vent.color = color.rgb(90, 90, 90); self.pending_vent = vent
 
+    # NAPRAWIONE: Pełna obsługa zmiany właściwości wraz ze skalowaniem, kolorem i sprajtem
     def open_block_properties_dialog(self, block):
-        # Formularz: hex, scale_x, scale_y, tile_index, has_collision(1/0)
         result = self.ask_text(
             "Block properties",
             "Format:\nhex, scale_x, scale_y, tile_index, has_collision(1 or 0)",
-            f"{block.hex_color}, {int(block.scale_x)}, {int(block.scale_y)}, {block.tile_index}, {int(block.has_collision)}"
+            f"{block.hex_color}, {int(block.scale_x)}, {int(block.scale_y)}, {block.tile_indices[0]}, {int(block.has_collision)}"
         )
         if result is None: return
         parts = self.split_csv(result)
+        if len(parts) < 5: return
         
-        collision_val = int(parts[4]) if len(parts) >= 5 else 1
+        hex_color = self.normalize_hex(parts[0])
+        size_x = int(self.parse_float(parts[1], block.scale_x))
+        size_y = int(self.parse_float(parts[2], block.scale_y))
+        tile_idx = int(self.parse_float(parts[3], block.tile_indices[0]))
+        collision_val = int(parts[4])
+        
+        block.hex_color = hex_color
+        block.size_x = size_x
+        block.size_y = size_y
+        block.tile_indices = [tile_idx] * (size_x * size_y)
         block.has_collision = (collision_val == 1)
         
-        # Jeśli zmieniliśmy kolizję, przebudowujemy collider
-        if block.has_collision:
-            # Obliczamy poprawne parametry zamiast ...
-            center_x = (block.scale_x - 1) / 2
-            center_y = (block.scale_y - 1) / 2
-            block.collider = BoxCollider(block, center=(center_x, center_y, 0), size=(block.scale_x, block.scale_y, 1))
-        else:
-            block.collider = None
+        block.generate_tiles()
+        block.update_collider()
 
     def open_fur_properties_dialog(self, fur):
         result = self.ask_text("Fur properties", "Format:\nrarity, hex_color", f"{getattr(fur, 'rarity', 'Common')}, {getattr(fur, 'hex_color', '#8b5a2b')}")
@@ -475,18 +496,27 @@ class GridLevelEditor:
         if m is None: return
         self.dragged_object = obj; self.drag_offset = Vec2(obj.x - m.x, obj.y - m.y)
 
+    # NAPRAWIONE: Bezpieczne przesuwanie bloków uwzględniające specyfikę ich zakotwiczenia
     def update_drag_object(self):
         if self.dragged_object is None: return
         if not held_keys["left mouse"]: self.dragged_object = None; self.drag_offset = Vec2(0, 0); return
         m = self.get_mouse_world_2d()
         if m is None: return
         s = self.snap_world_position_to_grid(m + self.drag_offset)
-        c = self.clamp_center_to_sheet(s, Vec2(self.dragged_object.scale_x, self.dragged_object.scale_y))
-        self.dragged_object.position = (c.x, c.y, self.dragged_object.z)
+        
+        if getattr(self.dragged_object, "editor_type", None) == "block":
+            max_x = 256 - self.dragged_object.size_x + 0.5
+            max_y = 256 - self.dragged_object.size_y + 0.5
+            cx = max(0.5, min(s.x, max_x))
+            cy = max(0.5, min(s.y, max_y))
+            self.dragged_object.position = (cx, cy, self.dragged_object.z)
+        else:
+            c = self.clamp_center_to_sheet(s, Vec2(self.dragged_object.scale_x, self.dragged_object.scale_y))
+            self.dragged_object.position = (c.x, c.y, self.dragged_object.z)
 
     def object_to_grid_data(self, obj): return self.world_to_grid(obj.x, obj.y)
 
-    # ZMIANA: get_level_data zapisuje teraz "tile_index" zamiast "tile_x"/"tile_y"
+    # NAPRAWIONE: Usunięto ucinający funkcję return, teraz pełny eksport do JSON działa bezbłędnie!
     def get_level_data(self):
         player_data = None
         if self.player_spawn:
@@ -504,19 +534,27 @@ class GridLevelEditor:
                 "scale_x": block.scale_x, 
                 "scale_y": block.scale_y,
                 "hex_color": getattr(block, "hex_color", "#ffffff"),
-                "tile_indices": block.tile_indices,  # ZAPISUJEMY LISTĘ
-                "has_collision": block.has_collision  # ZAPISUJEMY STAN KOLIZJI
+                "tile_indices": block.tile_indices,  
+                "has_collision": block.has_collision  
             })
-
-        # ... (reszta danych)
-        return {"cell_size": 1, "blocks": blocks_data}
 
         furs_data = [{"grid_x": self.world_to_grid(f.x, f.y)[0], "grid_y": self.world_to_grid(f.x, f.y)[1], "x": f.x, "y": f.y, "rarity": f.rarity, "hex_color": f.hex_color} for f in self.furs]
         enemies_data = [{"grid_x": self.world_to_grid(e.x, e.y)[0], "grid_y": self.world_to_grid(e.x, e.y)[1], "x": e.x, "y": e.y, "scale_x": e.scale_x, "scale_y": e.scale_y, "hex_color": e.hex_color, "speed": e.speed, "zone1": e.zone1, "zone2": e.zone2, "zone3": e.zone3} for e in self.enemies]
         eyes_data = [{"grid_x": self.world_to_grid(ey.x, ey.y)[0], "grid_y": self.world_to_grid(ey.x, ey.y)[1], "x": ey.x, "y": ey.y, "rotation_time": ey.rotation_time} for ey in self.eyes]
         vents_data = [{"vent_id": v.vent_id, "target_vent_id": v.target_vent_id, "pair_id": v.vent_pair_id, "grid_x": self.world_to_grid(v.x, v.y)[0], "grid_y": self.world_to_grid(v.x, v.y)[1], "x": v.x, "y": v.y} for v in self.vents]
 
-        return {"cell_size": 1, "grid_width": 256, "grid_height": 256, "origin": {"x": 0, "y": 0}, "player": player_data, "blocks": blocks_data, "furs": furs_data, "enemies": enemies_data, "eyes": eyes_data, "vents": vents_data}
+        return {
+            "cell_size": 1, 
+            "grid_width": 256, 
+            "grid_height": 256, 
+            "origin": {"x": 0, "y": 0}, 
+            "player": player_data, 
+            "blocks": blocks_data, 
+            "furs": furs_data, 
+            "enemies": enemies_data, 
+            "eyes": eyes_data, 
+            "vents": vents_data
+        }
 
     def save_level(self, path=None):
         if path is None: path = os.path.join(self.MAPS_FOLDER, self.save_file)
@@ -524,7 +562,6 @@ class GridLevelEditor:
         with open(path, "w", encoding="utf-8") as f: json.dump(self.get_level_data(), f, indent=4)
         print(f"[GridLevelEditor] Saved map to: {path}")
 
-    # ZMIANA: load_level bezbłędnie wczytuje "tile_index" ze struktury JSON
     def load_level(self, path=None):
         if path is None: path = os.path.join(self.MAPS_FOLDER, self.save_file)
         try:
@@ -539,24 +576,20 @@ class GridLevelEditor:
             pos = self.grid_to_world(b.get("grid_x", 0), b.get("grid_y", 0))
             size = (b.get("scale_x", 1), b.get("scale_y", 1))
             
-            # 1. Pobierz listę indeksów
             t_indices = b.get("tile_indices", None) 
             if not t_indices and "tile_index" in b:
                 t_indices = [b["tile_index"]] * (int(size[0]) * int(size[1]))
             
-            # 2. Pobierz stan kolizji (domyślnie True dla kompatybilności)
             has_coll = b.get("has_collision", True)
 
-            # 3. Przekaż has_coll do konstruktora
             block = Block(
                 position=pos, 
                 size=size, 
                 hex_color=b.get("hex_color", "#ffffff"), 
                 tile_indices=t_indices,
-                has_collision=has_coll # Dodane!
+                has_collision=has_coll 
             )
             
-            # 4. Jeśli wczytany blok jest bez kolizji, zaktualizuj jego wygląd (przezroczystość)
             if not has_coll:
                 block.alpha = 0.6
                 
@@ -592,7 +625,6 @@ class GridLevelEditor:
     def toggle_marker(self): self.show_marker = not self.show_marker; self.marker.enabled = self.show_marker
 
     def update_camera_controls(self):
-        # Sprawdzamy stan klawiszy w każdej klatce (to działa płynnie)
         speed = camera.fov * 0.65 * time.dt
         if held_keys["shift"]: speed *= 2
         
@@ -605,18 +637,17 @@ class GridLevelEditor:
 
     def zoom_camera(self, amt): camera.fov = max(self.min_camera_fov, min(camera.fov - amt, self.max_camera_fov)); self.clamp_camera_to_sheet()
 
+    # NAPRAWIONE: Dokładne wyznaczanie relatywnej pozycji kliknięcia kafelka na siatce bloku (math.floor)
     def handle_left_click(self):
         clicked = self.get_object_under_mouse()
         snapped_pos = self.get_mouse_snapped_world_position()
         if snapped_pos is None: return
 
         if self.current_mode == self.MODE_TILE_PAINT:
-            clicked = self.get_object_under_mouse()
             if clicked and getattr(clicked, "editor_type", None) == "block":
                 m = self.get_mouse_world_2d()
-                # Obliczamy lokalną pozycję kliknięcia (0 do size-1)
-                rel_x = int(m.x - (clicked.x - clicked.scale_x / 2))
-                rel_y = int(m.y - (clicked.y - clicked.scale_y / 2))
+                rel_x = int(math.floor(m.x - (clicked.x - 0.5)))
+                rel_y = int(math.floor(m.y - (clicked.y - 0.5)))
                 clicked.change_tile_at(rel_x, rel_y, self.active_tile_index)
             return
         elif self.current_mode == self.MODE_BLOCK_PLACE:
@@ -644,20 +675,25 @@ class GridLevelEditor:
         self.update_drag_object()
         self.clamp_camera_to_sheet()
         
-        # LOGIKA MALOWANIA: sprawdzamy, czy w danym miejscu już coś jest
-        if self.current_mode == self.MODE_BLOCK_PLACE and held_keys["left mouse"]:
+        # DODANE: Ciągłe rysowanie kafelków przy przytrzymaniu myszy w trybie malowania (T)
+        if self.current_mode == self.MODE_TILE_PAINT and held_keys["left mouse"]:
+            clicked = self.get_object_under_mouse()
+            if clicked and getattr(clicked, "editor_type", None) == "block":
+                m = self.get_mouse_world_2d()
+                rel_x = int(math.floor(m.x - (clicked.x - 0.5)))
+                rel_y = int(math.floor(m.y - (clicked.y - 0.5)))
+                clicked.change_tile_at(rel_x, rel_y, self.active_tile_index)
+
+        # DODANE: Blokada stawiania nowych bloków pod obiektem, który akurat przeciągamy
+        if self.current_mode == self.MODE_BLOCK_PLACE and held_keys["left mouse"] and self.dragged_object is None:
             pos = self.get_mouse_snapped_world_position()
             if pos:
-                # Sprawdzamy, czy istnieje już blok w tej konkretnej pozycji gridowej
-                # (sprawdzamy, czy jakikolwiek blok ma takie same koordynaty X, Y)
                 already_exists = False
                 for b in self.blocks:
-                    # Zaokrąglamy, bo pozycje mogą być floatami
                     if round(b.x) == round(pos.x) and round(b.y) == round(pos.y):
                         already_exists = True
                         break
                 
-                # Tworzymy blok tylko wtedy, gdy go tam jeszcze nie ma
                 if not already_exists:
                     self.create_block(position=pos, size=Vec2(1, 1), tile_index=self.active_tile_index)
 
@@ -678,13 +714,12 @@ class GridLevelEditor:
             self.active_tile_index = min(11, self.active_tile_index + 1)
             if self.current_mode == self.MODE_TILE_PAINT and self.mode_text: self.mode_text.text = self.get_mode_name()
         
-        if key == "c" and held_keys["control"]: # Np. CTRL + C
+        if key == "c" and held_keys["control"]: 
             clicked = self.get_object_under_mouse()
             if clicked and getattr(clicked, "editor_type", None) == "block":
                 clicked.toggle_collision()
                 print(f"Collision set to: {clicked.has_collision}")
 
-        # Obsługa kliknięć
         if key == "left mouse down": 
             self.handle_left_click()
             
@@ -693,7 +728,6 @@ class GridLevelEditor:
             if clicked: 
                 self.remove_object(clicked)
 
-        # Reszta klawiszy
         if key == "s": self.open_save_dialog()
         elif key == "l": self.open_load_dialog()
         elif key == "g": self.toggle_grid()

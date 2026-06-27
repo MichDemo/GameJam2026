@@ -73,7 +73,8 @@ for b in map_data.get("blocks", []):
     t_index = b.get("tile_index", 0)
     
     # Tworzymy blok przekazując jego unikalny kod tekstury
-    block_obj = Block(position=pos, size=size, tile_index=t_index)
+    block_obj = Block(position=pos, size=size, tile_index=t_index, has_collision=b["has_collision"])
+    print(b["has_collision"])
     
     if "hex_color" in b:
         block_obj.color = color.hex(b["hex_color"]) 

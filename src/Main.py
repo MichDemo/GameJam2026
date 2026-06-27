@@ -104,20 +104,37 @@ print(f"--- Znaleziono futer na mapie: {total_furs} ---")
 # --------------------------------------------------
 # --- GENEROWANIE PRZECIWNIKÓW ----
 # --------------------------------------------------
+# Słownik mapujący kolory z pliku JSON na warianty spritów (na podstawie obraz.png)
+color_to_variant = {
+    "#ff0000": "horror",  # Czerwony -> RAT_ENEMY_HORROR.png
+    "#ffffff": "white",   # Biały     -> RAT_ENEMY_WHITE.png
+    "#8b5a2b": "brown",   # Brązowy   -> RAT_ENEMY_BROWN.png
+    "#ffd700": "rich"     # Złoty     -> RAT_ENEMY_RICH.png
+}
+
 for e in map_data.get("enemies", []):
     pos = (e["x"], e["y"])
     size = (e["scale_x"], e["scale_y"])
     radii = (e["zone1"], e["zone2"], e["zone3"])
 
+    # Pobieramy kolor z JSON-a (zamieniamy na małe litery dla pewności)
+    hex_col = e.get("hex_color", "#ff0000").lower()
+    
+    # Wybieramy odpowiedni wariant sprita (jeśli brak w słowniku, domyślnie "brown")
+    chosen_variant = color_to_variant.get(hex_col, "brown")
+
     Enemy(
         player=player,
         position=pos,
         size=size,
-        zone_radii=radii,
+        zone1=e["zone1"], # Przekaż to jako osobne parametry
+        zone2=e["zone2"],
+        zone3=e["zone3"],
         fov_degrees=110,
         use_gravity=True,
-        solid_objects=all_blocks,
-        show_zones=True
+        solid_objects=solid_blocks,  # <--- Podmieniono na solid_blocks (tylko bloki z kolizją)
+        show_zones=False,
+        variant=chosen_variant 
     )
 
 # --------------------------------------------------
@@ -135,7 +152,7 @@ for eye_data in map_data.get("eyes", []):
         color=color.red,
         use_gravity=False,
         solid_objects=all_blocks,  # <--- I tutaj też działa
-        show_zones=True
+        show_zones=False
     )
     if hasattr(eye_obj, "rotation_time"):
         eye_obj.rotation_time = eye_data["rotation_time"]

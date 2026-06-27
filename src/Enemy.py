@@ -1,9 +1,8 @@
+import os
 import math
 from ursina import *
 from ursina import color as ursina_color
-
 from Rat import Rat
-
 
 class Enemy(Rat):
     def __init__(
@@ -11,7 +10,7 @@ class Enemy(Rat):
         player=None,
         position=(0, 0),
         size=(1, 1),
-        color=ursina_color.red,
+        color=None,
         speed=5,
         chase_speed=None,
         zone_radii=None,
@@ -25,11 +24,10 @@ class Enemy(Rat):
         show_zones=True,
         show_label=False,
         always_chase=False,
+        variant="brown",
         **kwargs
     ):
-        if "target" in kwargs and player is None:
-            player = kwargs.pop("target")
-
+        # Czyszczenie kwargs
         kwargs.pop("player", None)
         kwargs.pop("target", None)
         kwargs.pop("zone_radii", None)
@@ -42,6 +40,7 @@ class Enemy(Rat):
         kwargs.pop("show_zones", None)
         kwargs.pop("show_label", None)
         kwargs.pop("always_chase", None)
+        kwargs.pop("variant", None)
 
         super().__init__(
             position=position,
@@ -54,27 +53,48 @@ class Enemy(Rat):
         )
 
         self.model = "quad"
-        self.color = color
         self.collider = "box"
         self.z = 0.12
-
         self.player = player
         self.target = player
 
+        # --- OBSŁUGA SPRITESHEET ---
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(current_dir)
+        textures_path = os.path.join(project_root, "assets", "textures")
+        
+        if textures_path not in application.asset_folder.parent.parents:
+            application.asset_folder = Path(textures_path)
+
+        sprite_config = {
+            "brown":  {"file": "RAT_ENEMY_BROWN",  "cols": 2, "rows": 3, "anim_frames": 6},
+            "horror": {"file": "RAT_ENEMY_HORROR", "cols": 3, "rows": 3, "anim_frames": 6},
+            "rich":   {"file": "RAT_ENEMY_RICH",   "cols": 2, "rows": 3, "anim_frames": 6},
+            "white":  {"file": "RAT_ENEMY_WHITE",  "cols": 3, "rows": 3, "anim_frames": 6}
+        }
+
+        config = sprite_config.get(variant, sprite_config["brown"])
+        
+        self.texture = load_texture(config["file"])
+        self.num_cols = config["cols"]
+        self.num_rows = config["rows"]
+        self.total_frames = config.get("anim_frames", self.num_cols * self.num_rows)
+        
+        # TO JEST KLUCZOWE:
+        self.texture_scale = (1 / self.num_cols, 1 / self.num_rows)
+        self.color = color if color is not None else ursina_color.white
+
+        # --- Inicjalizacja reszty ---
         self.base_speed = float(speed)
         self.speed = float(speed)
         self.chase_speed = float(chase_speed) if chase_speed is not None else float(speed)
-
         self.spawn_point = Vec2(position[0], position[1])
-
         self.facing_direction = 1 if facing_direction >= 0 else -1
         self.fov = float(fov_degrees)
-        self.fov_default = float(fov_degrees)
-
-        if zone_radii is not None:
-            self.zone1 = float(zone_radii[0]) if len(zone_radii) > 0 else 1.0
-            self.zone2 = float(zone_radii[1]) if len(zone_radii) > 1 else 3.0
-            self.zone3 = float(zone_radii[2]) if len(zone_radii) > 2 else 6.0
+        
+        # Strefy
+        if isinstance(zone_radii, (list, tuple)):
+            self.zone1, self.zone2, self.zone3 = float(zone_radii[0]), float(zone_radii[1]), float(zone_radii[2])
         else:
             self.zone1 = float(zone1) if zone1 is not None else 1.0
             self.zone2 = float(zone2) if zone2 is not None else 3.0
@@ -82,28 +102,9 @@ class Enemy(Rat):
 
         self.current_zone = None
         self.chasing = False
-        self.last_seen_position = None
-
-        # Leave this False for normal behavior.
-        # If you want debug hard-chase, pass always_chase=True.
-        self.always_chase = always_chase
-
         self.show_zones = show_zones
         self.zone_visuals = []
-
-        self.show_label = show_label
-        self.label = None
-
-        if self.show_label:
-            self.label = Text(
-                parent=self,
-                text="EN",
-                origin=(0, 0),
-                scale=8,
-                color=ursina_color.black,
-                z=-0.1
-            )
-
+        
         self.create_zone_visuals()
         self.update_zone_visuals()
 
@@ -112,15 +113,6 @@ class Enemy(Rat):
     # --------------------------------------------------
 
     def get_solids(self):
-        """
-        Enemy must collide ONLY with level blocks / provided solid objects.
-
-        Important fix:
-        - never treat Player as a wall
-        - never treat other enemies / eyes / vents / furs as walls
-        - never auto-find random scene colliders
-        """
-
         if self.solid_objects is None:
             return []
 
@@ -373,11 +365,6 @@ class Enemy(Rat):
         detected_zone = self.get_detection_zone()
         self.current_zone = detected_zone
 
-        if self.always_chase:
-            self.chasing = True
-            self.last_seen_position = self.get_player_position_2d()
-            return
-
         if self.chasing:
             if distance_to_player <= self.zone3:
                 self.last_seen_position = self.get_player_position_2d()
@@ -415,10 +402,16 @@ class Enemy(Rat):
         elif direction_x < -0.001:
             self.facing_direction = -1
 
-        self.texture_scale = (
-            1 if self.facing_direction >= 0 else -1,
-            1
-        )
+        # Ustawiamy skalę tak, aby 1 patrzyło w prawo, a -1 w lewo
+        # Jeśli domyślnie jest odwrócony, zamień znaki przy sx
+        sx = -1 / self.num_cols
+        sy = 1 / self.num_rows
+        
+        # Jeśli szczur patrzy w lewo, skalujemy x na minus
+        if self.facing_direction == -1:
+            self.texture_scale = (-sx, sy)
+        else:
+            self.texture_scale = (sx, sy)
 
     def chase_player(self):
         player_pos = self.get_player_position_2d()
@@ -431,9 +424,6 @@ class Enemy(Rat):
         delta_x = player_pos.x - enemy_pos.x
         stop_distance = self.get_horizontal_stop_distance()
 
-        # IMPORTANT FIX:
-        # If player and enemy touch/overlap, STOP.
-        # Do not try to correct or push away, because that causes launch/crazy movement.
         if abs(delta_x) <= stop_distance:
             self.update_facing_direction(delta_x)
             return
@@ -449,8 +439,6 @@ class Enemy(Rat):
 
         self.move_x(move_dir)
 
-        # Safety:
-        # if collision system somehow moved enemy away from player, revert.
         new_delta_x = player_pos.x - self.x
 
         if abs(new_delta_x) > abs(delta_x) + 0.05:
@@ -463,13 +451,24 @@ class Enemy(Rat):
     # --------------------------------------------------
 
     def update(self):
+        frame_index = int(time.time() * 7) % self.total_frames
+        col = frame_index % self.num_cols
+        row = frame_index // self.num_rows
+
+        sx = 1 / self.num_cols
+        sy = 1 / self.num_rows
+
+        if self.facing_direction == 1:
+            # Normalny offset
+            self.texture_offset = (col * sx, 1 - (row + 1) * sy)
+        else:
+            # Offset skorygowany o szerokość klatki dla ujemnej skali
+            self.texture_offset = ((col + 1) * sx, 1 - (row + 1) * sy)
+        
         self.resolve_player_if_missing_or_static()
-
         self.update_detection_state()
-
         if self.chasing:
             self.chase_player()
-
+        
         super().update()
-
         self.update_zone_visuals()

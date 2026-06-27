@@ -14,12 +14,34 @@ class Eye(Rat):
         **kwargs
     ):
         super().__init__(**kwargs)
+
+        # --- KONFIGURACJA SPRITESHEET OKA ---
+        self.texture = load_texture("EYE_ENEMY") # Nazwa pliku bez .png
+        self.num_cols = 4  # Zliczając z obrazka: masz 4 kolumny
+        self.num_rows = 4  # Ostatni rząd jest niepełny, ale zdefiniujmy jako 4
+        self.total_frames = 13 # Masz 13 klatek (4*4 minus 3 puste)
+        self.frame = 0
+        
+        # Ustawienie skali jednej klatki
+        self.texture_scale = (1/self.num_cols, 1/self.num_rows)
+        self.color = color.white
         
         self.player = player
         self.facing_direction = facing_direction  
         self.zone_radius = zone_radius          # <-- ZMIANA: Jeden promień
         self.fov = fov_degrees
         self.fov_default = fov_degrees  
+
+        self.animations = {
+            "idle":    (0, 5),
+            "turning": (6, 8),
+            "detect":  (9, 10),
+            "search":  (11, 12)
+        }
+        self.current_anim = "idle"
+        # Dodajemy zmienną do śledzenia poprzedniego kierunku
+        self.last_direction = self.facing_direction
+        self.frame = 0
         
         self.current_zone = None  
         self.last_seen_position = None  
@@ -180,12 +202,74 @@ class Eye(Rat):
                 self.target_direction = 1
             elif move_dir.x < -0.002:   
                 self.target_direction = -1
+    
+    def play_animation(self, anim_name):
+        if self.current_anim != anim_name:
+            self.current_anim = anim_name
+            self.frame = self.animations[anim_name][0] # Reset do pierwszej klatki nowej animacji
 
     def update(self):
         super().update()
         self.check_player_detection()
         self.handle_behavior()
         
+        # Zapamiętujemy stary kierunek
+        old_dir = self.facing_direction
+        # Wykonujemy obrót
         self.facing_direction = lerp(self.facing_direction, self.target_direction, time.dt * self.rotation_speed)
-        self.texture_scale = (1 if self.facing_direction >= 0 else -1, 1)
+        
+        # Jeśli różnica między kierunkami jest duża (oko jest w trakcie intensywnego obrotu),
+        # lub jeśli przechodzi przez zero:
+        is_turning = abs(self.facing_direction) < 0.5  # Oko "patrzy" w bok, gdy jest blisko 0
+        
+        # 1. Wybór stanu
+        if is_turning:
+            new_anim = "turning"
+        elif self.current_zone is not None:
+            new_anim = "detect"
+        elif self.last_seen_position is not None:
+            new_anim = "search"
+        else:
+            new_anim = "idle"
+            
+        start, end = self.animations[new_anim]
+        
+        # ... reszta kodu (reset, obliczanie klatki, renderowanie)
+        # Reset przy zmianie animacji
+        if self.current_anim != new_anim:
+            self.current_anim = new_anim
+            self.frame = start
+            
+        # 2. Animacja
+        # Jeśli to turning, nie zapętlajmy w nieskończoność, tylko odtwórzmy raz 
+        # (albo użyj modulo, jeśli wolisz szybkie zapętlenie)
+        elapsed = int(time.time() * 7)
+        self.frame = start + (elapsed % (end - start + 1))
+        
+        # 3. Renderowanie
+        col = self.frame % self.num_cols
+        row = self.frame // self.num_cols
+        
+        sx = 1 / self.num_cols
+        sy = 1 / self.num_rows
+        
+        # ZMYSŁOWE OKREŚLENIE KIERUNKU:
+        # Używamy target_direction (docelowego), albo sprawdzamy znak facing_direction
+        # Ale robimy to raz, aby nie "drżało" podczas lerpowania
+        direction_sign = -1 if self.facing_direction >= 0 else 1
+        
+        # OBLICZANIE WIERZA (Uwaga: sprawdź czy to działa, jeśli oko jest do góry nogami, zamień na row = row_from_top)
+        row_from_top = self.frame // self.num_cols
+        row = (self.num_rows - 1) - row_from_top
+        col = self.frame % self.num_cols
+        
+        # Renderowanie
+        if direction_sign >= 0: 
+            self.texture_scale = (sx, sy)
+            self.texture_offset = (col * sx, row * sy)
+        else: 
+            self.texture_scale = (-sx, sy)
+            self.texture_offset = ((col + 1) * sx, row * sy)
+            
+        self.last_direction = self.facing_direction
         self.update_zone_visuals()

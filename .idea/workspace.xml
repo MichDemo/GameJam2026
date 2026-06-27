@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6c350e5d-cc7c-4dd0-8df2-935818366698" name="Changes" comment="Feat : Character movements + gravity handler">
+      <change beforePath="$PROJECT_DIR$/assets/maps/level_dupa.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/maps/level_dupa.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Block.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GridLevelEditor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GridLevelEditor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Vent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vent.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MichDemo&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MichDemo/GameJam2026.git&quot;,
+    &quot;accountId&quot;: &quot;3f499177-5253-4233-938c-a4f0d00c8477&quot;
+  }
+}</component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0000000000010163" />
+      <entry key="S60" value="1.0000028647369097" />
+      <entry key="M2" value="1.0123820592453028" />
+      <entry key="M5" value="3.501681507922669" />
+      <entry key="M10" value="16.160977969146565" />
+      <entry key="M15" value="28.87525952223978" />
+      <entry key="M30" value="55.13523569071282" />
+      <entry key="H1" value="87.28042146937067" />
+      <entry key="H2" value="124.32803056463091" />
+      <entry key="H4" value="157.20389134242075" />
+      <entry key="D1" value="198.5586797775788" />
+      <entry key="W1" value="207.45558456559203" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="1.4888826978456006E-256" />
+      <entry key="S5" value="5.216704160149907E-103" />
+      <entry key="S10" value="9.18738161022379E-52" />
+      <entry key="S30" value="1.4985971392234665E-17" />
+      <entry key="S60" value="5.453488047430986E-9" />
+      <entry key="M2" value="1.0433464373176622E-4" />
+      <entry key="M5" value="0.03871577453460976" />
+      <entry key="M10" value="0.2786287754165659" />
+      <entry key="M15" value="0.5454977052567993" />
+      <entry key="M30" value="1.250326703977141" />
+      <entry key="H1" value="2.6470339741456024" />
+      <entry key="H2" value="4.7303442777530424" />
+      <entry key="H4" value="6.736747134735554" />
+      <entry key="D1" value="9.33702083204166" />
+      <entry key="W1" value="9.901831029472307" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.39502065593168856" />
+      <entry key="MS500" value="0.8304700240908941" />
+      <entry key="S2" value="0.9546210141397169" />
+      <entry key="S5" value="0.9815951324014034" />
+      <entry key="S10" value="0.990754829612959" />
+      <entry key="S30" value="0.9969087304378207" />
+      <entry key="S60" value="0.9984560338380647" />
+      <entry key="M2" value="1.0117065426105702" />
+      <entry key="M5" value="3.539639511063089" />
+      <entry key="M10" value="16.438059093301458" />
+      <entry key="M15" value="29.41888323577984" />
+      <entry key="M30" value="56.383321156869144" />
+      <entry key="H1" value="89.9246829866748" />
+      <entry key="H2" value="129.0555744543204" />
+      <entry key="H4" value="163.93850646374716" />
+      <entry key="D1" value="207.89517969904472" />
+      <entry key="W1" value="217.3573359207223" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3FfbcrzXngGF6sv4mYJaFX3Nrgs" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Enemy.executor": "Run",
+    "Python.GridLevelEditor.executor": "Run",
+    "Python.Main.executor": "Run",
+    "Python.Player.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/micha/PycharmProjects/PythonProject/assets/textures",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ml.llm.AcpAgentsConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\micha\PycharmProjects\PythonProject\assets\textures" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\micha\PycharmProjects\PythonProject\src\core" />
+      <recent name="C:\Users\micha\PycharmProjects\PythonProject\src" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-245168a56dbd-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.25134.203" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6c350e5d-cc7c-4dd0-8df2-935818366698" name="Changes" comment="" />
+      <created>1782469153371</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1782469153371</updated>
+      <workItem from="1782469154066" duration="99000" />
+      <workItem from="1782469496694" duration="5624000" />
+      <workItem from="1782547156920" duration="260000" />
+      <workItem from="1782551423069" duration="1139000" />
+      <workItem from="1782570858414" duration="919000" />
+      <workItem from="1782574958945" duration="4329000" />
+    </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1782470536113</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1782470536114</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PythonProject$Player.coverage" NAME="Player Coverage Results" MODIFIED="1782578860328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$Enemy.coverage" NAME="Enemy Coverage Results" MODIFIED="1782483477314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$Vent.coverage" NAME="Vent Coverage Results" MODIFIED="1782506829358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$game.coverage" NAME="game Coverage Results" MODIFIED="1782470022532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
+    <SUITE FILE_PATH="coverage/PythonProject$Main.coverage" NAME="Main Coverage Results" MODIFIED="1782579546107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1782470185212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$GridLevelEditor.coverage" NAME="GridLevelEditor Coverage Results" MODIFIED="1782552622067" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/PythonProject$Menu.coverage" NAME="Menu Coverage Results" MODIFIED="1782495975569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+  </component>
+</project>

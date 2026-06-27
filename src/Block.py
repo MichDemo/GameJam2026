@@ -3,24 +3,26 @@ from ursina import *
 # Ostre piksele dla pixel artu
 Texture.default_filtering = 'nearest'
 
+
 class Block(Entity):
     GRID_WIDTH = 9
     GRID_HEIGHT = 3
 
-    def __init__(self, position=(0, 0), size=(1, 1), hex_color="#ffffff", tile_indices=None, has_collision=True, **kwargs):
+    def __init__(self, position=(0, 0), size=(1, 1), hex_color="#ffffff", tile_indices=None, has_collision=True,
+                 **kwargs):
         self.hex_color = hex_color
         self.size_x = int(size[0])
         self.size_y = int(size[1])
-        
+
         self.tile_indices = tile_indices if tile_indices else [0] * (self.size_x * self.size_y)
-        self.has_collision = has_collision 
+        self.has_collision = has_collision
         self.visual_tiles = []
-        
+
         super().__init__(position=position, scale=(1, 1, 1), **kwargs)
 
         self.generate_tiles()
-        self.update_collider() # Inicjalizacja kolizji
-        
+        self.update_collider()  # Inicjalizacja kolizji
+
         self.editor_type = "block"
 
     def update_collider(self):
@@ -28,14 +30,14 @@ class Block(Entity):
         if self.has_collision:
             if not self.collider:
                 self.collider = BoxCollider(
-                    self, 
-                    center=((self.size_x - 1) / 2, (self.size_y - 1) / 2, 0), 
+                    self,
+                    center=((self.size_x - 1) / 2, (self.size_y - 1) / 2, 0),
                     size=(self.size_x, self.size_y, 1)
                 )
-            self.alpha = 1.0 # Pełna widoczność dla kolizyjnych
+            self.alpha = 1.0  # Pełna widoczność dla kolizyjnych
         else:
             self.collider = None
-            self.alpha = 0.6 # Półprzezroczystość dla dekoracji (duchów)
+            self.alpha = 0.2  # Półprzezroczystość dla dekoracji (duchów)
             self.z = 1
 
     def toggle_collision(self):
@@ -50,7 +52,7 @@ class Block(Entity):
         for i, idx in enumerate(self.tile_indices):
             x = i % self.size_x
             y = i // self.size_x
-            
+
             tx = idx % self.GRID_WIDTH
             ty = (self.GRID_HEIGHT - 1) - (idx // self.GRID_WIDTH)
 
@@ -73,6 +75,9 @@ class Block(Entity):
             self.generate_tiles()
 
     @property
-    def scale_x(self): return self.size_x
+    def scale_x(self):
+        return self.size_x
+
     @property
-    def scale_y(self): return self.size_y
+    def scale_y(self):
+        return self.size_y

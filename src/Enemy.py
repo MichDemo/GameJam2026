@@ -1,402 +1,460 @@
-from ursina import *
-from Rat import Rat
 import math
+from ursina import *
+from ursina import color as ursina_color
+
+from Rat import Rat
 
 
 class Enemy(Rat):
     def __init__(
         self,
-        player,
+        player=None,
         position=(0, 0),
         size=(1, 1),
+        color=ursina_color.red,
         speed=5,
-        chase_speed=6,
-        zone_radii=(1.0, 3.0, 6.0),
+        chase_speed=None,
+        zone_radii=None,
+        zone1=None,
+        zone2=None,
+        zone3=None,
         fov_degrees=110,
-        show_zones=False,
+        facing_direction=1,
+        use_gravity=True,
+        solid_objects=None,
+        show_zones=True,
+        show_label=False,
+        always_chase=False,
         **kwargs
     ):
+        if "target" in kwargs and player is None:
+            player = kwargs.pop("target")
+
+        kwargs.pop("player", None)
+        kwargs.pop("target", None)
+        kwargs.pop("zone_radii", None)
+        kwargs.pop("zone1", None)
+        kwargs.pop("zone2", None)
+        kwargs.pop("zone3", None)
+        kwargs.pop("fov_degrees", None)
+        kwargs.pop("facing_direction", None)
+        kwargs.pop("chase_speed", None)
+        kwargs.pop("show_zones", None)
+        kwargs.pop("show_label", None)
+        kwargs.pop("always_chase", None)
+
         super().__init__(
             position=position,
             size=size,
             speed=speed,
+            use_gravity=use_gravity,
+            solid_objects=solid_objects if solid_objects is not None else [],
+            auto_find_solids=False,
             **kwargs
         )
 
+        self.model = "quad"
+        self.color = color
+        self.collider = "box"
+        self.z = 0.12
+
         self.player = player
+        self.target = player
 
-        self.chase_speed = chase_speed
+        self.base_speed = float(speed)
+        self.speed = float(speed)
+        self.chase_speed = float(chase_speed) if chase_speed is not None else float(speed)
 
-        # Half-size values.
-        # Full square zone would be radius * 2.
-        # Front half-zone uses width = radius and height = radius * 2.
-        self.zone1_radius = zone_radii[0]
-        self.zone2_radius = zone_radii[1]
-        self.zone3_radius = zone_radii[2]
+        self.spawn_point = Vec2(position[0], position[1])
 
-        self.fov_degrees = fov_degrees
+        self.facing_direction = 1 if facing_direction >= 0 else -1
+        self.fov = float(fov_degrees)
+        self.fov_default = float(fov_degrees)
+
+        if zone_radii is not None:
+            self.zone1 = float(zone_radii[0]) if len(zone_radii) > 0 else 1.0
+            self.zone2 = float(zone_radii[1]) if len(zone_radii) > 1 else 3.0
+            self.zone3 = float(zone_radii[2]) if len(zone_radii) > 2 else 6.0
+        else:
+            self.zone1 = float(zone1) if zone1 is not None else 1.0
+            self.zone2 = float(zone2) if zone2 is not None else 3.0
+            self.zone3 = float(zone3) if zone3 is not None else 6.0
+
+        self.current_zone = None
+        self.chasing = False
+        self.last_seen_position = None
+
+        # Leave this False for normal behavior.
+        # If you want debug hard-chase, pass always_chase=True.
+        self.always_chase = always_chase
 
         self.show_zones = show_zones
+        self.zone_visuals = []
 
-        # Enemy looks right by default.
-        self.facing_direction = Vec2(1, 0)
+        self.show_label = show_label
+        self.label = None
 
-        self.is_chasing = False
+        if self.show_label:
+            self.label = Text(
+                parent=self,
+                text="EN",
+                origin=(0, 0),
+                scale=8,
+                color=ursina_color.black,
+                z=-0.1
+            )
 
-        self.zone1_visual = None
-        self.zone2_visual = None
-        self.zone3_visual = None
-
-        if self.show_zones:
-            self.create_zone_visuals()
+        self.create_zone_visuals()
+        self.update_zone_visuals()
 
     # --------------------------------------------------
-    # Zone visuals - QUADS ONLY
+    # Solid filtering
+    # --------------------------------------------------
+
+    def get_solids(self):
+        """
+        Enemy must collide ONLY with level blocks / provided solid objects.
+
+        Important fix:
+        - never treat Player as a wall
+        - never treat other enemies / eyes / vents / furs as walls
+        - never auto-find random scene colliders
+        """
+
+        if self.solid_objects is None:
+            return []
+
+        valid_solids = []
+
+        for obj in self.solid_objects:
+            if obj is None:
+                continue
+
+            if obj is self:
+                continue
+
+            if obj == self.player:
+                continue
+
+            if getattr(obj, "__class__", None) and obj.__class__.__name__.lower() == "player":
+                continue
+
+            if getattr(obj, "editor_type", None) in ("enemy", "eye", "vent", "fur", "player"):
+                continue
+
+            if not getattr(obj, "enabled", True):
+                continue
+
+            if not hasattr(obj, "collider"):
+                continue
+
+            if obj.collider is None:
+                continue
+
+            valid_solids.append(obj)
+
+        return valid_solids
+
+    # --------------------------------------------------
+    # Player resolving
+    # --------------------------------------------------
+
+    def set_player(self, player):
+        self.player = player
+        self.target = player
+
+    def is_live_player_reference(self, obj):
+        if obj is None:
+            return False
+
+        if not hasattr(obj, "x") or not hasattr(obj, "y"):
+            return False
+
+        if obj.__class__.__name__.lower() == "player":
+            return True
+
+        if hasattr(obj, "camera_follow") and hasattr(obj, "jump"):
+            return True
+
+        return False
+
+    def resolve_player_if_missing_or_static(self):
+        if self.is_live_player_reference(self.player):
+            return
+
+        if self.is_live_player_reference(self.target):
+            self.player = self.target
+            return
+
+        for entity in scene.entities:
+            if entity is self:
+                continue
+
+            if entity.__class__.__name__.lower() == "player":
+                self.set_player(entity)
+                return
+
+            if hasattr(entity, "camera_follow") and hasattr(entity, "jump"):
+                self.set_player(entity)
+                return
+
+    # --------------------------------------------------
+    # Zone visuals
     # --------------------------------------------------
 
     def create_zone_visuals(self):
-        """
-        2D debug zones using quads only.
-        No circles. No spheres.
+        for visual in self.zone_visuals:
+            if visual is not None:
+                destroy(visual)
 
-        These are not parented to the enemy on purpose,
-        so scale changes / transforms do not affect them weirdly.
-        """
+        self.zone_visuals.clear()
 
-        self.zone3_visual = Entity(
-            model='quad',
-            color=color.rgba(0, 120, 255, 35),
-            collider=None,
-            z=0.30,
-            enabled=True
-        )
+        zone_colors = [
+            ursina_color.rgba(255, 40, 40, 100),
+            ursina_color.rgba(255, 150, 30, 80),
+            ursina_color.rgba(255, 255, 40, 60),
+        ]
 
-        self.zone2_visual = Entity(
-            model='quad',
-            color=color.rgba(255, 255, 0, 45),
-            collider=None,
-            z=0.20,
-            enabled=True
-        )
-
-        self.zone1_visual = Entity(
-            model='quad',
-            color=color.rgba(255, 0, 0, 65),
-            collider=None,
-            z=0.10,
-            enabled=True
-        )
-
-        self.update_zone_visuals()
-
-    def get_facing_x(self):
-        """
-        Returns the horizontal direction enemy is facing.
-
-        Platformer behavior:
-        -  1 means facing right
-        - -1 means facing left
-        """
-
-        if self.facing_direction.x < 0:
-            return -1
-
-        return 1
-
-    def set_zone_as_front_half(self, zone, radius):
-        """
-        Draws only the half of the zone in front of the enemy.
-
-        If facing right:
-            zone covers from enemy.x to enemy.x + radius
-
-        If facing left:
-            zone covers from enemy.x - radius to enemy.x
-
-        Uses quad only.
-        """
-
-        facing_x = self.get_facing_x()
-
-        zone.enabled = True
-        zone.scale = (radius, radius * 2, 1)
-        zone.x = self.x + (facing_x * radius / 2)
-        zone.y = self.y
-
-    def set_zone_as_full_square(self, zone, radius):
-        """
-        Draws a full square zone centered on the enemy.
-        Used during chase so Zone 3 behaves like a tracking/search area.
-        """
-
-        zone.enabled = True
-        zone.scale = (radius * 2, radius * 2, 1)
-        zone.x = self.x
-        zone.y = self.y
-
-    def update_zone_visuals(self):
-        """
-        Visual rules:
-
-        NOT chasing:
-            draw all 3 zones as front-facing half-quads.
-
-        CHASING:
-            draw all 3 zones as full quads,
-            with Zone 3 highlighted because it is the tracking zone.
-        """
-
-        if not self.show_zones:
-            return
-
-        if not self.zone1_visual or not self.zone2_visual or not self.zone3_visual:
-            return
-
-        if self.is_chasing:
-            self.set_zone_as_full_square(self.zone3_visual, self.zone3_radius)
-            self.set_zone_as_full_square(self.zone2_visual, self.zone2_radius)
-            self.set_zone_as_full_square(self.zone1_visual, self.zone1_radius)
-
-            # Chasing state colors
-            if self.is_player_in_zone_3():
-                self.zone3_visual.color = color.rgba(0, 120, 255, 90)
-            else:
-                self.zone3_visual.color = color.rgba(0, 120, 255, 25)
-
-            self.zone2_visual.color = color.rgba(255, 255, 0, 25)
-            self.zone1_visual.color = color.rgba(255, 0, 0, 35)
-
-            return
-
-        # Idle / detection state.
-        # All zones are visible, but only the front half is drawn.
-        self.set_zone_as_front_half(self.zone3_visual, self.zone3_radius)
-        self.set_zone_as_front_half(self.zone2_visual, self.zone2_radius)
-        self.set_zone_as_front_half(self.zone1_visual, self.zone1_radius)
-
-        if self.is_player_crouched():
-            # Crouched player only cares about Zone 1,
-            # but all zones remain visible for debugging.
-            self.zone1_visual.color = (
-                color.rgba(255, 0, 0, 95)
-                if self.is_player_in_zone_1()
-                else color.rgba(255, 0, 0, 55)
+        for zone_color in zone_colors:
+            visual = Entity(
+                parent=scene,
+                model="quad",
+                color=zone_color,
+                collider=None,
+                enabled=self.show_zones,
+                always_on_top=False,
+                z=0.04
             )
 
-            self.zone2_visual.color = color.rgba(255, 255, 0, 18)
-            self.zone3_visual.color = color.rgba(0, 120, 255, 14)
+            self.zone_visuals.append(visual)
 
+    def get_zone_visual_data(self, radius):
+        if self.fov >= 360:
+            return Vec3(self.x, self.y, 0.04), (radius * 2, radius * 2, 1)
+
+        offset_x = (radius / 2) * self.facing_direction
+        vertical_reach = radius * math.sin(math.radians(self.fov / 2)) * 2
+
+        return (
+            Vec3(self.x + offset_x, self.y, 0.04),
+            (radius, max(vertical_reach, 0.35), 1)
+        )
+
+    def update_zone_visuals(self):
+        if not self.zone_visuals:
             return
 
-        # Standing player detection colors.
-        self.zone1_visual.color = (
-            color.rgba(255, 0, 0, 95)
-            if self.is_player_in_zone_1()
-            else color.rgba(255, 0, 0, 55)
-        )
+        radii = [self.zone1, self.zone2, self.zone3]
 
-        self.zone2_visual.color = (
-            color.rgba(255, 255, 0, 85)
-            if self.is_player_in_zone_2()
-            else color.rgba(255, 255, 0, 45)
-        )
+        for i, visual in enumerate(self.zone_visuals):
+            if visual is None:
+                continue
 
-        self.zone3_visual.color = (
-            color.rgba(0, 120, 255, 55)
-            if self.is_player_in_zone_3()
-            else color.rgba(0, 120, 255, 30)
-        )
+            visual.enabled = self.show_zones
+
+            if not self.show_zones:
+                continue
+
+            visual.position, visual.scale = self.get_zone_visual_data(radii[i])
+
+            if i == 0:
+                visual.color = ursina_color.rgba(255, 40, 40, 100)
+            elif i == 1:
+                visual.color = ursina_color.rgba(255, 150, 30, 80)
+            elif i == 2:
+                visual.color = ursina_color.rgba(255, 255, 40, 60)
 
     # --------------------------------------------------
-    # 2D helpers
+    # Position helpers
     # --------------------------------------------------
 
     def get_player_position_2d(self):
+        self.resolve_player_if_missing_or_static()
+
+        if not self.is_live_player_reference(self.player):
+            return None
+
         return Vec2(self.player.x, self.player.y)
 
     def get_enemy_position_2d(self):
         return Vec2(self.x, self.y)
 
-    def get_direction_to_player(self):
-        direction = self.get_player_position_2d() - self.get_enemy_position_2d()
+    def get_player_distance_and_direction(self):
+        player_pos = self.get_player_position_2d()
 
-        if direction.length() == 0:
-            return Vec2(0, 0)
+        if player_pos is None:
+            return None, None
 
-        return direction.normalized()
+        enemy_pos = self.get_enemy_position_2d()
+        to_player = player_pos - enemy_pos
+        distance_to_player = to_player.length()
 
-    def get_horizontal_direction_to_player(self):
-        if self.player.x > self.x:
-            return 1
+        if distance_to_player <= 0:
+            return distance_to_player, Vec2(0, 0)
 
-        if self.player.x < self.x:
-            return -1
-
-        return 0
-
-    # --------------------------------------------------
-    # Zone detection
-    # --------------------------------------------------
-
-    def is_player_inside_full_square_zone(self, radius):
-        """
-        Full square zone centered on enemy.
-        Used while chasing, mainly for Zone 3 tracking.
-        """
-
-        dx = abs(self.player.x - self.x)
-        dy = abs(self.player.y - self.y)
-
-        return dx <= radius and dy <= radius
-
-    def is_player_inside_front_half_zone(self, radius):
-        """
-        Front-facing half-zone.
-
-        If enemy faces right:
-            player must be between enemy.x and enemy.x + radius.
-
-        If enemy faces left:
-            player must be between enemy.x - radius and enemy.x.
-
-        Height remains radius * 2.
-        """
-
-        facing_x = self.get_facing_x()
-
-        dx = self.player.x - self.x
-        dy = abs(self.player.y - self.y)
-
-        if dy > radius:
-            return False
-
-        if facing_x > 0:
-            return 0 <= dx <= radius
-
-        return -radius <= dx <= 0
-
-    def is_player_in_zone_1(self):
-        if self.is_chasing:
-            return self.is_player_inside_full_square_zone(self.zone1_radius)
-
-        return self.is_player_inside_front_half_zone(self.zone1_radius)
-
-    def is_player_in_zone_2(self):
-        if self.is_chasing:
-            return self.is_player_inside_full_square_zone(self.zone2_radius)
-
-        return self.is_player_inside_front_half_zone(self.zone2_radius)
-
-    def is_player_in_zone_3(self):
-        if self.is_chasing:
-            return self.is_player_inside_full_square_zone(self.zone3_radius)
-
-        return self.is_player_inside_front_half_zone(self.zone3_radius)
+        return distance_to_player, to_player.normalized()
 
     # --------------------------------------------------
     # Player state
     # --------------------------------------------------
 
+    def is_player_invisible(self):
+        self.resolve_player_if_missing_or_static()
+
+        if self.player is None:
+            return False
+
+        return bool(getattr(self.player, "invisible", False))
+
     def is_player_crouched(self):
-        return getattr(self.player, "is_shrunk", False)
+        self.resolve_player_if_missing_or_static()
+
+        if self.player is None:
+            return False
+
+        return bool(getattr(self.player, "is_shrunk", False))
 
     # --------------------------------------------------
-    # FOV
+    # Detection
     # --------------------------------------------------
 
-    def is_player_in_fov(self):
-        """
-        FOV check still exists, but since idle zones are already front-half
-        this mostly acts as an extra angle safety gate.
-        """
+    def is_player_in_fov(self, direction_to_player):
+        if direction_to_player is None:
+            return False
 
-        direction_to_player = self.get_direction_to_player()
-
-        if direction_to_player.length() == 0:
+        if self.fov >= 360:
             return True
 
-        if self.facing_direction.length() == 0:
-            self.facing_direction = Vec2(1, 0)
+        if direction_to_player.length() <= 0:
+            return True
 
-        facing = self.facing_direction.normalized()
-        target = direction_to_player.normalized()
+        facing = Vec2(self.facing_direction, 0)
+        dot = facing.x * direction_to_player.x + facing.y * direction_to_player.y
+        cos_half_fov = math.cos(math.radians(self.fov / 2))
 
-        dot_value = facing.dot(target)
-        dot_value = max(-1, min(1, dot_value))
+        return dot >= cos_half_fov
 
-        angle = math.degrees(math.acos(dot_value))
+    def get_detection_zone(self):
+        distance_to_player, direction_to_player = self.get_player_distance_and_direction()
 
-        return angle <= self.fov_degrees / 2
+        if distance_to_player is None:
+            return None
 
-    # --------------------------------------------------
-    # Behavior
-    # --------------------------------------------------
+        if self.is_player_invisible():
+            return None
 
-    def should_start_chase(self):
-        """
-        Initial detection:
+        if not self.is_player_in_fov(direction_to_player):
+            return None
 
-        Crouched player:
-            Zone 1 front-half + FOV.
+        if distance_to_player <= self.zone1:
+            return 1
 
-        Standing player:
-            Zone 1 front-half + FOV
-            or Zone 2 front-half + FOV.
-        """
+        if distance_to_player <= self.zone2:
+            return 2
 
-        if not self.is_player_in_fov():
-            return False
+        if distance_to_player <= self.zone3:
+            return 3
+
+        return None
+
+    def update_detection_state(self):
+        distance_to_player, direction_to_player = self.get_player_distance_and_direction()
+
+        if distance_to_player is None:
+            self.current_zone = None
+            self.chasing = False
+            return
+
+        if self.is_player_invisible():
+            self.current_zone = None
+            self.chasing = False
+            return
+
+        detected_zone = self.get_detection_zone()
+        self.current_zone = detected_zone
+
+        if self.always_chase:
+            self.chasing = True
+            self.last_seen_position = self.get_player_position_2d()
+            return
+
+        if self.chasing:
+            if distance_to_player <= self.zone3:
+                self.last_seen_position = self.get_player_position_2d()
+                return
+
+            self.chasing = False
+            return
+
+        if detected_zone is None:
+            return
 
         if self.is_player_crouched():
-            return self.is_player_in_zone_1()
+            if detected_zone == 1:
+                self.chasing = True
+                self.last_seen_position = self.get_player_position_2d()
+            return
 
-        if self.is_player_in_zone_1():
-            return True
-
-        if self.is_player_in_zone_2():
-            return True
-
-        return False
-
-    def should_continue_chase(self):
-        """
-        Once chasing, enemy tracks using full Zone 3.
-        FOV is not required here, otherwise chasing breaks.
-        """
-
-        return self.is_player_inside_full_square_zone(self.zone3_radius)
-
-    def should_chase_player(self):
-        if self.is_chasing:
-            if self.should_continue_chase():
-                return True
-
-            self.is_chasing = False
-            return False
-
-        if self.should_start_chase():
-            self.is_chasing = True
-            return True
-
-        return False
+        if detected_zone in (1, 2, 3):
+            self.chasing = True
+            self.last_seen_position = self.get_player_position_2d()
 
     # --------------------------------------------------
     # Movement
     # --------------------------------------------------
 
-    def chase_player(self):
-        direction_x = self.get_horizontal_direction_to_player()
+    def get_horizontal_stop_distance(self):
+        player_width = getattr(self.player, "scale_x", 1)
+        enemy_width = getattr(self, "scale_x", 1)
 
-        if direction_x == 0:
+        return (player_width / 2) + (enemy_width / 2) + 0.08
+
+    def update_facing_direction(self, direction_x):
+        if direction_x > 0.001:
+            self.facing_direction = 1
+        elif direction_x < -0.001:
+            self.facing_direction = -1
+
+        self.texture_scale = (
+            1 if self.facing_direction >= 0 else -1,
+            1
+        )
+
+    def chase_player(self):
+        player_pos = self.get_player_position_2d()
+
+        if player_pos is None:
             return
 
-        # While chasing, face the movement direction.
-        self.facing_direction = Vec2(direction_x, 0)
+        enemy_pos = self.get_enemy_position_2d()
+
+        delta_x = player_pos.x - enemy_pos.x
+        stop_distance = self.get_horizontal_stop_distance()
+
+        # IMPORTANT FIX:
+        # If player and enemy touch/overlap, STOP.
+        # Do not try to correct or push away, because that causes launch/crazy movement.
+        if abs(delta_x) <= stop_distance:
+            self.update_facing_direction(delta_x)
+            return
+
+        move_dir = 1 if delta_x > 0 else -1
+
+        self.update_facing_direction(move_dir)
 
         old_speed = self.speed
         self.speed = self.chase_speed
 
-        self.move_x(direction_x)
+        old_x = self.x
+
+        self.move_x(move_dir)
+
+        # Safety:
+        # if collision system somehow moved enemy away from player, revert.
+        new_delta_x = player_pos.x - self.x
+
+        if abs(new_delta_x) > abs(delta_x) + 0.05:
+            self.x = old_x
 
         self.speed = old_speed
 
@@ -405,9 +463,13 @@ class Enemy(Rat):
     # --------------------------------------------------
 
     def update(self):
-        if self.should_chase_player():
+        self.resolve_player_if_missing_or_static()
+
+        self.update_detection_state()
+
+        if self.chasing:
             self.chase_player()
 
-        self.update_zone_visuals()
-
         super().update()
+
+        self.update_zone_visuals()

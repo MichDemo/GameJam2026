@@ -10,28 +10,30 @@ class Player(Rat):
         camera_z=-20,
         **kwargs
     ):
-        # Wstrzykujemy ścieżkę do tekstury szczura
         kwargs['texture'] = '../assets/textures/RAT_MAIN_HERO.png'
-
         super().__init__(**kwargs)
 
-        # --- PRECYZYJNE KADROWANIE TWOJEGO SPRITESHEETU (3x5) ---
-        self.RAT_GRID_WIDTH = 3   # 3 kolumny w obraz.png
-        self.RAT_GRID_HEIGHT = 4  # 5 wierszy w obraz.png
+        self.RAT_GRID_WIDTH = 3
+        self.RAT_GRID_HEIGHT = 4
 
-        # Wybieramy domyślną stojącą klatkę (lewy górny róg)
-        # W Ursinie dolny wiersz to 0, najwyższy to 4
-        frame_x = 0  # Pierwsza kolumna
-        frame_y = 4  # Najwyższy wiersz (stojący szczurek)
+        self.WEST = -1
+        self.EAST = 1
 
-        self.texture_scale = (1 / self.RAT_GRID_WIDTH, 1 / self.RAT_GRID_HEIGHT)
-        self.texture_offset = (frame_x / self.RAT_GRID_WIDTH, frame_y / self.RAT_GRID_HEIGHT)
-        # --------------------------------------------------
+        self.NATIVE_SPRITE_DIRECTION = self.WEST
+
+        self.facing_direction = self.EAST
+        self.current_frame = 1
+        self.animation_timer = 0.0
+        self.animation_speed = 0.09
+
+        self.move_frames = [1, 2, 3, 4, 5, 6]
+        self.crawl_frames = [7, 8]
+        self.jump_frames = [9, 10]
+
+        self.hitbox_width_multiplier = 0.72
+        self.hitbox_height_multiplier = 0.82
 
         self.normal_size = Vec2(self.scale_x, self.scale_y)
-
-        # Shrink height only.
-        # Width remains exactly the same.
         self.shrink_size = Vec2(
             self.normal_size.x,
             self.normal_size.y
@@ -39,40 +41,55 @@ class Player(Rat):
 
         self.is_shrunk = False
 
-        # Camera settings.
-        # Camera follows a stable anchor, not current scaled player center.
         self.camera_follow = camera_follow
         self.camera_offset = Vec2(camera_offset[0], camera_offset[1])
         self.camera_z = camera_z
 
-    # --------------------------------------------------
-    # Camera
-    # --------------------------------------------------
+        self.update_visual_collider()
+        self.set_sprite_frame(1)
+
+    @property
+    def half_width(self):
+        return (self.scale_x * self.hitbox_width_multiplier) / 2
+
+    @property
+    def half_height(self):
+        return (self.scale_y * self.hitbox_height_multiplier) / 2
+
+    @property
+    def left(self):
+        return self.x - self.half_width
+
+    @property
+    def right(self):
+        return self.x + self.half_width
+
+    @property
+    def bottom(self):
+        return self.y - self.half_height
+
+    @property
+    def top(self):
+        return self.y + self.half_height
+
+    def update_visual_collider(self):
+        self.collider = BoxCollider(
+            self,
+            center=(0, 0, 0),
+            size=(
+                self.hitbox_width_multiplier,
+                self.hitbox_height_multiplier,
+                1
+            )
+        )
 
     def detach_camera_if_needed(self):
-        """
-        Prevents player scale from affecting camera/world transform.
-        If camera.parent = player exists in Main.py, this safely detaches it.
-        """
         if camera.parent == self:
             camera.parent = scene
 
     def get_camera_anchor(self):
-        """
-        Returns a stable 2D camera anchor.
-
-        Important:
-        Camera follows the player's NORMAL standing center,
-        not the current crouched center.
-
-        This prevents camera misalignment while crouching.
-        """
         anchor_x = self.x
-
-        # Stable vertical anchor:
-        # bottom + original standing half-height
         anchor_y = self.bottom + (self.normal_size.y / 2)
-
         return Vec2(anchor_x, anchor_y)
 
     def update_camera_follow(self):
@@ -82,14 +99,76 @@ class Player(Rat):
         self.detach_camera_if_needed()
 
         anchor = self.get_camera_anchor()
-
         camera.x = anchor.x + self.camera_offset.x
         camera.y = anchor.y + self.camera_offset.y
         camera.z = self.camera_z
 
-    # --------------------------------------------------
-    # Shrink / restore
-    # --------------------------------------------------
+    def set_facing(self, direction):
+        if direction < 0:
+            self.facing_direction = self.WEST
+        elif direction > 0:
+            self.facing_direction = self.EAST
+
+        self.set_sprite_frame(self.current_frame)
+
+    def set_sprite_frame(self, frame_index):
+        frame_index = max(1, min(12, int(frame_index)))
+
+        col = (frame_index - 1) % self.RAT_GRID_WIDTH
+        row_from_top = (frame_index - 1) // self.RAT_GRID_WIDTH
+        row = (self.RAT_GRID_HEIGHT - 1) - row_from_top
+
+        sx = 1 / self.RAT_GRID_WIDTH
+        sy = 1 / self.RAT_GRID_HEIGHT
+
+        if self.facing_direction == self.NATIVE_SPRITE_DIRECTION:
+            self.texture_scale = (sx, sy)
+            self.texture_offset = (col * sx, row * sy)
+        else:
+            self.texture_scale = (-sx, sy)
+            self.texture_offset = ((col + 1) * sx, row * sy)
+
+        self.current_frame = frame_index
+
+    def animate_frames(self, frames):
+        if not frames:
+            return
+
+        self.animation_timer += time.dt
+
+        if self.current_frame not in frames:
+            self.animation_timer = 0.0
+            self.set_sprite_frame(frames[0])
+            return
+
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0.0
+            index = frames.index(self.current_frame)
+            next_index = (index + 1) % len(frames)
+            self.set_sprite_frame(frames[next_index])
+
+    def update_animation(self, direction_x):
+        if not self.grounded:
+            if self.velocity_y >= 0:
+                self.set_sprite_frame(9)
+            else:
+                self.set_sprite_frame(10)
+            return
+
+        if self.is_shrunk:
+            if direction_x == 0:
+                self.animation_timer = 0.0
+                self.set_sprite_frame(7)
+            else:
+                self.animate_frames(self.crawl_frames)
+            return
+
+        if direction_x != 0:
+            self.animate_frames(self.move_frames)
+            return
+
+        self.animation_timer = 0.0
+        self.set_sprite_frame(1)
 
     def shrink(self):
         if self.is_shrunk:
@@ -101,9 +180,9 @@ class Player(Rat):
         )
 
         self.is_shrunk = True
-        
-        # Zmiana sprajtu na kucającego szczurka (kolumna 0, wiersz 1 od dołu)
-        self.texture_offset = (0 / self.RAT_GRID_WIDTH, 1 / self.RAT_GRID_HEIGHT)
+        self.animation_timer = 0.0
+        self.update_visual_collider()
+        self.set_sprite_frame(7)
 
     def unshrink(self):
         if not self.is_shrunk:
@@ -116,51 +195,52 @@ class Player(Rat):
 
         if restored:
             self.is_shrunk = False
-            # Powrót do stojącego szczurka (kolumna 0, wiersz 4 od dołu)
-            self.texture_offset = (0 / self.RAT_GRID_WIDTH, 4 / self.RAT_GRID_HEIGHT)
-
-    # --------------------------------------------------
-    # Akcje
-    # --------------------------------------------------
+            self.animation_timer = 0.0
+            self.update_visual_collider()
+            self.set_sprite_frame(1)
 
     def jump(self):
-        """Blokuje skok, jeśli gracz jest obecnie skurczony."""
         if self.is_shrunk:
-            return  # Przerywa działanie funkcji, skok się nie odbędzie
-            
-        super().jump()  # Wywołuje oryginalny skok z klasy Rat
+            return
 
-    # --------------------------------------------------
-    # Update
-    # --------------------------------------------------
+        was_grounded = self.grounded
+        super().jump()
+
+        if was_grounded and not self.grounded:
+            self.animation_timer = 0.0
+            self.set_sprite_frame(9)
 
     def update(self):
-        # Ensure camera is not parented to player before scale changes.
         self.detach_camera_if_needed()
 
-        # Movement left / right
+        if getattr(self, "ignore", False):
+            self.update_camera_follow()
+            return
+
+        left_pressed = held_keys['a'] or held_keys['left arrow']
+        right_pressed = held_keys['d'] or held_keys['right arrow']
+
         direction_x = 0
 
-        if held_keys['a'] or held_keys['left arrow']:
-            direction_x -= 1
+        if left_pressed and not right_pressed:
+            direction_x = -1
+            self.set_facing(self.WEST)
 
-        if held_keys['d'] or held_keys['right arrow']:
-            direction_x += 1
+        elif right_pressed and not left_pressed:
+            direction_x = 1
+            self.set_facing(self.EAST)
 
         self.move_x(direction_x)
 
-        # W = jump
         if held_keys['w'] or held_keys['up arrow']:
             self.jump()
 
-        # S = shrink height only
         if held_keys['s'] or held_keys['down arrow']:
             self.shrink()
         else:
             self.unshrink()
 
-        # Gravity + fall protection
         super().update()
 
-        # Camera follows stable standing-height anchor
+        self.update_animation(direction_x)
         self.update_camera_follow()

@@ -711,7 +711,7 @@ class GridLevelEditor:
             if self.current_mode == self.MODE_TILE_PAINT and self.mode_text: self.mode_text.text = self.get_mode_name()
         
         if key == "k" and not held_keys["control"]:
-            self.active_tile_index = min(11, self.active_tile_index + 1)
+            self.active_tile_index = min(26, self.active_tile_index + 1)
             if self.current_mode == self.MODE_TILE_PAINT and self.mode_text: self.mode_text.text = self.get_mode_name()
         
         if key == "c" and held_keys["control"]: 

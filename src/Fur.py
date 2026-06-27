@@ -8,6 +8,9 @@ class Fur(Entity):
             collider='box',
             **kwargs
         )
+
+        self.pickup_sound = Audio('../assets/audio/podnoszenie_skory.mp3', autoplay=False)
+
         self.player = player
         self.hold_time = hold_time  # Czas potrzebny na podniesienie (w sekundach)
         self.timer = 0
@@ -44,5 +47,5 @@ class Fur(Entity):
             self.timer = 0
 
     def collect(self):
-        print("Fur!")
+        self.pickup_sound.play()
         destroy(self) # Usunięcie obiektu ze świata gry

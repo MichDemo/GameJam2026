@@ -11,9 +11,8 @@ window.borderless = False
 
 
 # --- AUDIO ---
-# autoplay=True sprawi, że muzyka menu ruszy od razu
-menu_music = Audio('assets/sounds/menu_theme.mp3', loop=True, autoplay=True)
-game_music = Audio('assets/sounds/gameplay_theme.mp3', loop=True, autoplay=False)
+# autoplay=True sprawi, że muzyka ruszy od razu
+menu_music = Audio('../assets/audio/glowne_menu.mp3', loop=True, autoplay=True)
 
 # --- STAN GRY ---
 stan_gry = "menu"

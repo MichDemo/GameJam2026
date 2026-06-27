@@ -16,7 +16,7 @@ app = Ursina()
 def load_map_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
-    full_path = os.path.join(project_root, "assets", "maps", "level_dupa.json")
+    full_path = os.path.join(project_root, "assets", "maps", "level_fur.json")
     
     print(f"--- Wczytuję mapę z: {full_path} ---")
     with open(full_path, "r", encoding="utf-8") as f:
@@ -100,7 +100,7 @@ for f in map_data.get("furs", []):
 total_furs = len(all_furs)
 print(f"--- Znaleziono futer na mapie: {total_furs} ---")
 # --------------------------------------------------
-# --- GENEROWANIE PRZECIWNIKÓW ----
+# --- GENEROWANIE PRZECIWNIKÓW ----sounds
 # --------------------------------------------------
 for e in map_data.get("enemies", []):
     pos = (e["x"], e["y"])  
@@ -185,6 +185,12 @@ def update():
         Text(text="WYGRAŁEŚ!", scale=5, origin=(0, 0), color=color.green)
 
 Sky()
+
+# --- AUDIO ---
+# autoplay=True sprawi, że muzyka ruszy od razu
+# Inicjalizacja muzyki (autoplay=False, loop=True)
+# music_house = Audio('assets/audio/dom.mp3', loop=True, autoplay=False)
+music_sewers = Audio('../assets/audio/scieki_safezone.mp3', loop=True, autoplay=True)
 
 licznik_tekst = Text(text=f'Futra: 0/{total_furs}', position=(-0.8, 0.45), scale=2)
 

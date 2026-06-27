@@ -16,9 +16,9 @@ class Player(Rat):
         super().__init__(**kwargs)
 
         # Wczytanie dźwięku kroku
-        self.step_sound = Audio('assets/sounds/footstep.mp3', loop=False, autoplay=False)
+        self.step_sound = Audio('../assets/audio/kroki_szczura.mp3', loop=False, autoplay=False)
         self.step_timer = 0
-        self.step_interval = 0.35  # Przerwa między dźwiękami kroków (w sekundach)
+        self.step_interval = 0.1  # Przerwa między dźwiękami kroków (w sekundach)
 
 
 
@@ -150,9 +150,16 @@ class Player(Rat):
 
         if held_keys['a'] or held_keys['left arrow']:
             direction_x -= 1
+            moving = True
+        else:
+            moving = False
+
 
         if held_keys['d'] or held_keys['right arrow']:
             direction_x += 1
+            moving = True
+        else:
+            moving = False
 
         self.move_x(direction_x)
 

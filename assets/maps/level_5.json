@@ -187,6 +187,24 @@
             "grid_y": 135,
             "x": 100.5,
             "y": 135.5
+        },
+        {
+            "vent_id": 7,
+            "target_vent_id": 8,
+            "pair_id": 5,
+            "grid_x": 101,
+            "grid_y": 147,
+            "x": 101.5,
+            "y": 147.5
+        },
+        {
+            "vent_id": 8,
+            "target_vent_id": 7,
+            "pair_id": 5,
+            "grid_x": 139,
+            "grid_y": 129,
+            "x": 139.5,
+            "y": 129.5
         }
     ]
 }

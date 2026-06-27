@@ -24,6 +24,12 @@ class Player(Rat):
         self.step_interval = 0.1  # Przerwa między dźwiękami kroków (w sekundach)
 
 
+        # --- NIUCHANIE ---
+        # Inicjalizacja dźwięku niuchania (ścieżka zgodna z Main.txt [3])
+        self.sniff_sound = Audio('../assets/audio/niuch.mp3', autoplay=False)
+
+        # Pierwsze losowe odliczenie (np. od 5 do 12 sekund)
+        self.sniff_timer = random.uniform(5, 116)
 
         # --- PRECYZYJNE KADROWANIE TWOJEGO SPRITESHEETU (3x5) ---
         self.RAT_GRID_WIDTH = 3   # 3 kolumny w obraz.png

@@ -41,7 +41,7 @@ class EditorObject(Entity):
 
         self.vent_id = None
         self.target_vent_id = None
-        self.vent_pair_id = None    
+        self.vent_pair_id = None
 
         self.label = None
         self.create_label()
@@ -85,14 +85,16 @@ class EditorObject(Entity):
     def create_label(self):
         label_text = self.editor_type.upper()[0]
 
-        if self.editor_type == "enemy":
+        if self.editor_type == "player":
+            label_text = "P"
+        elif self.editor_type == "enemy":
             label_text = "EN"
         elif self.editor_type == "vent":
             label_text = "V"
         elif self.editor_type == "fur":
             label_text = "F"
         elif self.editor_type == "eye":
-            label_text = "E"
+            label_text = "EY"
 
         self.label = Text(
             parent=self,
@@ -107,6 +109,8 @@ class EditorObject(Entity):
 class GridLevelEditor:
     SHEET_SIZE = 256
     MAPS_FOLDER = "assets/maps"
+
+    MODE_PLAYER_PLACE = 0
 
     MODE_BLOCK_PLACE = 1
     MODE_BLOCK_PROPERTIES = 2
@@ -147,6 +151,8 @@ class GridLevelEditor:
         self.grid_width = self.SHEET_SIZE
         self.grid_height = self.SHEET_SIZE
         self.cell_size = 1
+
+        self.player_spawn = None
 
         self.blocks = []
         self.furs = []
@@ -235,6 +241,7 @@ class GridLevelEditor:
 
     def get_shortcut_text(self):
         return (
+            "0: Player placement\n"
             "1: Block placement\n"
             "2: Block properties\n"
             "3: Fur placement\n"
@@ -258,6 +265,7 @@ class GridLevelEditor:
 
     def get_mode_name(self):
         names = {
+            self.MODE_PLAYER_PLACE: "Mode 0: Player placement",
             self.MODE_BLOCK_PLACE: "Mode 1: Block placement",
             self.MODE_BLOCK_PROPERTIES: "Mode 2: Block properties",
             self.MODE_FUR_PLACE: "Mode 3: Fur placement",
@@ -562,7 +570,18 @@ class GridLevelEditor:
     # --------------------------------------------------
 
     def get_all_editor_objects(self):
-        return self.blocks + self.furs + self.enemies + self.eyes + self.vents
+        objects = []
+
+        if self.player_spawn is not None:
+            objects.append(self.player_spawn)
+
+        objects.extend(self.blocks)
+        objects.extend(self.furs)
+        objects.extend(self.enemies)
+        objects.extend(self.eyes)
+        objects.extend(self.vents)
+
+        return objects
 
     def get_object_under_mouse(self):
         mouse_pos = self.get_mouse_world_2d()
@@ -582,6 +601,11 @@ class GridLevelEditor:
         return None
 
     def remove_object(self, obj):
+        if obj == self.player_spawn:
+            destroy(self.player_spawn)
+            self.player_spawn = None
+            return
+
         for collection in [self.blocks, self.furs, self.enemies, self.eyes, self.vents]:
             if obj in collection:
                 collection.remove(obj)
@@ -599,6 +623,8 @@ class GridLevelEditor:
         for obj in list(self.get_all_editor_objects()):
             destroy(obj)
 
+        self.player_spawn = None
+
         self.blocks.clear()
         self.furs.clear()
         self.enemies.clear()
@@ -612,6 +638,27 @@ class GridLevelEditor:
     # --------------------------------------------------
     # Placement
     # --------------------------------------------------
+
+    def create_player_spawn(self, position):
+        snapped = self.snap_world_position_to_grid(position)
+
+        if self.player_spawn is not None:
+            self.player_spawn.position = (snapped.x, snapped.y, 0.2)
+            return self.player_spawn
+
+        self.player_spawn = EditorObject(
+            editor_type="player",
+            position=(snapped.x, snapped.y),
+            size=(1, 1),
+            hex_color="#ffa500"
+        )
+
+        self.player_spawn.z = 0.2
+
+        if self.player_spawn.label is not None:
+            self.player_spawn.label.text = "P"
+
+        return self.player_spawn
 
     def create_block(self, position, size=(1, 1), hex_color="#44aa44"):
         if not isinstance(position, Vec2):
@@ -670,6 +717,9 @@ class GridLevelEditor:
         enemy.zone3 = 6.0
         enemy.z = 0.12
 
+        if enemy.label is not None:
+            enemy.label.text = "EN"
+
         self.enemies.append(enemy)
         return enemy
 
@@ -685,6 +735,9 @@ class GridLevelEditor:
 
         eye.rotation_time = 4.0
         eye.z = 0.13
+
+        if eye.label is not None:
+            eye.label.text = "EY"
 
         self.eyes.append(eye)
         return eye
@@ -921,6 +974,18 @@ class GridLevelEditor:
         return grid_x, grid_y
 
     def get_level_data(self):
+        player_data = None
+
+        if self.player_spawn is not None:
+            grid_x, grid_y = self.object_to_grid_data(self.player_spawn)
+
+            player_data = {
+                "grid_x": grid_x,
+                "grid_y": grid_y,
+                "x": self.player_spawn.x,
+                "y": self.player_spawn.y
+            }
+
         blocks_data = []
 
         for block in self.blocks:
@@ -1005,6 +1070,7 @@ class GridLevelEditor:
                 "x": 0,
                 "y": 0
             },
+            "player": player_data,
             "blocks": blocks_data,
             "furs": furs_data,
             "enemies": enemies_data,
@@ -1037,6 +1103,16 @@ class GridLevelEditor:
             return
 
         self.clear_map()
+
+        player_data = data.get("player", None)
+
+        if player_data is not None:
+            player_position = self.grid_to_world(
+                player_data.get("grid_x", 0),
+                player_data.get("grid_y", 0)
+            )
+
+            self.create_player_spawn(player_position)
 
         for block_data in data.get("blocks", []):
             position = self.grid_to_world(
@@ -1201,7 +1277,13 @@ class GridLevelEditor:
         if snapped_pos is None:
             return
 
-        if self.current_mode == self.MODE_BLOCK_PLACE:
+        if self.current_mode == self.MODE_PLAYER_PLACE:
+            if clicked is not None:
+                self.start_drag_object(clicked)
+            else:
+                self.create_player_spawn(snapped_pos)
+
+        elif self.current_mode == self.MODE_BLOCK_PLACE:
             if clicked is not None:
                 self.start_drag_object(clicked)
             else:
@@ -1259,6 +1341,9 @@ class GridLevelEditor:
 
         if key == "scroll down":
             self.zoom_camera(-1)
+
+        if key == "0":
+            self.set_mode(self.MODE_PLAYER_PLACE)
 
         if key == "1":
             self.set_mode(self.MODE_BLOCK_PLACE)

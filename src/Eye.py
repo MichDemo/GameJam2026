@@ -178,7 +178,7 @@ class Eye(Rat):
             move_dir = target_pos - self.position
             if move_dir.x > 0.002:
                 self.target_direction = 1
-            elif move_dir.x < -0.002:
+            elif move_dir.x < -0.002:   
                 self.target_direction = -1
 
     def update(self):

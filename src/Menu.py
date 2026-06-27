@@ -9,6 +9,12 @@ app = Ursina()
 window.title = "Szcurwy hood"
 window.borderless = False
 
+
+# --- AUDIO ---
+# autoplay=True sprawi, że muzyka menu ruszy od razu
+menu_music = Audio('assets/sounds/menu_theme.mp3', loop=True, autoplay=True)
+game_music = Audio('assets/sounds/gameplay_theme.mp3', loop=True, autoplay=False)
+
 # --- STAN GRY ---
 stan_gry = "menu"
 
@@ -30,6 +36,12 @@ def start_gry():
     global stan_gry
     stan_gry = "rozgrywka"
     menu_container.disable()  # Ukrywamy menu
+
+    # Zatrzymujemy muzykę menu i odpalamy muzykę z gry
+    menu_music.stop()
+    game_music.play()
+
+
     uruchom_gre()             # Odpalamy grę
 
 def pokaz_opcje():

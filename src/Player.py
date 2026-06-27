@@ -15,6 +15,13 @@ class Player(Rat):
 
         super().__init__(**kwargs)
 
+        # Wczytanie dźwięku kroku
+        self.step_sound = Audio('assets/sounds/footstep.mp3', loop=False, autoplay=False)
+        self.step_timer = 0
+        self.step_interval = 0.35  # Przerwa między dźwiękami kroków (w sekundach)
+
+
+
         # --- PRECYZYJNE KADROWANIE TWOJEGO SPRITESHEETU (3x5) ---
         self.RAT_GRID_WIDTH = 3   # 3 kolumny w obraz.png
         self.RAT_GRID_HEIGHT = 4  # 5 wierszy w obraz.png
@@ -161,6 +168,19 @@ class Player(Rat):
 
         # Gravity + fall protection
         super().update()
+
+
+        # Uwaga: grounded to zmienna, którą powinieneś mieć w klasie Rat
+        # obsługującej kolizje z solid_objects [4]
+        if moving and self.grounded:
+            self.step_timer += time.dt
+            if self.step_timer >= self.step_interval:
+                if not self.step_sound.playing:
+                    self.step_sound.play()
+                self.step_timer = 0
+        else:
+            self.step_timer = self.step_interval # Reset timera, by krok zagrał od razu po ruszeniu
+
 
         # Camera follows stable standing-height anchor
         self.update_camera_follow()

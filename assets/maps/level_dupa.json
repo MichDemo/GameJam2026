@@ -1,0 +1,76 @@
+{
+    "cell_size": 1,
+    "grid_width": 256,
+    "grid_height": 256,
+    "origin": {
+        "x": 0,
+        "y": 0
+    },
+    "player": {
+        "grid_x": 130,
+        "grid_y": 129,
+        "x": 130.5,
+        "y": 129.5
+    },
+    "blocks": [
+        {
+            "grid_x": 128,
+            "grid_y": 128,
+            "x": 128.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ffffff",
+            "tile_x": 0,
+            "tile_y": 1
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 128,
+            "x": 129.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ffffff",
+            "tile_x": 1,
+            "tile_y": 1
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 128,
+            "x": 130.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ffffff",
+            "tile_x": 0,
+            "tile_y": 1
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 128,
+            "x": 132.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ffffff",
+            "tile_x": 2,
+            "tile_y": 1
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 128,
+            "x": 131.5,
+            "y": 128.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ffffff",
+            "tile_x": 0,
+            "tile_y": 1
+        }
+    ],
+    "furs": [],
+    "enemies": [],
+    "eyes": [],
+    "vents": []
+}

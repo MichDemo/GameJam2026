@@ -1,109 +1,77 @@
 from ursina import *
 
+# Ostre piksele dla pixel artu
 Texture.default_filtering = 'nearest'
 
 class Block(Entity):
-    # Twój spritesheet ma układ 4x3
     GRID_WIDTH = 4
     GRID_HEIGHT = 3
 
-    def __init__(
-        self,
-        position=(0, 0),
-        size=(1, 1),
-        hex_color=None,
-        block_color=color.white,
-        tile_x=0,       
-        tile_y=0,       
-        **kwargs
-    ):
-        self.hex_color = self.normalize_hex(hex_color) if hex_color else self.color_to_hex(block_color)
-        visual_color = self.hex_to_ursina_color(self.hex_color) if hex_color else block_color
+    def __init__(self, position=(0, 0), size=(1, 1), hex_color="#ffffff", tile_index=0, **kwargs):
+        self.hex_color = hex_color
+        self.tile_index = tile_index
+        self.size_x = int(size[0])
+        self.size_y = int(size[1])
+        
+        # Lista przechowująca wizualne kafelki 1x1 wewnątrz tego bloku
+        self.visual_tiles = []
 
-        width = float(size[0])
-        height = float(size[1])
-
-        # Używamy standardowego modelu 'plane', który w Ursinie jest czystym, płaskim 2D meshem (1x1 wierzchołków)
-        # Obracamy go o -90 stopni w osi X, aby patrzył prosto na kamerę ortograficzną edytora
+        # Tworzymy główny obiekt (pusty model/kontener), który trzyma pozycję i collider
         super().__init__(
-            model='plane',
-            position=(float(position[0]), float(position[1]), 0),
-            scale=(width, height, 1),
-            rotation_x=-90,
-            color=visual_color,
+            position=(position[0], position[1], 0),
+            scale=(1, 1, 1), # Skala rodzica zostaje 1x1, żeby pod-obiekty nie były deformowane
+            color=color.white,
             **kwargs
         )
 
-        self.tile_x = tile_x
-        self.tile_y = tile_y
+        # Generujemy kafelki 1x1 w strukturze siatki
+        self.generate_tiles()
+
+        self.editor_type = "block"
         
-        # Wczytujemy spritesheet
-        self.texture = Texture('../assets/textures/SEWER_SPRITESHEET.png')
-        
-        # Bezpiecznie mapujemy współrzędne UV kafelka
-        self.update_tile_mapping()
+        # Jedna wspólna, duża kolizja na całą wielkość bloku (przesunięta odpowiednio)
+        # Ponieważ pivot w Ursinie dla quada jest na środku, wyliczamy idealny box kolizji:
+        self.collider = BoxCollider(
+            self, 
+            center=( (self.size_x - 1) / 2, (self.size_y - 1) / 2, 0 ), 
+            size=(self.size_x, self.size_y, 1)
+        )
 
-        # Generujemy kolizor typu box na bazie aktualnej skali encji
-        self.collider = 'box'
+    def generate_tiles(self):
+        """Czyści stare i generuje siatkę pojedynczych kafelków 1x1 na podstawie rozmiaru bloku"""
+        for tile in self.visual_tiles:
+            destroy(tile)
+        self.visual_tiles.clear()
 
-    def update_tile_mapping(self):
-        """Metoda precyzyjnie zmieniająca UV siatki 'plane' bez wywoływania błędów struktury"""
-        if not self.model:
-            return
+        # Przeliczamy koordynaty ze spritesheeta
+        tx = self.tile_index % self.GRID_WIDTH
+        ty = (self.GRID_HEIGHT - 1) - (self.tile_index // self.GRID_WIDTH)
 
-        step_x = 1.0 / self.GRID_WIDTH
-        step_y = 1.0 / self.GRID_HEIGHT
+        # Pętla generująca kafelki 1x1
+        for x in range(self.size_x):
+            for y in range(self.size_y):
+                tile = Entity(
+                    parent=self, # Przypisujemy do głównego bloku jako rodzica
+                    model='quad',
+                    texture='../assets/textures/SEWER_SPRITESHEET.png',
+                    position=(x, y, 0),
+                    scale=(1, 1, 1),
+                    tileset_size=[self.GRID_WIDTH, self.GRID_HEIGHT],
+                    tile_coordinate=(tx, ty)
+                )
+                self.visual_tiles.append(tile)
 
-        # Wyznaczamy granice wyciętego kafelka
-        u_min = self.tile_x * step_x
-        u_max = u_min + step_x
-        v_min = self.tile_y * step_y
-        v_max = v_min + step_y
+    def change_tile(self, index):
+        """Metoda wywoływana przez pędzel w edytorze - zmienia teksturę we wszystkich pod-kafelkach"""
+        self.tile_index = index
+        tx = index % self.GRID_WIDTH
+        ty = (self.GRID_HEIGHT - 1) - (index // self.GRID_WIDTH)
 
-        # Model 'plane' w Ursinie ma dokładnie 4 wierzchołki ułożone w standardowej strukturze
-        self.model.uvs = [
-            (u_min, v_min),  
-            (u_max, v_min),  
-            (u_max, v_max),  
-            (u_min, v_max)   
-        ]
-        
-        # Odświeżamy geometrię
-        self.model.generate()
+        for tile in self.visual_tiles:
+            tile.tile_coordinate = (tx, ty)
 
-    @staticmethod
-    def normalize_hex(hex_value):
-        if hex_value is None: return "#ffffff"
-        value = str(hex_value).strip()
-        if not value.startswith("#"): value = "#" + value
-        if len(value) != 7: return "#ffffff"
-        try:
-            int(value[1:3], 16); int(value[3:5], 16); int(value[5:7], 16)
-        except ValueError: return "#ffffff"
-        return value.lower()
-
-    @staticmethod
-    def hex_to_ursina_color(hex_value):
-        value = Block.normalize_hex(hex_value)
-        r = int(value[1:3], 16); g = int(value[3:5], 16); b = int(value[5:7], 16)
-        return color.rgb(r, g, b)
-
-    @staticmethod
-    def color_to_hex(ursina_color):
-        try:
-            r = int(max(0, min(1, ursina_color.r)) * 255)
-            g = int(max(0, min(1, ursina_color.g)) * 255)
-            b = int(max(0, min(1, ursina_color.b)) * 255)
-            return f"#{r:02x}{g:02x}{b:02x}"
-        except Exception: return "#ffffff"
-
-    def set_hex_color(self, hex_value):
-        self.hex_color = self.normalize_hex(hex_value)
-        self.color = self.hex_to_ursina_color(self.hex_color)
-
-    def set_size_cells(self, width_cells, height_cells):
-        self.scale = (max(1, int(width_cells)), max(1, int(height_cells)), 1)
-        self.collider = 'box'
-
-    def get_size_2d(self): return Vec2(self.scale_x, self.scale_y)
-    def get_position_2d(self): return Vec2(self.x, self.y)
+    # Te właściwości są potrzebne edytorowi, aby prawidłowo zapisywać mapę oraz przesuwać obiekty
+    @property
+    def scale_x(self): return self.size_x
+    @property
+    def scale_y(self): return self.size_y

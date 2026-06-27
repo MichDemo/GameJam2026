@@ -16,7 +16,7 @@ app = Ursina()
 def load_map_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
-    full_path = os.path.join(project_root, "assets", "maps", "level_1.json")
+    full_path = os.path.join(project_root, "assets", "maps", "level_5.json")
     
     print(f"--- Wczytuję mapę z: {full_path} ---")
     with open(full_path, "r", encoding="utf-8") as f:
@@ -27,7 +27,10 @@ map_data = load_map_data()
 # --------------------------------------------------
 # --- POZYCJA STARTOWA GRACZA ---
 # --------------------------------------------------
-if map_data.get("furs"):
+if map_data.get("player"):
+    player_start_x = map_data["player"]["x"]
+    player_start_y = map_data["player"]["y"]
+elif map_data.get("furs"):
     player_start_x = map_data["furs"][0]["x"]
     player_start_y = map_data["furs"][0]["y"]
 elif map_data.get("blocks"):
@@ -74,12 +77,18 @@ player.solid_objects = all_blocks
 # --------------------------------------------------
 # --- GENEROWANIE FUTER ---
 # --------------------------------------------------
+all_furs = []  # Tworzymy listę, w której będziemy trzymać obiekty futer
+
 for f in map_data.get("furs", []):
     pos = (f["x"], f["y"])  
-    Fur(player=player, position=pos, hold_time=2.0)
+    fur_obj = Fur(player=player, position=pos, hold_time=0.6)
+    all_furs.append(fur_obj)  # Dodajemy każde stworzone futro do listy
 
+# Początkowa liczba futer na mapie
+total_furs = len(all_furs)
+print(f"--- Znaleziono futer na mapie: {total_furs} ---")
 # --------------------------------------------------
-# --- GENEROWANIE PRZECIWNIKÓW (BEZPIECZNE EYE) ---
+# --- GENEROWANIE PRZECIWNIKÓW ----
 # --------------------------------------------------
 for e in map_data.get("enemies", []):
     pos = (e["x"], e["y"])  
@@ -88,15 +97,15 @@ for e in map_data.get("enemies", []):
     
     enemy_color = Block.hex_to_ursina_color(e["hex_color"]) if "hex_color" in e else color.red
 
-    Eye(
+    Enemy(
         player=player,
         position=pos,
         size=size,
         zone_radii=radii,
         fov_degrees=110,
         color=enemy_color,
-        use_gravity=False,
-        solid_objects=all_blocks,  # <--- Teraz ta zmienna już bezpiecznie istnieje
+        use_gravity=True,
+        solid_objects=all_blocks,
         show_zones=True
     )
 
@@ -141,6 +150,30 @@ camera.orthographic = True
 camera.fov = 12
 camera.parent = scene
 
+have_won = False
+
+def update():
+    global all_furs, total_furs, have_won  # <--- Dodajemy total_furs i have_won do global
+    
+    # Filtrujemy aktywne futra
+    all_furs = [f for f in all_furs if f and f.enabled]
+    
+    furs_left = len(all_furs)
+    collected_furs = total_furs - furs_left
+
+    # Aktualizacja tekstu na ekranie
+    licznik_tekst.text = f'Futra: {collected_furs}/{total_furs}'
+    
+    # Sprawdzamy warunek wygranej
+    if furs_left == 0 and total_furs > 0 and not have_won:
+        have_won = True  # Zmieniamy na True – teraz ten IF wykona się TYLKO RAZ
+        print("You've got all the Furs! Wygrałeś!")
+        
+        # Opcjonalnie: możesz wyświetlić wielki napis na środku ekranu
+        Text(text="WYGRAŁEŚ!", scale=5, origin=(0, 0), color=color.green)
+
 Sky()
+
+licznik_tekst = Text(text=f'Futra: 0/{total_furs}', position=(-0.8, 0.45), scale=2)
 
 app.run()

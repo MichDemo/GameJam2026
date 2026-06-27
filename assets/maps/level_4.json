@@ -1,0 +1,128 @@
+{
+    "cell_size": 1,
+    "grid_width": 256,
+    "grid_height": 256,
+    "origin": {
+        "x": 0,
+        "y": 0
+    },
+    "blocks": [
+        {
+            "grid_x": 121,
+            "grid_y": 120,
+            "x": 121.5,
+            "y": 120.5,
+            "scale_x": 50.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 121,
+            "grid_y": 140,
+            "x": 121.5,
+            "y": 140.5,
+            "scale_x": 50.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 130,
+            "x": 146.5,
+            "y": 130.5,
+            "scale_x": 1.0,
+            "scale_y": 21.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 96,
+            "grid_y": 130,
+            "x": 96.5,
+            "y": 130.5,
+            "scale_x": 1.0,
+            "scale_y": 21.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 102,
+            "grid_y": 137,
+            "x": 102.5,
+            "y": 137.5,
+            "scale_x": 11.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 116,
+            "grid_y": 137,
+            "x": 116.5,
+            "y": 137.5,
+            "scale_x": 15.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 116,
+            "grid_y": 135,
+            "x": 116.5,
+            "y": 135.5,
+            "scale_x": 17.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 107,
+            "grid_y": 136,
+            "x": 107.5,
+            "y": 136.5,
+            "scale_x": 1.0,
+            "scale_y": 3.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 136,
+            "x": 125.5,
+            "y": 136.5,
+            "scale_x": 1.0,
+            "scale_y": 3.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 137,
+            "x": 130.5,
+            "y": 137.5,
+            "scale_x": 10.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        }
+    ],
+    "furs": [
+        {
+            "grid_x": 98,
+            "grid_y": 138,
+            "x": 98.5,
+            "y": 138.5,
+            "rarity": "None",
+            "hex_color": "#000000"
+        }
+    ],
+    "enemies": [
+        {
+            "grid_x": 115,
+            "grid_y": 138,
+            "x": 115.5,
+            "y": 138.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ff0000",
+            "speed": 5.0,
+            "zone1": 1.0,
+            "zone2": 3.0,
+            "zone3": 6.0
+        }
+    ],
+    "eyes": [],
+    "vents": []
+}

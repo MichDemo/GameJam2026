@@ -1,0 +1,329 @@
+{
+    "cell_size": 1,
+    "grid_width": 256,
+    "grid_height": 256,
+    "origin": {
+        "x": 0,
+        "y": 0
+    },
+    "player": {
+        "grid_x": 123,
+        "grid_y": 132,
+        "x": 123.5,
+        "y": 132.5
+    },
+    "blocks": [
+        {
+            "grid_x": 122,
+            "grid_y": 130,
+            "x": 122.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 122,
+            "grid_y": 131,
+            "x": 122.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 130,
+            "x": 129.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 129,
+            "x": 128.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 130,
+            "x": 126.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 130,
+            "x": 124.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 131,
+            "x": 124.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 131,
+            "x": 125.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 127,
+            "grid_y": 131,
+            "x": 127.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 131,
+            "x": 126.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 131,
+            "x": 123.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 130,
+            "x": 125.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 127,
+            "grid_y": 130,
+            "x": 127.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 130,
+            "x": 128.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 131,
+            "x": 128.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 131,
+            "x": 129.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 130,
+            "x": 123.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 132,
+            "x": 130.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 131,
+            "x": 130.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 133,
+            "x": 130.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 121,
+            "grid_y": 132,
+            "x": 121.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 121,
+            "grid_y": 131,
+            "x": 121.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 121,
+            "grid_y": 133,
+            "x": 121.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        }
+    ],
+    "furs": [
+        {
+            "grid_x": 129,
+            "grid_y": 132,
+            "x": 129.5,
+            "y": 132.5,
+            "rarity": "Common",
+            "hex_color": "#8b5a2b"
+        }
+    ],
+    "enemies": [],
+    "eyes": [],
+    "vents": []
+}

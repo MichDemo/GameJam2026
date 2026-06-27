@@ -12,6 +12,9 @@ class Fur(Entity):
             **kwargs
         )
 
+        self.pickup_sound = Audio('../assets/audio/podnoszenie_skory.mp3', autoplay=False)
+
+
         # 2. Jeśli tekstura się wczytała, przycinamy ją dopiero tutaj
         if self.texture:
             self.texture_scale = (0.5, 0.5)
@@ -22,7 +25,7 @@ class Fur(Entity):
         self.player = player
         self.hold_time = hold_time
         self.timer = 0
-        
+
         self.prompt = Text(
             text='Przytrzymaj E',
             parent=self,
@@ -39,7 +42,7 @@ class Fur(Entity):
 
         if dist < 1.5:
             self.prompt.enabled = True
-            
+
             # Płynna zmiana koloru promptu (wymaga importu z ursina)
             progress = self.timer / self.hold_time
             self.prompt.color = lerp(color.white, color.lime, progress)
@@ -57,4 +60,5 @@ class Fur(Entity):
 
     def collect(self):
         print("Fur zebrano!")
-        destroy(self)
+        self.pickup_sound.play()
+        destroy(self) # Usunięcie obiektu ze świata gry

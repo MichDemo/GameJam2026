@@ -18,6 +18,16 @@ class Player(Rat):
 
         self.WEST = -1
         self.EAST = 1
+        # Wczytanie dźwięku kroku
+        self.step_sound = Audio('../assets/audio/kroki_szczura.mp3', loop=False, autoplay=False)
+        self.step_timer = 0
+        self.step_interval = 0.1  # Przerwa między dźwiękami kroków (w sekundach)
+
+
+
+        # --- PRECYZYJNE KADROWANIE TWOJEGO SPRITESHEETU (3x5) ---
+        self.RAT_GRID_WIDTH = 3   # 3 kolumny w obraz.png
+        self.RAT_GRID_HEIGHT = 4  # 5 wierszy w obraz.png
 
         self.NATIVE_SPRITE_DIRECTION = self.WEST
 
@@ -222,6 +232,12 @@ class Player(Rat):
 
         direction_x = 0
 
+        if held_keys['a'] or held_keys['left arrow']:
+            direction_x -= 1
+            moving = True
+        else:
+            moving = False
+
         if left_pressed and not right_pressed:
             direction_x = -1
             self.set_facing(self.WEST)
@@ -229,6 +245,11 @@ class Player(Rat):
         elif right_pressed and not left_pressed:
             direction_x = 1
             self.set_facing(self.EAST)
+        if held_keys['d'] or held_keys['right arrow']:
+            direction_x += 1
+            moving = True
+        else:
+            moving = False
 
         self.move_x(direction_x)
 
@@ -243,4 +264,18 @@ class Player(Rat):
         super().update()
 
         self.update_animation(direction_x)
+
+        # Uwaga: grounded to zmienna, którą powinieneś mieć w klasie Rat
+        # obsługującej kolizje z solid_objects [4]
+        if moving and self.grounded:
+            self.step_timer += time.dt
+            if self.step_timer >= self.step_interval:
+                if not self.step_sound.playing:
+                    self.step_sound.play()
+                self.step_timer = 0
+        else:
+            self.step_timer = self.step_interval # Reset timera, by krok zagrał od razu po ruszeniu
+
+
+        # Camera follows stable standing-height anchor
         self.update_camera_follow()

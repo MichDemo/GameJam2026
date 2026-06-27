@@ -8,7 +8,7 @@ from tkinter import filedialog, simpledialog
 from Block import Block
 
 class EditorObject(Entity):
-    # Zsynchronizowane z Block.py (arkusz 9x3)
+    # Dopasowane do siatki 9x3
     GRID_WIDTH = 9
     GRID_HEIGHT = 3
 
@@ -28,9 +28,9 @@ class EditorObject(Entity):
         self.size_y = int(size[1])
         self.visual_tiles = []
 
-        # Współrzędne kafelka dla wentyli na siatce 9x3
+        # Koordynaty wycinania dla wentyli
         self.tile_x = 0
-        self.tile_y = 2  # Domyślny rząd dla wentylacji
+        self.tile_y = 2
 
         visual_color = self.hex_to_ursina_color(self.hex_color)
 
@@ -42,7 +42,7 @@ class EditorObject(Entity):
 
         super().__init__(
             parent=scene,
-            model="quad" if editor_type != "block" else None,
+            model="quad" if editor_type != "block" else None, 
             position=(position[0], position[1], 0),
             scale=(1, 1, 1) if editor_type == "block" else (size[0], size[1], 1),
             **kwargs
@@ -75,10 +75,8 @@ class EditorObject(Entity):
         self.create_label()
 
     def update_vent_uv(self):
-        # Arkusz ma wymiary 9x3 kafelki
         tileset_cols = 9
         tileset_rows = 3
-        
         self.texture_scale = (1 / tileset_cols, 1 / tileset_rows)
         self.texture_offset = (self.tile_x / tileset_cols, self.tile_y / tileset_rows)
 
@@ -86,7 +84,6 @@ class EditorObject(Entity):
         for tile in self.visual_tiles: destroy(tile)
         self.visual_tiles.clear()
 
-        # Generowanie kafelków dla bloków w edytorze na podstawie siatki 9x3
         tx = self.tile_index % self.GRID_WIDTH
         ty = (self.GRID_HEIGHT - 1) - (self.tile_index // self.GRID_WIDTH)
 
@@ -95,13 +92,21 @@ class EditorObject(Entity):
                 tile = Entity(
                     parent=self,
                     model='quad',
-                    texture='../assets/textures/LEVEL_BLOCK_SHEET.png', # Poprawione na LEVEL_BLOCK_SHEET
+                    texture='../assets/textures/LEVEL_BLOCK_SHEET.png',
                     position=(x, y, -0.01),
                     scale=(1, 1, 1),
                     tileset_size=[self.GRID_WIDTH, self.GRID_HEIGHT],
                     tile_coordinate=(tx, ty)
                 )
                 self.visual_tiles.append(tile)
+
+    def change_tile(self, index):
+        self.tile_index = index
+        if self.editor_type == "block":
+            tx = index % self.GRID_WIDTH
+            ty = (self.GRID_HEIGHT - 1) - (self.tile_index // self.GRID_WIDTH)
+            for tile in self.visual_tiles:
+                tile.tile_coordinate = (tx, ty)
 
     @property
     def scale_x(self): return self.size_x
@@ -129,8 +134,8 @@ class EditorObject(Entity):
         self.color = self.hex_to_ursina_color(self.hex_color)
 
     def create_label(self):
-        if self.editor_type == "block": return
-        label_text = {"player": "P", "enemy": "EN", "vent": "V", "fur": "F", "eye": "EY"}.get(self.editor_type, "X")
+        if self.editor_type == "block" or self.editor_type == "vent": return
+        label_text = {"player": "P", "enemy": "EN", "fur": "F", "eye": "EY"}.get(self.editor_type, "X")
         self.label = Text(parent=self, text=label_text, origin=(0, 0), scale=8, color=color.black, z=-0.1)
 
 class GridLevelEditor:
@@ -148,6 +153,7 @@ class GridLevelEditor:
     MODE_EYE_PROPERTIES = 8
     MODE_VENT_PLACE = 9
     MODE_TILE_PAINT = 10
+    MODE_VENT_PROPERTIES = 11
 
     def __init__(self, save_file="level.json", window_title="Grid Level Editor", grid_color=color.rgba(255, 255, 255, 120), marker_color=color.rgba(255, 255, 255, 90), background_color=color.black, camera_fov=32, min_camera_fov=6, max_camera_fov=128):
         self.app = Ursina()
@@ -187,7 +193,6 @@ class GridLevelEditor:
         self.show_marker = True
 
         self.current_mode = self.MODE_BLOCK_PLACE
-        
         self.active_tile_index = 0 
 
         self.min_camera_fov = min_camera_fov
@@ -221,7 +226,7 @@ class GridLevelEditor:
             "0: Player placement\n1: Block placement\n2: Block properties\n"
             "3: Fur placement\n4: Fur properties\n5: Enemy placement\n"
             "6: Enemy properties\n7: Eye placement\n8: Eye properties\n"
-            "9: Vent placement\nT: Tile painting mode\n"
+            "9: Vent placement\nV: Vent properties\nT: Tile painting mode\n"
             "J / K: Change active tile index\n"
             "LMB: place / drag / edit\nRMB: delete\nS: save map\nL: load map\n"
             "G: toggle grid\nM: toggle marker\nC: clear map\nHome: center camera\nArrows: move camera\nScroll: zoom"
@@ -239,12 +244,12 @@ class GridLevelEditor:
             self.MODE_EYE_PLACE: "Mode 7: Eye placement",
             self.MODE_EYE_PROPERTIES: "Mode 8: Eye properties",
             self.MODE_VENT_PLACE: "Mode 9: Vent placement",
+            self.MODE_VENT_PROPERTIES: "Mode V: Vent properties",
             self.MODE_TILE_PAINT: f"Mode T: Tile Painting (Active Index: {self.active_tile_index})"
         }
         return names.get(self.current_mode, "Unknown mode")
 
     def __setattr__(self, name, value):
-        # Bezpieczne przypisanie dla uniknięcia pętli rekurencyjnej przy inicjalizacji domyślnej
         try:
             super().__setattr__(name, value)
         except AttributeError:
@@ -348,7 +353,6 @@ class GridLevelEditor:
         objs.extend(self.blocks); objs.extend(self.furs); objs.extend(self.enemies); objs.extend(self.eyes); objs.extend(self.vents)
         return objs
 
-    # NAPRAWIONE: Precyzyjne sprawdzanie pozycji uwzględniające lewy-dolny róg klasy Block
     def get_object_under_mouse(self):
         m = self.get_mouse_world_2d()
         if m is None: return None
@@ -400,7 +404,7 @@ class GridLevelEditor:
             position=(clamped_position.x, clamped_position.y),
             size=(snapped_size.x, snapped_size.y),
             hex_color=hex_color,
-            tile_indices=[tile_index] * int(snapped_size.x * snapped_size.y)  # <--- TUTAJ dodane int()
+            tile_indices=[tile_index] * int(snapped_size.x * snapped_size.y)
         )
         block.z = 0
         self.blocks.append(block)
@@ -422,25 +426,27 @@ class GridLevelEditor:
         eye = EditorObject(editor_type="eye", position=(s.x, s.y), size=(1, 1), hex_color="#ffaaaa", z=0.13)
         eye.rotation_time = 4.0; self.eyes.append(eye); return eye
 
-    def create_vent(self, pos):
+    def create_vent(self, pos, tile_x=0, tile_y=2):
         s = self.snap_world_position_to_grid(pos)
-        vent = EditorObject(editor_type="vent", position=(s.x, s.y), size=(1, 1), hex_color="#555555", z=0.14)
+        vent = EditorObject(editor_type="vent", position=(s.x, s.y), size=(1, 1), z=0.14)
+        vent.tile_x = tile_x
+        vent.tile_y = tile_y
+        vent.update_vent_uv()
+        
         vent.vent_id = self.next_vent_id; self.next_vent_id += 1; self.vents.append(vent)
         if self.pending_vent is None:
-            self.pending_vent = vent; vent.vent_pair_id = self.next_vent_pair_id; vent.target_vent_id = None; vent.color = color.rgb(90, 90, 90)
+            self.pending_vent = vent; vent.vent_pair_id = self.next_vent_pair_id; vent.target_vent_id = None
         else:
             first = self.pending_vent; second = vent
             first.vent_pair_id = second.vent_pair_id = self.next_vent_pair_id
             first.target_vent_id, second.target_vent_id = second.vent_id, first.vent_id
-            first.color = second.color = color.rgb(80, 160, 255)
             self.pending_vent = None; self.next_vent_pair_id += 1
         return vent
 
     def rebuild_vent_connections_after_delete(self, deleted_vent):
         for vent in self.vents:
-            if vent.target_vent_id == deleted_vent.vent_id: vent.target_vent_id = None; vent.color = color.rgb(90, 90, 90); self.pending_vent = vent
+            if vent.target_vent_id == deleted_vent.vent_id: vent.target_vent_id = None; self.pending_vent = vent
 
-    # NAPRAWIONE: Pełna obsługa zmiany właściwości wraz ze skalowaniem, kolorem i sprajtem
     def open_block_properties_dialog(self, block):
         result = self.ask_text(
             "Block properties",
@@ -495,6 +501,19 @@ class GridLevelEditor:
         if result is None: return
         eye.rotation_time = self.parse_float(result, eye.rotation_time)
 
+    def open_vent_properties_dialog(self, vent):
+        result = self.ask_text(
+            "Vent properties", 
+            "Format:\ntile_x, tile_y", 
+            f"{vent.tile_x}, {vent.tile_y}"
+        )
+        if result is None: return
+        parts = self.split_csv(result)
+        if len(parts) >= 2:
+            vent.tile_x = int(self.parse_float(parts[0], vent.tile_x))
+            vent.tile_y = int(self.parse_float(parts[1], vent.tile_y))
+            vent.update_vent_uv()
+
     def open_save_dialog(self):
         result = self.ask_text("Save map", "Enter map name:", "level")
         if result is None: return
@@ -509,7 +528,6 @@ class GridLevelEditor:
         if m is None: return
         self.dragged_object = obj; self.drag_offset = Vec2(obj.x - m.x, obj.y - m.y)
 
-    # NAPRAWIONE: Bezpieczne przesuwanie bloków uwzględniające specyfikę ich zakotwiczenia
     def update_drag_object(self):
         if self.dragged_object is None: return
         if not held_keys["left mouse"]: self.dragged_object = None; self.drag_offset = Vec2(0, 0); return
@@ -529,7 +547,6 @@ class GridLevelEditor:
 
     def object_to_grid_data(self, obj): return self.world_to_grid(obj.x, obj.y)
 
-    # NAPRAWIONE: Usunięto ucinający funkcję return, teraz pełny eksport do JSON działa bezbłędnie!
     def get_level_data(self):
         player_data = None
         if self.player_spawn:
@@ -554,7 +571,18 @@ class GridLevelEditor:
         furs_data = [{"grid_x": self.world_to_grid(f.x, f.y)[0], "grid_y": self.world_to_grid(f.x, f.y)[1], "x": f.x, "y": f.y, "rarity": f.rarity, "hex_color": f.hex_color} for f in self.furs]
         enemies_data = [{"grid_x": self.world_to_grid(e.x, e.y)[0], "grid_y": self.world_to_grid(e.x, e.y)[1], "x": e.x, "y": e.y, "scale_x": e.scale_x, "scale_y": e.scale_y, "hex_color": e.hex_color, "speed": e.speed, "zone1": e.zone1, "zone2": e.zone2, "zone3": e.zone3} for e in self.enemies]
         eyes_data = [{"grid_x": self.world_to_grid(ey.x, ey.y)[0], "grid_y": self.world_to_grid(ey.x, ey.y)[1], "x": ey.x, "y": ey.y, "rotation_time": ey.rotation_time} for ey in self.eyes]
-        vents_data = [{"vent_id": v.vent_id, "target_vent_id": v.target_vent_id, "pair_id": v.vent_pair_id, "grid_x": self.world_to_grid(v.x, v.y)[0], "grid_y": self.world_to_grid(v.x, v.y)[1], "x": v.x, "y": v.y} for v in self.vents]
+        
+        vents_data = [{
+            "vent_id": v.vent_id, 
+            "target_vent_id": v.target_vent_id, 
+            "pair_id": v.vent_pair_id, 
+            "grid_x": self.world_to_grid(v.x, v.y)[0], 
+            "grid_y": self.world_to_grid(v.x, v.y)[1], 
+            "x": v.x, 
+            "y": v.y,
+            "tile_x": v.tile_x,
+            "tile_y": v.tile_y
+        } for v in self.vents]
 
         return {
             "cell_size": 1, 
@@ -613,14 +641,21 @@ class GridLevelEditor:
             enemy = self.create_enemy(self.grid_to_world(ed.get("grid_x", 0), ed.get("grid_y", 0)))
             enemy.scale = (ed.get("scale_x", 1), ed.get("scale_y", 1), 1); enemy.set_hex_color(ed.get("hex_color", "#ff0000")); enemy.speed = ed.get("speed", 5); enemy.zone1, enemy.zone2, enemy.zone3 = ed.get("zone1", 1.0), ed.get("zone2", 3.0), ed.get("zone3", 6.0)
         for ey in data.get("eyes", []): eye = self.create_eye(self.grid_to_world(ey.get("grid_x", 0), ey.get("grid_y", 0))); eye.rotation_time = ey.get("rotation_time", 4.0)
+        
         for vd in data.get("vents", []):
             pos = self.grid_to_world(vd.get("grid_x", 0), vd.get("grid_y", 0))
-            vent = EditorObject(editor_type="vent", position=(pos.x, pos.y), size=(1, 1), hex_color="#555555", z=0.14)
+            tx = vd.get("tile_x", 0)
+            ty = vd.get("tile_y", 2)
+            
+            vent = EditorObject(editor_type="vent", position=(pos.x, pos.y), size=(1, 1), z=0.14)
+            vent.tile_x = tx
+            vent.tile_y = ty
+            vent.update_vent_uv()
+            
             vent.vent_id = vd.get("vent_id", self.next_vent_id); vent.target_vent_id = vd.get("target_vent_id"); vent.vent_pair_id = vd.get("pair_id")
             self.vents.append(vent); self.next_vent_id = max(self.next_vent_id, vent.vent_id + 1)
 
         for vent in self.vents:
-            vent.color = color.rgb(80, 160, 255) if vent.target_vent_id is not None else color.rgb(90, 90, 90)
             if vent.target_vent_id is None: self.pending_vent = vent
         if self.vents:
             pids = [v.vent_pair_id for v in self.vents if v.vent_pair_id is not None]
@@ -650,7 +685,6 @@ class GridLevelEditor:
 
     def zoom_camera(self, amt): camera.fov = max(self.min_camera_fov, min(camera.fov - amt, self.max_camera_fov)); self.clamp_camera_to_sheet()
 
-    # NAPRAWIONE: Dokładne wyznaczanie relatywnej pozycji kliknięcia kafelka na siatce bloku (math.floor)
     def handle_left_click(self):
         clicked = self.get_object_under_mouse()
         snapped_pos = self.get_mouse_snapped_world_position()
@@ -681,6 +715,8 @@ class GridLevelEditor:
         elif self.current_mode == self.MODE_EYE_PROPERTIES:
             if clicked and getattr(clicked, "editor_type", None) == "eye": self.open_eye_properties_dialog(clicked)
         elif self.current_mode == self.MODE_VENT_PLACE: self.start_drag_object(clicked) if clicked else self.create_vent(snapped_pos)
+        elif self.current_mode == self.MODE_VENT_PROPERTIES:
+            if clicked and getattr(clicked, "editor_type", None) == "vent": self.open_vent_properties_dialog(clicked)
 
     def update(self):
         self.update_marker()
@@ -688,7 +724,6 @@ class GridLevelEditor:
         self.update_drag_object()
         self.clamp_camera_to_sheet()
         
-        # DODANE: Ciągłe rysowanie kafelków przy przytrzymaniu myszy w trybie malowania (T)
         if self.current_mode == self.MODE_TILE_PAINT and held_keys["left mouse"]:
             clicked = self.get_object_under_mouse()
             if clicked and getattr(clicked, "editor_type", None) == "block":
@@ -697,7 +732,6 @@ class GridLevelEditor:
                 rel_y = int(math.floor(m.y - (clicked.y - 0.5)))
                 clicked.change_tile_at(rel_x, rel_y, self.active_tile_index)
 
-        # DODANE: Blokada stawiania nowych bloków pod obiektem, który akurat przeciągamy
         if self.current_mode == self.MODE_BLOCK_PLACE and held_keys["left mouse"] and self.dragged_object is None:
             pos = self.get_mouse_snapped_world_position()
             if pos:
@@ -718,6 +752,7 @@ class GridLevelEditor:
             if key == str(i): self.set_mode(i)
         
         if key == "t": self.set_mode(self.MODE_TILE_PAINT)
+        if key == "v": self.set_mode(self.MODE_VENT_PROPERTIES)
 
         if key == "j":
             self.active_tile_index = max(0, self.active_tile_index - 1)

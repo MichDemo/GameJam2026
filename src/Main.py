@@ -16,7 +16,7 @@ app = Ursina()
 def load_map_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
-    full_path = os.path.join(project_root, "assets", "maps", "level_fur.json")
+    full_path = os.path.join(project_root, "assets", "maps", "level_vent.json")
     
     print(f"--- Wczytuję mapę z: {full_path} ---")
     with open(full_path, "r", encoding="utf-8") as f:

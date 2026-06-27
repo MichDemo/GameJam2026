@@ -12,6 +12,7 @@ class Vent(Entity):
         )
         self.player = player
         self.target_vent = target_vent
+        self.sound_file = Audio('../assets/audio/vent.mp3', autoplay=False)
         
         # Cooldown
         self.cooldown_duration = cooldown_duration
@@ -54,6 +55,8 @@ class Vent(Entity):
             self.prompt.enabled = False
 
     def start_teleport(self):
+        self.sound_file.play()
+
         if not self.target_vent:
             print("Ten wentyl nie ma ustawionego celu.")
             return

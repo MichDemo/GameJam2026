@@ -99,10 +99,28 @@ class Player(Rat):
             self.is_shrunk = False
 
     # --------------------------------------------------
+    # Akcje
+    # --------------------------------------------------
+
+    def jump(self):
+        """Blokuje skok, jeśli gracz jest obecnie skurczony."""
+        if self.is_shrunk:
+            return  # Przerywa działanie funkcji, skok się nie odbędzie
+            
+        super().jump()  # Wywołuje oryginalny skok z klasy Rat
+
+    # --------------------------------------------------
     # Update
     # --------------------------------------------------
 
     def update(self):
+        # ... reszta Twojego kodu update bez zmian ...
+        
+        # W = jump (teraz bezpiecznie odwołuje się do nowej metody wyżej)
+        if held_keys['w'] or held_keys['up arrow']:
+            self.jump()
+
+        # ... reszta Twojego kodu update ...
         # Ensure camera is not parented to player before scale changes.
         self.detach_camera_if_needed()
 

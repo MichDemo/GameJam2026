@@ -158,11 +158,24 @@ for eye_data in map_data.get("eyes", []):
         eye_obj.rotation_time = eye_data["rotation_time"]
 
 # --------------------------------------------------
-# --- GENEROWANIE WENTYLI ---
+# --- GENEROWANIE WENTYLI W MAIN.PY ---
 # --------------------------------------------------
 for v in map_data.get("vents", []):
     pos = (v["x"], v["y"])
-    vent_obj = Vent(player=player, position=pos, color=color.cyan)
+    
+    # Pobieramy współrzędne kafelka z JSON-a (zapisane przez edytor)
+    # Jeśli ich nie ma w starym zapisie mapy, dajemy domyślne (np. 0, 0)
+    tx = v.get("tile_x", 0)
+    ty = v.get("tile_y", 0)
+
+    # Tworzymy obiekt wentyla z dynamicznym kafelkiem z arkusza 32x32
+    vent_obj = Vent(
+        player=player, 
+        position=pos, 
+        tile_x=tx, 
+        tile_y=ty
+    )
+    
     created_vents[v["vent_id"]] = {"obj": vent_obj, "target_id": v["target_vent_id"]}
 
 for vent_id, info in created_vents.items():

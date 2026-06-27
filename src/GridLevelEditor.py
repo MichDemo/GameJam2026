@@ -8,7 +8,8 @@ from tkinter import filedialog, simpledialog
 from Block import Block
 
 class EditorObject(Entity):
-    GRID_WIDTH = 4
+    # Zsynchronizowane z Block.py (arkusz 9x3)
+    GRID_WIDTH = 9
     GRID_HEIGHT = 3
 
     def __init__(
@@ -27,20 +28,31 @@ class EditorObject(Entity):
         self.size_y = int(size[1])
         self.visual_tiles = []
 
+        # Współrzędne kafelka dla wentyli na siatce 9x3
+        self.tile_x = 0
+        self.tile_y = 2  # Domyślny rząd dla wentylacji
+
         visual_color = self.hex_to_ursina_color(self.hex_color)
+
+        if editor_type == "vent":
+            kwargs.setdefault('texture', '../assets/textures/LEVEL_BLOCK_SHEET.png')
+            kwargs.setdefault('color', color.white)
+        else:
+            kwargs.setdefault('color', visual_color)
 
         super().__init__(
             parent=scene,
-            model="quad" if editor_type != "block" else None, # Pusty model dla kontenera bloku
+            model="quad" if editor_type != "block" else None,
             position=(position[0], position[1], 0),
             scale=(1, 1, 1) if editor_type == "block" else (size[0], size[1], 1),
-            color=visual_color,
             **kwargs
         )
 
+        if self.editor_type == "vent":
+            self.update_vent_uv()
+
         if self.editor_type == "block":
             self.generate_tiles()
-            # Kolizja dla edytora, żeby dało się klikać i przeciągać bloczki
             self.collider = BoxCollider(
                 self, 
                 center=( (self.size_x - 1) / 2, (self.size_y - 1) / 2, 0 ), 
@@ -62,10 +74,19 @@ class EditorObject(Entity):
         self.label = None
         self.create_label()
 
+    def update_vent_uv(self):
+        # Arkusz ma wymiary 9x3 kafelki
+        tileset_cols = 9
+        tileset_rows = 3
+        
+        self.texture_scale = (1 / tileset_cols, 1 / tileset_rows)
+        self.texture_offset = (self.tile_x / tileset_cols, self.tile_y / tileset_rows)
+
     def generate_tiles(self):
         for tile in self.visual_tiles: destroy(tile)
         self.visual_tiles.clear()
 
+        # Generowanie kafelków dla bloków w edytorze na podstawie siatki 9x3
         tx = self.tile_index % self.GRID_WIDTH
         ty = (self.GRID_HEIGHT - 1) - (self.tile_index // self.GRID_WIDTH)
 
@@ -74,21 +95,13 @@ class EditorObject(Entity):
                 tile = Entity(
                     parent=self,
                     model='quad',
-                    texture='../assets/textures/SEWER_SPRITESHEET.png',
+                    texture='../assets/textures/LEVEL_BLOCK_SHEET.png', # Poprawione na LEVEL_BLOCK_SHEET
                     position=(x, y, -0.01),
                     scale=(1, 1, 1),
                     tileset_size=[self.GRID_WIDTH, self.GRID_HEIGHT],
                     tile_coordinate=(tx, ty)
                 )
                 self.visual_tiles.append(tile)
-
-    def change_tile(self, index):
-        self.tile_index = index
-        if self.editor_type == "block":
-            tx = index % self.GRID_WIDTH
-            ty = (self.GRID_HEIGHT - 1) - (index // self.GRID_WIDTH)
-            for tile in self.visual_tiles:
-                tile.tile_coordinate = (tx, ty)
 
     @property
     def scale_x(self): return self.size_x

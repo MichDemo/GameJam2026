@@ -1,0 +1,302 @@
+{
+    "cell_size": 1,
+    "grid_width": 256,
+    "grid_height": 256,
+    "origin": {
+        "x": 0,
+        "y": 0
+    },
+    "blocks": [
+        {
+            "grid_x": 116,
+            "grid_y": 128,
+            "x": 116.5,
+            "y": 128.5,
+            "scale_x": 50.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 91,
+            "grid_y": 140,
+            "x": 91.5,
+            "y": 140.5,
+            "scale_x": 1.0,
+            "scale_y": 25.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 116,
+            "grid_y": 152,
+            "x": 116.5,
+            "y": 152.5,
+            "scale_x": 50.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 140,
+            "x": 141.5,
+            "y": 140.5,
+            "scale_x": 1.0,
+            "scale_y": 25.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 100,
+            "grid_y": 138,
+            "x": 100.5,
+            "y": 138.5,
+            "scale_x": 1.0,
+            "scale_y": 12.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 113,
+            "grid_y": 132,
+            "x": 113.5,
+            "y": 132.5,
+            "scale_x": 27.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 149,
+            "x": 138.5,
+            "y": 149.5,
+            "scale_x": 3.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 147,
+            "x": 140.5,
+            "y": 147.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 146,
+            "x": 137.5,
+            "y": 146.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 143,
+            "x": 138.5,
+            "y": 143.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 140,
+            "x": 139.5,
+            "y": 140.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 138,
+            "x": 139.5,
+            "y": 138.5,
+            "scale_x": 4.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 134,
+            "x": 123.5,
+            "y": 134.5,
+            "scale_x": 4.0,
+            "scale_y": 2.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 130,
+            "x": 128.5,
+            "y": 130.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 118,
+            "grid_y": 134,
+            "x": 118.5,
+            "y": 134.5,
+            "scale_x": 1.0,
+            "scale_y": 4.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 115,
+            "grid_y": 149,
+            "x": 115.5,
+            "y": 149.5,
+            "scale_x": 31.0,
+            "scale_y": 7.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 122,
+            "grid_y": 144,
+            "x": 122.5,
+            "y": 144.5,
+            "scale_x": 27.0,
+            "scale_y": 2.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 105,
+            "grid_y": 144,
+            "x": 105.5,
+            "y": 144.5,
+            "scale_x": 11.0,
+            "scale_y": 2.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 137,
+            "x": 123.5,
+            "y": 137.5,
+            "scale_x": 2.0,
+            "scale_y": 4.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 119,
+            "grid_y": 141,
+            "x": 119.5,
+            "y": 141.5,
+            "scale_x": 10.0,
+            "scale_y": 6.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 115,
+            "grid_y": 138,
+            "x": 115.5,
+            "y": 138.5,
+            "scale_x": 2.0,
+            "scale_y": 3.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 149,
+            "x": 135.5,
+            "y": 149.5,
+            "scale_x": 2.0,
+            "scale_y": 1.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 148,
+            "x": 136.5,
+            "y": 148.5,
+            "scale_x": 1.0,
+            "scale_y": 6.0,
+            "hex_color": "#44aa44"
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 144,
+            "x": 135.5,
+            "y": 144.5,
+            "scale_x": 3.0,
+            "scale_y": 2.0,
+            "hex_color": "#44aa44"
+        }
+    ],
+    "furs": [
+        {
+            "grid_x": 133,
+            "grid_y": 150,
+            "x": 133.5,
+            "y": 150.5,
+            "rarity": "Common",
+            "hex_color": "#8b5a2b"
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 150,
+            "x": 138.5,
+            "y": 150.5,
+            "rarity": "Common",
+            "hex_color": "#8b5a2b"
+        }
+    ],
+    "enemies": [
+        {
+            "grid_x": 133,
+            "grid_y": 129,
+            "x": 133.5,
+            "y": 129.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ff0000",
+            "speed": 5,
+            "zone1": 1.0,
+            "zone2": 3.0,
+            "zone3": 6.0
+        },
+        {
+            "grid_x": 93,
+            "grid_y": 129,
+            "x": 93.5,
+            "y": 129.5,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "hex_color": "#ff0000",
+            "speed": 5,
+            "zone1": 1.0,
+            "zone2": 3.0,
+            "zone3": 6.0
+        }
+    ],
+    "eyes": [
+        {
+            "grid_x": 115,
+            "grid_y": 136,
+            "x": 115.5,
+            "y": 136.5,
+            "rotation_time": 4.0
+        }
+    ],
+    "vents": [
+        {
+            "vent_id": 3,
+            "target_vent_id": 4,
+            "pair_id": 3,
+            "grid_x": 138,
+            "grid_y": 139,
+            "x": 138.5,
+            "y": 139.5
+        },
+        {
+            "vent_id": 4,
+            "target_vent_id": 3,
+            "pair_id": 3,
+            "grid_x": 102,
+            "grid_y": 133,
+            "x": 102.5,
+            "y": 133.5
+        }
+    ]
+}

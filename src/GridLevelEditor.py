@@ -41,7 +41,7 @@ class EditorObject(Entity):
 
         self.vent_id = None
         self.target_vent_id = None
-        self.vent_pair_id = None
+        self.vent_pair_id = None    
 
         self.label = None
         self.create_label()

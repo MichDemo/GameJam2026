@@ -16,7 +16,7 @@ app = Ursina()
 def load_map_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
-    full_path = os.path.join(project_root, "assets", "maps", "level_2.json")
+    full_path = os.path.join(project_root, "assets", "maps", "level_1.json")
     
     print(f"--- Wczytuję mapę z: {full_path} ---")
     with open(full_path, "r", encoding="utf-8") as f:
@@ -68,11 +68,21 @@ player = Player(
 for b in map_data.get("blocks", []):
     pos = (b["x"], b["y"])  
     size = (b["scale_x"], b["scale_y"])
-    block_obj = Block(position=pos, size=size, hex_color=b.get("hex_color"))
-    all_blocks.append(block_obj)  # <--- TUTAJ dodajemy blok do listy!
-
-# Przekazujemy klocki graczowi
-player.solid_objects = all_blocks
+    
+    # Pobieramy koordynaty kafelka ze spritesheeta z pliku JSON. 
+    # Jeśli ich nie ma, domyślnie bierzemy lewy dolny róg (0, 0)
+    tx = b.get("tile_x", 0)
+    ty = b.get("tile_y", 0)
+    
+    # Tworzymy blok ze spritesheetem
+    block_obj = Block(position=pos, size=size, tile_x=tx, tile_y=ty)
+    
+    # Jeśli nadal chcesz nakładać kolor z JSON-a na teksturę (np. przyciemnienie):
+    if "hex_color" in b:
+        # Zakładam, że masz tę metodę statyczną w klasie Block lub używasz color.hex()
+        block_obj.color = color.hex(b["hex_color"]) 
+        
+    all_blocks.append(block_obj)
 
 # --------------------------------------------------
 # --- GENEROWANIE FUTER ---

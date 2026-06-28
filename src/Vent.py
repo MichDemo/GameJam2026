@@ -17,14 +17,20 @@ class Vent(Entity):
         self.sound_file = Audio('../assets/audio/vent.mp3', autoplay=False)
 
 
+<<<<<<< HEAD
         # --- DYNAMICZNE MAPOWANIE UV (Siatka 9x3, kafelki po 32x32px) ---
         tileset_cols = 9
         tileset_rows = 3
+=======
+        # --- DYNAMICZNE MAPOWANIE UV (Siatka kafelków 9x3) ---
+        tileset_cols = 9  
+        tileset_rows = 3  
+>>>>>>> VentTextures
 
-        # Wycinamy kafelek z arkusza o wymiarach 9x3
+        # Wycinamy kafelek na podstawie podanych współrzędnych
         self.texture_scale = (1 / tileset_cols, 1 / tileset_rows)
         self.texture_offset = (tile_x / tileset_cols, tile_y / tileset_rows)
-        # -----------------------------------------------------------------
+        # -----------------------------------------------------
 
         # Cooldown
         self.cooldown_duration = cooldown_duration

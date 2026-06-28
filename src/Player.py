@@ -22,7 +22,7 @@ class Player(Rat):
         # Wczytanie dźwięku kroku
         self.step_sound = Audio('../assets/audio/kroki_szczura.mp3', loop=False, autoplay=False)
         self.step_timer = 0
-        self.step_interval = 0.1  # Przerwa między dźwiękami kroków (w sekundach)
+        self.step_interval = 0.001  # Przerwa między dźwiękami kroków (w sekundach)
 
         # --- NIUCHANIE ---
         self.sniff_sound = Audio('../assets/audio/niuch.mp3', autoplay=False)

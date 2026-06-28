@@ -17,8 +17,8 @@ app = Ursina()
 def load_map_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
-    full_path = os.path.join(project_root, "assets", "maps", "main_hub.json")
-
+    full_path = os.path.join(project_root, "assets", "maps", "level_dupa.json")
+    
     print(f"--- Wczytuję mapę z: {full_path} ---")
     with open(full_path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -102,7 +102,7 @@ for f in map_data.get("furs", []):
 total_furs = len(all_furs)
 print(f"--- Znaleziono futer na mapie: {total_furs} ---")
 # --------------------------------------------------
-# --- GENEROWANIE PRZECIWNIKÓW ----
+# --- GENEROWANIE PRZECIWNIKÓW ----sounds
 # --------------------------------------------------
 # Słownik mapujący kolory z pliku JSON na warianty spritów (na podstawie obraz.png)
 color_to_variant = {
@@ -119,7 +119,7 @@ for e in map_data.get("enemies", []):
 
     # Pobieramy kolor z JSON-a (zamieniamy na małe litery dla pewności)
     hex_col = e.get("hex_color", "#ff0000").lower()
-    
+
     # Wybieramy odpowiedni wariant sprita (jeśli brak w słowniku, domyślnie "brown")
     chosen_variant = color_to_variant.get(hex_col, "brown")
 
@@ -134,7 +134,7 @@ for e in map_data.get("enemies", []):
         use_gravity=True,
         solid_objects=solid_blocks,  # <--- Podmieniono na solid_blocks (tylko bloki z kolizją)
         show_zones=False,
-        variant=chosen_variant 
+        variant=chosen_variant
     )
 
 # --------------------------------------------------
@@ -162,7 +162,7 @@ for eye_data in map_data.get("eyes", []):
 # --------------------------------------------------
 for v in map_data.get("vents", []):
     pos = (v["x"], v["y"])
-    
+
     # Pobieramy współrzędne kafelka z JSON-a (zapisane przez edytor)
     # Jeśli ich nie ma w starym zapisie mapy, dajemy domyślne (np. 0, 0)
     tx = v.get("tile_x", 0)
@@ -170,12 +170,12 @@ for v in map_data.get("vents", []):
 
     # Tworzymy obiekt wentyla z dynamicznym kafelkiem z arkusza 32x32
     vent_obj = Vent(
-        player=player, 
-        position=pos, 
-        tile_x=tx, 
+        player=player,
+        position=pos,
+        tile_x=tx,
         tile_y=ty
     )
-    
+
     created_vents[v["vent_id"]] = {"obj": vent_obj, "target_id": v["target_vent_id"]}
 
 for vent_id, info in created_vents.items():
@@ -216,6 +216,12 @@ def update():
 
 
 Sky()
+
+# --- AUDIO ---
+# autoplay=True sprawi, że muzyka ruszy od razu
+# Inicjalizacja muzyki (autoplay=False, loop=True)
+# music_house = Audio('assets/audio/dom.mp3', loop=True, autoplay=False)
+music_sewers = Audio('../assets/audio/scieki_safezone.mp3', loop=True, autoplay=True)
 
 licznik_tekst = Text(text=f'Futra: 0/{total_furs}', position=(-0.8, 0.45), scale=2)
 

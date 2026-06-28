@@ -6,7 +6,7 @@ class Vent(Entity):
         # Domyślna tekstura dla wentylacji
         kwargs.setdefault('texture', 'LEVEL_BLOCK_SHEET.png')
         kwargs.setdefault('color', color.white)
-        
+
         super().__init__(
             model='quad',
             collider='box',
@@ -14,10 +14,12 @@ class Vent(Entity):
         )
         self.player = player
         self.target_vent = target_vent
+        self.sound_file = Audio('../assets/audio/vent.mp3', autoplay=False)
 
-        # --- DYNAMICZNE MAPOWANIE UV (Siatka kafelków 9x3) ---
-        tileset_cols = 9  
-        tileset_rows = 3  
+
+        # --- DYNAMICZNE MAPOWANIE UV (Siatka 9x3, kafelki po 32x32px) ---
+        tileset_cols = 9
+        tileset_rows = 3
 
         # Wycinamy kafelek na podstawie podanych współrzędnych
         self.texture_scale = (1 / tileset_cols, 1 / tileset_rows)
@@ -60,6 +62,8 @@ class Vent(Entity):
             self.prompt.enabled = False
 
     def start_teleport(self):
+        self.sound_file.play()
+
         if not self.target_vent:
             print("Ten wentyl nie ma ustawionego celu.")
             return
@@ -114,3 +118,5 @@ class Vent(Entity):
 
         self.cooldown_timer = self.cooldown_duration
         self.target_vent.cooldown_timer = self.target_vent.cooldown_duration
+
+        print("Płynna podróż załamana pod kątem 90 stopni zakończona!")

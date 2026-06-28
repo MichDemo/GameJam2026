@@ -1,6 +1,6 @@
 from ursina import *
 from Rat import Rat
-
+import random
 
 class Player(Rat):
     def __init__(
@@ -19,6 +19,22 @@ class Player(Rat):
         self.WEST = -1
         self.EAST = 1
 
+        # Wczytanie dźwięku kroku
+        self.step_sound = Audio('../assets/audio/kroki_szczura.mp3', loop=False, autoplay=False)
+        self.step_timer = 0
+        self.step_interval = 0.1  # Przerwa między dźwiękami kroków (w sekundach)
+
+        # --- NIUCHANIE ---
+        self.sniff_sound = Audio('../assets/audio/niuch.mp3', autoplay=False)
+        # Pierwsze losowe odliczenie
+        self.sniff_timer = random.uniform(1, 5)
+        # --- SKAKANIE ---
+        self.jump_sound = Audio('../assets/audio/jump.mp3', loop=False, autoplay=False)
+
+        # --- PRECYZYJNE KADROWANIE SPRITESHEETU (3x4) ---
+        self.RAT_GRID_WIDTH = 3
+        self.RAT_GRID_HEIGHT = 4
+
         self.NATIVE_SPRITE_DIRECTION = self.WEST
 
         self.facing_direction = self.EAST
@@ -34,10 +50,7 @@ class Player(Rat):
         self.hitbox_height_multiplier = 0.82
 
         self.normal_size = Vec2(self.scale_x, self.scale_y)
-        self.shrink_size = Vec2(
-            self.normal_size.x,
-            self.normal_size.y
-        )
+        self.shrink_size = Vec2(self.normal_size.x, self.normal_size.y)
 
         self.is_shrunk = False
 
@@ -206,7 +219,12 @@ class Player(Rat):
         was_grounded = self.grounded
         super().jump()
 
+        # Jeśli gracz stał na ziemi i właśnie wzbił się w powietrze
         if was_grounded and not self.grounded:
+            # Odtwarzamy dźwięk skoku (jeśli już nie leci)
+            if not self.jump_sound.playing:
+                self.jump_sound.play()
+
             self.animation_timer = 0.0
             self.set_sprite_frame(9)
 
@@ -220,12 +238,12 @@ class Player(Rat):
         left_pressed = held_keys['a'] or held_keys['left arrow']
         right_pressed = held_keys['d'] or held_keys['right arrow']
 
+
         direction_x = 0
 
         if left_pressed and not right_pressed:
             direction_x = -1
             self.set_facing(self.WEST)
-
         elif right_pressed and not left_pressed:
             direction_x = 1
             self.set_facing(self.EAST)
@@ -241,6 +259,32 @@ class Player(Rat):
             self.unshrink()
 
         super().update()
-
         self.update_animation(direction_x)
+
+        # NAPRAWIONA LOGIKA KROKÓW: Gracz porusza się, jeśli kierunek X jest różny od zera
+        moving = (direction_x != 0)
+
+
+        if moving and self.grounded:
+            self.step_timer += time.dt
+            if self.step_timer >= self.step_interval:
+                if not self.step_sound.playing:
+                    self.step_sound.play()
+                self.step_timer = 0
+        else:
+            self.step_timer = self.step_interval
+
+        # Obsługa timera niuchania
+        if hasattr(self, 'sniff_timer'):
+            self.sniff_timer -= time.dt
+
+        if self.sniff_timer <= 0:
+            self.niuch()
+            self.sniff_timer = random.uniform(5, 13)
+
         self.update_camera_follow()
+
+    # NAPRAWIONE: Funkcja wyciągnięta na poziom klasy z poprawną nazwą Audio
+    def niuch(self):
+        if not self.sniff_sound.playing:
+            self.sniff_sound.play()

@@ -12,12 +12,19 @@ from Vent import Vent
 
 app = Ursina()
 
+# --- DODAJ TO TUTAJ, ABY URSINA WIEDZIAŁA GDZIE SĄ TEKSTURY ---
+import pathlib
+current_dir = pathlib.Path(__file__).parent.resolve()
+# Jeśli assets jest folder wyżej niż src:
+application.asset_folder = current_dir.parent / "assets"
+# Jeśli tekstury masz w assets/textures, Ursina automatycznie tam też zajrzy, 
+# pod warunkiem że asset_folder wskazuje na główny katalog zasobów.
 
 # 1. Dynamiczne wyznaczenie poprawnej ścieżki do pliku JSON
 def load_map_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
-    full_path = os.path.join(project_root, "assets", "maps", "level_dupa.json")
+    full_path = os.path.join(project_root, "assets", "maps", "super_level_1.json")
     
     print(f"--- Wczytuję mapę z: {full_path} ---")
     with open(full_path, "r", encoding="utf-8") as f:

@@ -79,45 +79,6 @@
             "has_collision": true
         },
         {
-            "grid_x": 129,
-            "grid_y": 128,
-            "x": 129.5,
-            "y": 128.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 128,
-            "grid_y": 128,
-            "x": 128.5,
-            "y": 128.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 130,
-            "grid_y": 128,
-            "x": 130.5,
-            "y": 128.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
             "grid_x": 122,
             "grid_y": 129,
             "x": 122.5,
@@ -200,19 +161,6 @@
             "grid_y": 134,
             "x": 122.5,
             "y": 134.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 133,
-            "grid_y": 129,
-            "x": 133.5,
-            "y": 129.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -382,19 +330,6 @@
             "grid_y": 103,
             "x": 134.5,
             "y": 103.5,
-            "scale_x": 1,
-            "scale_y": 1,
-            "hex_color": "#ffffff",
-            "tile_indices": [
-                0
-            ],
-            "has_collision": true
-        },
-        {
-            "grid_x": 134,
-            "grid_y": 130,
-            "x": 134.5,
-            "y": 130.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",
@@ -720,6 +655,32 @@
             "grid_y": 137,
             "x": 151.5,
             "y": 137.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 128,
+            "x": 132.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 129,
+            "x": 133.5,
+            "y": 129.5,
             "scale_x": 1,
             "scale_y": 1,
             "hex_color": "#ffffff",

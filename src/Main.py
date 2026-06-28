@@ -12,17 +12,15 @@ from Vent import Vent
 
 app = Ursina()
 
-
 # 1. Dynamiczne wyznaczenie poprawnej ścieżki do pliku JSON
 def load_map_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(current_dir)
     full_path = os.path.join(project_root, "assets", "maps", "level_dupa.json")
-
+    
     print(f"--- Wczytuję mapę z: {full_path} ---")
     with open(full_path, "r", encoding="utf-8") as f:
         return json.load(f)
-
 
 map_data = load_map_data()
 
@@ -58,7 +56,7 @@ player = Player(
     speed=10,
     jump_force=15,
     use_gravity=True,
-    solid_objects=[],
+    solid_objects=[],  
     camera_follow=True,
     camera_offset=(0, 0),
     camera_z=-20
@@ -69,19 +67,19 @@ player = Player(
 # --------------------------------------------------
 for b in map_data.get("blocks", []):
     # Wyciągamy dane z JSON-a
-    pos = (b["x"], b["y"])
+    pos = (b["x"], b["y"])  
     size = (b["scale_x"], b["scale_y"])
-
+    
     # Pobieramy unikalny kod/indeks tekstury przypisany do bloku (domyślnie 0)
     t_index = b.get("tile_indices", 0)
-
+    
     # Tworzymy blok
     block_obj = Block(position=pos, size=size, tile_indices=t_index, has_collision=b["has_collision"])
     print(f"Collision for block at {pos}: {b['has_collision']}")
-
+    
     if "hex_color" in b:
-        block_obj.color = color.hex(b["hex_color"])
-
+        block_obj.color = color.hex(b["hex_color"]) 
+        
     all_blocks.append(block_obj)
 
 # Filtrujemy bloki! Przekazujemy graczowi TYLKO te, które mają włączoną kolizję.
@@ -94,7 +92,7 @@ player.solid_objects = solid_blocks
 all_furs = []  # Tworzymy listę, w której będziemy trzymać obiekty futer
 
 for f in map_data.get("furs", []):
-    pos = (f["x"], f["y"])
+    pos = (f["x"], f["y"])  
     fur_obj = Fur(player=player, position=pos, hold_time=0.6)
     all_furs.append(fur_obj)  # Dodajemy każde stworzone futro do listy
 

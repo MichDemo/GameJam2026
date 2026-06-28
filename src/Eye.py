@@ -7,7 +7,7 @@ class Eye(Rat):
         self, 
         player=None, 
         facing_direction=1, 
-        zone_radius=4.5,          # <-- ZMIANA: Pojedyncza wartość
+        zone_radius=4.5,          
         fov_degrees=120, 
         show_zones=False,  
         detection_delay=2.0,  
@@ -16,19 +16,18 @@ class Eye(Rat):
         super().__init__(**kwargs)
 
         # --- KONFIGURACJA SPRITESHEET OKA ---
-        self.texture = load_texture("EYE_ENEMY") # Nazwa pliku bez .png
-        self.num_cols = 4  # Zliczając z obrazka: masz 4 kolumny
-        self.num_rows = 4  # Ostatni rząd jest niepełny, ale zdefiniujmy jako 4
-        self.total_frames = 13 # Masz 13 klatek (4*4 minus 3 puste)
+        self.texture = load_texture("EYE_ENEMY") 
+        self.num_cols = 4  
+        self.num_rows = 4  
+        self.total_frames = 13 
         self.frame = 0
         
-        # Ustawienie skali jednej klatki
         self.texture_scale = (1/self.num_cols, 1/self.num_rows)
         self.color = color.white
         
         self.player = player
         self.facing_direction = facing_direction  
-        self.zone_radius = zone_radius          # <-- ZMIANA: Jeden promień
+        self.zone_radius = zone_radius          
         self.fov = fov_degrees
         self.fov_default = fov_degrees  
 
@@ -39,7 +38,6 @@ class Eye(Rat):
             "search":  (11, 12)
         }
         self.current_anim = "idle"
-        # Dodajemy zmienną do śledzenia poprzedniego kierunku
         self.last_direction = self.facing_direction
         self.frame = 0
         
@@ -60,15 +58,41 @@ class Eye(Rat):
         self.loss_timer = 0.0           
         
         self.show_zones = show_zones  
-        
-        # --- ZMIANA: Jeden kolor ---
         self.zone_color = color.salmon   
         
-        self.zone_visual = None                 # <-- ZMIANA: Jeden obiekt
+        self.zone_visual = None                 
         self._init_zone_visuals()
 
+        # --- INICJALIZACJA IKONY NAD GŁOWĄ (NOWOŚĆ / ZMIANA INDEKSÓW) ---
+        self.icons_cols = 2  
+        self.icons_rows = 1  
+        
+        # Definiujemy indeksy klatek w pliku GENERIC_ICONS.png
+        self.exclamation_mark_frame = 0  # Wykrzyknik (indeks 0)
+        self.question_mark_frame = 1     # Znak zapytania (indeks 1)
+
+        self.icon_notifier = Entity(
+            parent=self,              
+            model="quad",
+            texture=load_texture("GENERIC_ICONS"),
+            position=(0, 0.8, -0.01), 
+            scale=(0.4, 0.4),         
+            enabled=False             
+        )
+        
+        self.icon_notifier.texture_scale = (1 / self.icons_cols, 1 / self.icons_rows)
+        # Domyślnie ustawiamy na znak zapytania
+        self.update_icon_texture_offset(self.question_mark_frame)
+
+    def update_icon_texture_offset(self, frame_index):
+        """Dynamicznie zmienia wyświetlaną ikonę na podstawie podanego indeksu klatki"""
+        col = frame_index % self.icons_cols
+        row = frame_index // self.icons_cols
+        sx = 1 / self.icons_cols
+        sy = 1 / self.icons_rows
+        self.icon_notifier.texture_offset = (col * sx, 1 - (row + 1) * sy)
+
     def _init_zone_visuals(self):
-        # --- ZMIANA: Tworzenie pojedynczego quada ---
         self.zone_visual = Entity(
             model='quad',
             color=self.zone_color,
@@ -77,7 +101,6 @@ class Eye(Rat):
         )
 
     def update_zone_visuals(self):
-        # --- ZMIANA: Uproszczona aktualizacja ---
         if not self.show_zones:
             self.zone_visual.enabled = False
             return
@@ -126,7 +149,6 @@ class Eye(Rat):
                 
                 self.detection_timer += time.dt
                 
-                # --- NOWOŚĆ: Podczas skanowania blokujemy wzrok na graczu ---
                 if to_player.x > 0.002:
                     self.target_direction = 1
                 elif to_player.x < -0.002:
@@ -149,10 +171,8 @@ class Eye(Rat):
                 self.detection_timer = 0.0
 
     def handle_behavior(self):
-        """Przetwarza stan wykrywania i ustawia docelowy kierunek spojrzenia."""
         target_pos = None
 
-        # Stan A: Gracz w pełni wykryty
         if self.current_zone is not None:
             self.idle_turn_timer = 0.0
             self.loss_timer = 0.0  
@@ -160,15 +180,12 @@ class Eye(Rat):
             self.fov = 360  
             self.last_seen_position = Vec3(self.player.x, self.player.y, self.player.z)
 
-        # NOWOŚĆ -> Stan A.5: Gracz jest dopiero skanowany (timer odlicza, ale jeszcze nie wykryty)
         elif self.detection_timer > 0.0:
             self.idle_turn_timer = 0.0
             self.loss_timer = 0.0
-            # Wzrok jest blokowany bezpośrednio w check_player_detection, więc tutaj nic nie nadpisujemy
 
-        # Stan B: Gracz zgubiony -> Patrz w tamtą stronę przez określony czas
         elif self.last_seen_position is not None:
-            self.idle_turn_timer = 0.0  # Blokujemy timer obrotów w tle!
+            self.idle_turn_timer = 0.0  
             self.fov = self.fov_default  
             target_pos = self.last_seen_position
             
@@ -184,9 +201,8 @@ class Eye(Rat):
                     self.loss_timer = 0.0
                     target_pos = None
 
-        # Stan C: Prawdziwy, czysty Tryb Idle (Włączany tylko, gdy powyższe są nieaktywne)
         else:
-            self.loss_timer = 0.0  # Czyszczenie na wszelki wypadek
+            self.loss_timer = 0.0  
             self.fov = self.fov_default
             
             self.idle_turn_timer += time.dt
@@ -194,8 +210,6 @@ class Eye(Rat):
                 self.target_direction = -1 if self.target_direction == 1 else 1
                 self.idle_turn_timer = 0.0
 
-        # Wyznaczenie docelowego kierunku na podstawie aktywnego celu (Gracz / Ostatnia pozycja)
-        # Ignorujemy to, jeśli trwa skanowanie (pomiędzy Stanem A a B)
         if target_pos is not None and self.detection_timer == 0.0:
             move_dir = target_pos - self.position
             if move_dir.x > 0.002:
@@ -206,23 +220,18 @@ class Eye(Rat):
     def play_animation(self, anim_name):
         if self.current_anim != anim_name:
             self.current_anim = anim_name
-            self.frame = self.animations[anim_name][0] # Reset do pierwszej klatki nowej animacji
+            self.frame = self.animations[anim_name][0] 
 
     def update(self):
         super().update()
         self.check_player_detection()
         self.handle_behavior()
         
-        # Zapamiętujemy stary kierunek
         old_dir = self.facing_direction
-        # Wykonujemy obrót
         self.facing_direction = lerp(self.facing_direction, self.target_direction, time.dt * self.rotation_speed)
         
-        # Jeśli różnica między kierunkami jest duża (oko jest w trakcie intensywnego obrotu),
-        # lub jeśli przechodzi przez zero:
-        is_turning = abs(self.facing_direction) < 0.5  # Oko "patrzy" w bok, gdy jest blisko 0
+        is_turning = abs(self.facing_direction) < 0.5  
         
-        # 1. Wybór stanu
         if is_turning:
             new_anim = "turning"
         elif self.current_zone is not None:
@@ -234,42 +243,48 @@ class Eye(Rat):
             
         start, end = self.animations[new_anim]
         
-        # ... reszta kodu (reset, obliczanie klatki, renderowanie)
-        # Reset przy zmianie animacji
         if self.current_anim != new_anim:
             self.current_anim = new_anim
             self.frame = start
             
-        # 2. Animacja
-        # Jeśli to turning, nie zapętlajmy w nieskończoność, tylko odtwórzmy raz 
-        # (albo użyj modulo, jeśli wolisz szybkie zapętlenie)
         elapsed = int(time.time() * 7)
         self.frame = start + (elapsed % (end - start + 1))
         
-        # 3. Renderowanie
         col = self.frame % self.num_cols
         row = self.frame // self.num_cols
         
         sx = 1 / self.num_cols
         sy = 1 / self.num_rows
         
-        # ZMYSŁOWE OKREŚLENIE KIERUNKU:
-        # Używamy target_direction (docelowego), albo sprawdzamy znak facing_direction
-        # Ale robimy to raz, aby nie "drżało" podczas lerpowania
         direction_sign = -1 if self.facing_direction >= 0 else 1
         
-        # OBLICZANIE WIERZA (Uwaga: sprawdź czy to działa, jeśli oko jest do góry nogami, zamień na row = row_from_top)
         row_from_top = self.frame // self.num_cols
         row = (self.num_rows - 1) - row_from_top
         col = self.frame % self.num_cols
         
-        # Renderowanie
         if direction_sign >= 0: 
             self.texture_scale = (sx, sy)
             self.texture_offset = (col * sx, row * sy)
+            self.icon_notifier.scale_x = abs(self.icon_notifier.scale_x)
         else: 
             self.texture_scale = (-sx, sy)
             self.texture_offset = ((col + 1) * sx, row * sy)
+            self.icon_notifier.scale_x = -abs(self.icon_notifier.scale_x)
+
+        # --- DYNAMICZNA LOGIKA IKON (NOWOŚĆ) ---
+        if self.current_zone is not None:
+            # Stan 1: Gracz całkowicie wykryty -> Pokaż WYKRZYKNIK
+            self.icon_notifier.enabled = True
+            self.update_icon_texture_offset(self.exclamation_mark_frame)
+            
+        elif self.detection_timer > 0.0:
+            # Stan 2: Trwa odliczanie/skanowanie -> Pokaż ZNAK ZAPYTANIA
+            self.icon_notifier.enabled = True
+            self.update_icon_texture_offset(self.question_mark_frame)
+            
+        else:
+            # Stan 3: Czysto -> Ukryj ikonę
+            self.icon_notifier.enabled = False
             
         self.last_direction = self.facing_direction
         self.update_zone_visuals()

@@ -80,9 +80,30 @@ class Enemy(Rat):
         self.num_rows = config["rows"]
         self.total_frames = config.get("anim_frames", self.num_cols * self.num_rows)
         
-        # TO JEST KLUCZOWE:
         self.texture_scale = (1 / self.num_cols, 1 / self.num_rows)
         self.color = color if color is not None else ursina_color.white
+
+        # --- INICJALIZACJA IKONY NAD GŁOWĄ (NOWOŚĆ) ---
+        # Zakładam przykładową siatkę ikon, np. 4 kolumny na 4 rzędy. 
+        # Zmień te wartości (icons_cols, icons_rows) na zgodne z Twoim plikiem GENERIC_ICONS.png!
+        self.icons_cols = 4  
+        self.icons_rows = 4  
+        
+        # Wybierz, na której klatce (indeksie) znajduje się znak zapytania (np. kolumna 0, rząd 0 -> indeks 0)
+        self.question_mark_frame = 0 
+
+        self.icon_notifier = Entity(
+            parent=self,              # Przypisanie jako dziecko szczura
+            model="quad",
+            texture=load_texture("GENERIC_ICONS"),
+            position=(0, 0.8, -0.01), # Pozycja lekko nad szczurem (w lokalnych współrzędnych)
+            scale=(0.4, 0.4),         # Rozmiar ikony relative do szczura
+            enabled=False             # Domyślnie ukryta
+        )
+        
+        # Ustawienie poprawnego wycięcia (skali) dla ikony z jej spritesheetu
+        self.icon_notifier.texture_scale = (1 / self.icons_cols, 1 / self.icons_rows)
+        self.update_icon_texture_offset()
 
         # --- Inicjalizacja reszty ---
         self.base_speed = float(speed)
@@ -107,6 +128,17 @@ class Enemy(Rat):
         
         self.create_zone_visuals()
         self.update_zone_visuals()
+
+    # --------------------------------------------------
+    # Helper do mapowania ikony ze spritesheetu (NOWOŚĆ)
+    # --------------------------------------------------
+    def update_icon_texture_offset(self):
+        col = self.question_mark_frame % self.icons_cols
+        row = self.question_mark_frame // self.icons_cols
+        sx = 1 / self.icons_cols
+        sy = 1 / self.icons_rows
+        # Mapowanie od lewego dolnego rogu w Ursina
+        self.icon_notifier.texture_offset = (col * sx, 1 - (row + 1) * sy)
 
     # --------------------------------------------------
     # Solid filtering
@@ -402,16 +434,16 @@ class Enemy(Rat):
         elif direction_x < -0.001:
             self.facing_direction = -1
 
-        # Ustawiamy skalę tak, aby 1 patrzyło w prawo, a -1 w lewo
-        # Jeśli domyślnie jest odwrócony, zamień znaki przy sx
         sx = -1 / self.num_cols
         sy = 1 / self.num_rows
         
-        # Jeśli szczur patrzy w lewo, skalujemy x na minus
         if self.facing_direction == -1:
             self.texture_scale = (-sx, sy)
+            # Odwrócenie skali ikony, żeby nie obracała się razem ze szczurem
+            self.icon_notifier.scale_x = -abs(self.icon_notifier.scale_x)
         else:
             self.texture_scale = (sx, sy)
+            self.icon_notifier.scale_x = abs(self.icon_notifier.scale_x)
 
     def chase_player(self):
         player_pos = self.get_player_position_2d()
@@ -459,14 +491,17 @@ class Enemy(Rat):
         sy = 1 / self.num_rows
 
         if self.facing_direction == 1:
-            # Normalny offset
             self.texture_offset = (col * sx, 1 - (row + 1) * sy)
         else:
-            # Offset skorygowany o szerokość klatki dla ujemnej skali
             self.texture_offset = ((col + 1) * sx, 1 - (row + 1) * sy)
         
         self.resolve_player_if_missing_or_static()
         self.update_detection_state()
+
+        # AKTYWACJA / DEZAKTYWACJA IKONY (NOWOŚĆ)
+        # Pokazuje ikonę, jeśli wróg aktywnie goni (self.chasing)
+        self.icon_notifier.enabled = self.chasing
+
         if self.chasing:
             self.chase_player()
         

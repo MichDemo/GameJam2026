@@ -19,17 +19,15 @@ class Player(Rat):
         self.WEST = -1
         self.EAST = 1
 
-        # Wczytanie dźwięku kroku
-        self.step_sound = Audio('../assets/audio/kroki_szczura.mp3', loop=False, autoplay=False)
+        # --- AUDIO (ZAKOŃCZENIA .mp3 USUNIĘTE DLA ZGODNOŚCI Z .wav) ---
+        self.step_sound = Audio('kroki_szczura', loop=False, autoplay=False)
         self.step_timer = 0
-        self.step_interval = 0.001  # Przerwa między dźwiękami kroków (w sekundach)
+        self.step_interval = 0.001  
 
-        # --- NIUCHANIE ---
-        self.sniff_sound = Audio('../assets/audio/niuch.mp3', autoplay=False)
-        # Pierwsze losowe odliczenie
+        self.sniff_sound = Audio('niuch', autoplay=False)
         self.sniff_timer = random.uniform(1, 5)
-        # --- SKAKANIE ---
-        self.jump_sound = Audio('../assets/audio/jump.mp3', loop=False, autoplay=False)
+
+        self.jump_sound = Audio('jump', loop=False, autoplay=False)
 
         # --- PRECYZYJNE KADROWANIE SPRITESHEETU (3x4) ---
         self.RAT_GRID_WIDTH = 3
@@ -219,9 +217,7 @@ class Player(Rat):
         was_grounded = self.grounded
         super().jump()
 
-        # Jeśli gracz stał na ziemi i właśnie wzbił się w powietrze
         if was_grounded and not self.grounded:
-            # Odtwarzamy dźwięk skoku (jeśli już nie leci)
             if not self.jump_sound.playing:
                 self.jump_sound.play()
 
@@ -237,7 +233,6 @@ class Player(Rat):
 
         left_pressed = held_keys['a'] or held_keys['left arrow']
         right_pressed = held_keys['d'] or held_keys['right arrow']
-
 
         direction_x = 0
 
@@ -261,9 +256,7 @@ class Player(Rat):
         super().update()
         self.update_animation(direction_x)
 
-        # NAPRAWIONA LOGIKA KROKÓW: Gracz porusza się, jeśli kierunek X jest różny od zera
         moving = (direction_x != 0)
-
 
         if moving and self.grounded:
             self.step_timer += time.dt
@@ -274,7 +267,6 @@ class Player(Rat):
         else:
             self.step_timer = self.step_interval
 
-        # Obsługa timera niuchania
         if hasattr(self, 'sniff_timer'):
             self.sniff_timer -= time.dt
 
@@ -284,7 +276,6 @@ class Player(Rat):
 
         self.update_camera_follow()
 
-    # NAPRAWIONE: Funkcja wyciągnięta na poziom klasy z poprawną nazwą Audio
     def niuch(self):
         if not self.sniff_sound.playing:
             self.sniff_sound.play()

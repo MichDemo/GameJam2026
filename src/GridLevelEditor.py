@@ -195,6 +195,9 @@ class GridLevelEditor:
         self.current_mode = self.MODE_BLOCK_PLACE
         self.active_tile_index = 0 
 
+        # Nowe pole określające aktualne środowisko
+        self.environment = "house"
+
         self.min_camera_fov = min_camera_fov
         self.max_camera_fov = max_camera_fov
 
@@ -228,6 +231,7 @@ class GridLevelEditor:
             "6: Enemy properties\n7: Eye placement\n8: Eye properties\n"
             "9: Vent placement\nV: Vent properties\nT: Tile painting mode\n"
             "J / K: Change active tile index\n"
+            "E: Switch Environment Palette (House <-> Sewers)\n"
             "LMB: place / drag / edit\nRMB: delete\nS: save map\nL: load map\n"
             "G: toggle grid\nM: toggle marker\nC: clear map\nHome: center camera\nArrows: move camera\nScroll: zoom"
         )
@@ -245,9 +249,10 @@ class GridLevelEditor:
             self.MODE_EYE_PROPERTIES: "Mode 8: Eye properties",
             self.MODE_VENT_PLACE: "Mode 9: Vent placement",
             self.MODE_VENT_PROPERTIES: "Mode V: Vent properties",
-            self.MODE_TILE_PAINT: f"Mode T: Tile Painting (Active Index: {self.active_tile_index})"
+            self.MODE_TILE_PAINT: f"Mode T: Tile Painting"
         }
-        return names.get(self.current_mode, "Unknown mode")
+        mode_str = names.get(self.current_mode, "Unknown mode")
+        return f"{mode_str} (Tile Index: {self.active_tile_index}) | Env: {self.environment.upper()}"
 
     def __setattr__(self, name, value):
         try:
@@ -258,6 +263,18 @@ class GridLevelEditor:
     def set_mode(self, mode):
         self.current_mode = mode
         if self.mode_text: self.mode_text.text = self.get_mode_name()
+
+    def toggle_environment(self):
+        if self.environment == "house":
+            self.environment = "sewers"
+            self.active_tile_index = 4  # Automatyczny skok do kafelków ścieków (zielona ściana)
+        else:
+            self.environment = "house"
+            self.active_tile_index = 0  # Powrót do kafelków domu (czerwona cegła)
+            
+        if self.mode_text: 
+            self.mode_text.text = self.get_mode_name()
+        print(f"[GridLevelEditor] Switched environment to: {self.environment.upper()} (Selected Tile: {self.active_tile_index})")
 
     def ask_text(self, title, prompt, default_value=""):
         root = tk.Tk(); root.withdraw(); root.attributes("-topmost", True)
@@ -585,6 +602,7 @@ class GridLevelEditor:
         } for v in self.vents]
 
         return {
+            "environment": self.environment,
             "cell_size": 1, 
             "grid_width": 256, 
             "grid_height": 256, 
@@ -610,6 +628,12 @@ class GridLevelEditor:
         except FileNotFoundError: print(f"[GridLevelEditor] File not found: {path}"); return
 
         self.clear_map()
+        
+        # Wczytanie informacji o środowisku
+        self.environment = data.get("environment", "house")
+        if self.mode_text: 
+            self.mode_text.text = self.get_mode_name()
+
         p = data.get("player")
         if p: self.create_player_spawn(self.grid_to_world(p.get("grid_x", 0), p.get("grid_y", 0)))
 
@@ -754,13 +778,17 @@ class GridLevelEditor:
         if key == "t": self.set_mode(self.MODE_TILE_PAINT)
         if key == "v": self.set_mode(self.MODE_VENT_PROPERTIES)
 
+        # Obsługa zmiany menu / palety kafelków
+        if key == "e":
+            self.toggle_environment()
+
         if key == "j":
             self.active_tile_index = max(0, self.active_tile_index - 1)
-            if self.current_mode == self.MODE_TILE_PAINT and self.mode_text: self.mode_text.text = self.get_mode_name()
+            if self.mode_text: self.mode_text.text = self.get_mode_name()
         
         if key == "k" and not held_keys["control"]:
             self.active_tile_index = min(26, self.active_tile_index + 1)
-            if self.current_mode == self.MODE_TILE_PAINT and self.mode_text: self.mode_text.text = self.get_mode_name()
+            if self.mode_text: self.mode_text.text = self.get_mode_name()
         
         if key == "c" and held_keys["control"]: 
             clicked = self.get_object_under_mouse()

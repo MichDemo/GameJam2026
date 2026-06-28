@@ -12,8 +12,7 @@ class Fur(Entity):
             **kwargs
         )
 
-        self.pickup_sound = Audio('../assets/audio/podnoszenie_skory.mp3', autoplay=False)
-
+        self.pickup_sound = Audio('../assets/audio/podnoszenie_skory.wav', autoplay=False)
 
         # 2. Jeśli tekstura się wczytała, przycinamy ją dopiero tutaj
         if self.texture:

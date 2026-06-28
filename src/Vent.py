@@ -14,8 +14,12 @@ class Vent(Entity):
         )
         self.player = player
         self.target_vent = target_vent
-        self.sound_file = Audio('../assets/audio/vent.mp3', autoplay=False)
-
+        
+        # ---------------------------------------------------------------------
+        # NAPRAWIONA ŚCIEŻKA AUDIO: Szukamy bezpośrednio od głównego assets/
+        # Nie dodajemy również rozszerzenia .wav na końcu
+        # ---------------------------------------------------------------------
+        self.sound_file = Audio('audio/vent', autoplay=False)
 
         # --- DYNAMICZNE MAPOWANIE UV (Siatka 9x3, kafelki po 32x32px) ---
         tileset_cols = 9

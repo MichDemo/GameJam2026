@@ -1,0 +1,2678 @@
+{
+    "environment": "house",
+    "cell_size": 1,
+    "grid_width": 256,
+    "grid_height": 256,
+    "origin": {
+        "x": 0,
+        "y": 0
+    },
+    "player": {
+        "grid_x": 125,
+        "grid_y": 129,
+        "x": 125.5,
+        "y": 129.5
+    },
+    "blocks": [
+        {
+            "grid_x": 123,
+            "grid_y": 128,
+            "x": 123.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 128,
+            "x": 125.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 127,
+            "grid_y": 128,
+            "x": 127.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 128,
+            "x": 124.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 128,
+            "x": 126.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 128,
+            "x": 128.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 128,
+            "x": 129.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 128,
+            "x": 130.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 128,
+            "x": 135.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 128,
+            "x": 136.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 128,
+            "x": 137.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 128,
+            "x": 134.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 128,
+            "x": 133.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 128,
+            "x": 131.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 128,
+            "x": 132.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 128,
+            "x": 138.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 128,
+            "x": 139.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 128,
+            "x": 140.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 128,
+            "x": 141.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 128,
+            "x": 143.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 144,
+            "grid_y": 128,
+            "x": 144.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 145,
+            "grid_y": 128,
+            "x": 145.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 128,
+            "x": 146.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 128,
+            "x": 142.5,
+            "y": 128.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 129,
+            "x": 123.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 130,
+            "x": 123.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 131,
+            "x": 123.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 132,
+            "x": 123.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 133,
+            "x": 123.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 134,
+            "x": 123.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 135,
+            "x": 123.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 136,
+            "x": 123.5,
+            "y": 136.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 137,
+            "x": 123.5,
+            "y": 137.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 138,
+            "x": 123.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 138,
+            "x": 124.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 138,
+            "x": 125.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 127,
+            "grid_y": 138,
+            "x": 127.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 138,
+            "x": 128.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 138,
+            "x": 126.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 138,
+            "x": 129.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 138,
+            "x": 130.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 138,
+            "x": 132.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 138,
+            "x": 134.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 138,
+            "x": 131.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 138,
+            "x": 135.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 138,
+            "x": 136.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 138,
+            "x": 133.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 138,
+            "x": 137.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 138,
+            "x": 138.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 138,
+            "x": 139.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 144,
+            "grid_y": 138,
+            "x": 144.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 145,
+            "grid_y": 138,
+            "x": 145.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 138,
+            "x": 143.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 129,
+            "x": 130.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 130,
+            "x": 130.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 127,
+            "grid_y": 132,
+            "x": 127.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 132,
+            "x": 125.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 132,
+            "x": 126.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 132,
+            "x": 124.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 129,
+            "x": 131.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 130,
+            "x": 131.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 131,
+            "x": 131.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 132,
+            "x": 131.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 133,
+            "x": 131.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 134,
+            "x": 131.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 135,
+            "x": 131.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 135,
+            "x": 130.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 135,
+            "x": 129.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 130,
+            "x": 132.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 129,
+            "x": 132.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 129,
+            "x": 133.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 129,
+            "x": 134.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 130,
+            "x": 133.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 134,
+            "x": 142.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 134,
+            "x": 141.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 134,
+            "x": 139.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 134,
+            "x": 140.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 130,
+            "x": 140.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 133,
+            "x": 139.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 132,
+            "x": 139.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 131,
+            "x": 139.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 130,
+            "x": 139.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 129,
+            "x": 139.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 129,
+            "x": 140.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 130,
+            "x": 141.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 129,
+            "x": 141.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 129,
+            "x": 142.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 130,
+            "x": 142.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 131,
+            "x": 141.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 131,
+            "x": 140.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 132,
+            "x": 140.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 132,
+            "x": 141.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 132,
+            "x": 142.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 133,
+            "x": 142.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 133,
+            "x": 140.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 133,
+            "x": 141.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 131,
+            "x": 142.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                21
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 131,
+            "x": 138.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 131,
+            "x": 137.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 132,
+            "x": 137.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 132,
+            "x": 136.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 133,
+            "x": 135.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 133,
+            "x": 134.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 133,
+            "x": 132.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 134,
+            "x": 133.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 133,
+            "x": 133.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 134,
+            "x": 132.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 134,
+            "x": 134.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 133,
+            "x": 136.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 132,
+            "x": 138.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 133,
+            "x": 137.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 134,
+            "x": 135.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 135,
+            "x": 132.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 134,
+            "x": 136.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                10
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 132,
+            "x": 136.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 135,
+            "x": 142.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 135,
+            "x": 141.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 129,
+            "x": 146.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 130,
+            "x": 146.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 131,
+            "x": 146.5,
+            "y": 131.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 132,
+            "x": 146.5,
+            "y": 132.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 133,
+            "x": 146.5,
+            "y": 133.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 134,
+            "x": 146.5,
+            "y": 134.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 135,
+            "x": 146.5,
+            "y": 135.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 136,
+            "x": 146.5,
+            "y": 136.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 138,
+            "x": 146.5,
+            "y": 138.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 146,
+            "grid_y": 137,
+            "x": 146.5,
+            "y": 137.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 145,
+            "grid_y": 129,
+            "x": 145.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 145,
+            "grid_y": 130,
+            "x": 145.5,
+            "y": 130.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 144,
+            "grid_y": 129,
+            "x": 144.5,
+            "y": 129.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                22
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 139,
+            "x": 143.5,
+            "y": 139.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 140,
+            "x": 143.5,
+            "y": 140.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 141,
+            "x": 143.5,
+            "y": 141.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 142,
+            "x": 143.5,
+            "y": 142.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 143,
+            "x": 143.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 143,
+            "x": 142.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 143,
+            "x": 141.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 143,
+            "x": 139.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 143,
+            "x": 140.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 143,
+            "x": 138.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 143,
+            "x": 137.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 143,
+            "x": 135.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 143,
+            "x": 136.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 139,
+            "x": 134.5,
+            "y": 139.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 140,
+            "x": 134.5,
+            "y": 140.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 143,
+            "x": 134.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 143,
+            "x": 133.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 143,
+            "x": 131.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 143,
+            "x": 132.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 142,
+            "x": 131.5,
+            "y": 142.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 141,
+            "x": 131.5,
+            "y": 141.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 141,
+            "x": 130.5,
+            "y": 141.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 141,
+            "x": 129.5,
+            "y": 141.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 141,
+            "x": 128.5,
+            "y": 141.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 139,
+            "x": 123.5,
+            "y": 139.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 141,
+            "x": 123.5,
+            "y": 141.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 140,
+            "x": 123.5,
+            "y": 140.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 142,
+            "x": 123.5,
+            "y": 142.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 143,
+            "x": 123.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 143,
+            "x": 124.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 143,
+            "x": 125.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 131,
+            "grid_y": 147,
+            "x": 131.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 130,
+            "grid_y": 147,
+            "x": 130.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 129,
+            "grid_y": 147,
+            "x": 129.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 128,
+            "grid_y": 147,
+            "x": 128.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 127,
+            "grid_y": 147,
+            "x": 127.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 147,
+            "x": 126.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 147,
+            "x": 125.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 147,
+            "x": 124.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 147,
+            "x": 123.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 146,
+            "x": 123.5,
+            "y": 146.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 145,
+            "x": 123.5,
+            "y": 145.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 123,
+            "grid_y": 144,
+            "x": 123.5,
+            "y": 144.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 112,
+            "grid_y": 143,
+            "x": 112.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 111,
+            "grid_y": 143,
+            "x": 111.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 110,
+            "grid_y": 143,
+            "x": 110.5,
+            "y": 143.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 110,
+            "grid_y": 144,
+            "x": 110.5,
+            "y": 144.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                26
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 132,
+            "grid_y": 147,
+            "x": 132.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 133,
+            "grid_y": 147,
+            "x": 133.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 134,
+            "grid_y": 147,
+            "x": 134.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 135,
+            "grid_y": 147,
+            "x": 135.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 147,
+            "x": 136.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 137,
+            "grid_y": 147,
+            "x": 137.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 138,
+            "grid_y": 147,
+            "x": 138.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 139,
+            "grid_y": 147,
+            "x": 139.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 141,
+            "grid_y": 147,
+            "x": 141.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 140,
+            "grid_y": 147,
+            "x": 140.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 142,
+            "grid_y": 147,
+            "x": 142.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 147,
+            "x": 143.5,
+            "y": 147.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 146,
+            "x": 143.5,
+            "y": 146.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 145,
+            "x": 143.5,
+            "y": 145.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 143,
+            "grid_y": 144,
+            "x": 143.5,
+            "y": 144.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                0
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 139,
+            "x": 124.5,
+            "y": 139.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                6
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 139,
+            "x": 125.5,
+            "y": 139.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                6
+            ],
+            "has_collision": true
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 146,
+            "x": 124.5,
+            "y": 146.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 146,
+            "x": 125.5,
+            "y": 146.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 145,
+            "x": 124.5,
+            "y": 145.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 145,
+            "x": 125.5,
+            "y": 145.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 125,
+            "grid_y": 144,
+            "x": 125.5,
+            "y": 144.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 124,
+            "grid_y": 144,
+            "x": 124.5,
+            "y": 144.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 145,
+            "x": 126.5,
+            "y": 145.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 127,
+            "grid_y": 146,
+            "x": 127.5,
+            "y": 146.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        },
+        {
+            "grid_x": 126,
+            "grid_y": 146,
+            "x": 126.5,
+            "y": 146.5,
+            "scale_x": 1,
+            "scale_y": 1,
+            "hex_color": "#ffffff",
+            "tile_indices": [
+                1
+            ],
+            "has_collision": false
+        }
+    ],
+    "furs": [
+        {
+            "grid_x": 138,
+            "grid_y": 139,
+            "x": 138.5,
+            "y": 139.5,
+            "rarity": "Common",
+            "hex_color": "#8b5a2b"
+        },
+        {
+            "grid_x": 136,
+            "grid_y": 144,
+            "x": 136.5,
+            "y": 144.5,
+            "rarity": "Common",
+            "hex_color": "#8b5a2b"
+        }
+    ],
+    "enemies": [],
+    "eyes": [],
+    "vents": []
+}
